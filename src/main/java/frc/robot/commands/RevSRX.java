@@ -14,6 +14,7 @@ public class RevSRX extends CommandGroup {
    * Add your docs here.
    */
   public RevSRX() {
+    System.out.println("RevSRX() constructor");
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

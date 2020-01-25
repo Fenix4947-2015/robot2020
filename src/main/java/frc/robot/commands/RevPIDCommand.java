@@ -16,6 +16,7 @@ public class RevPIDCommand extends Command {
   double velocity;
   
   public RevPIDCommand(double position, double speed) {
+    System.out.println("RevPIDCommand() constructor");
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_RevPIDSubsystem);
@@ -32,7 +33,8 @@ public class RevPIDCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   // Robot.m_RevPIDSubsystem.goToPosition(angle);
+    // Robot.m_RevPIDSubsystem.goToPosition(angle);
+    //System.out.println("RevPIDCommand.execute()");
     Robot.m_RevPIDSubsystem.goToRPM(velocity);
   }
 

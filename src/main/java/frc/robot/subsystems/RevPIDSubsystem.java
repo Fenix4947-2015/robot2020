@@ -26,6 +26,8 @@ public class RevPIDSubsystem extends Subsystem {
   CANSparkMax motor2;
   CANPIDController pid2;
   public RevPIDSubsystem() {
+    System.out.println("RevPIDSubsystem() constructor");
+
     motor = new CANSparkMax(21, MotorType.kBrushless);
     pid = new CANPIDController(motor);
     pid.setP(5e-5);
