@@ -10,8 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.RevPIDCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,7 +28,9 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  private final SequentialCommandGroup m_spinRevSRXCommand = new SequentialCommandGroup(new RevPIDCommand(0.25, 2000));
 
+  private final XboxController m_xboxController = new XboxController(0);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -42,6 +47,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton spinMotorButton = new JoystickButton(m_xboxController, XboxController.Button.kA.value);
+    spinMotorButton.whenPressed(m_spinRevSRXCommand);
   }
 
 

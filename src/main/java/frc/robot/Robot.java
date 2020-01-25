@@ -24,10 +24,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  public static RevPIDSubsystem m_RevPIDSubsystem = new RevPIDSubsystem();
-
   public static RevPIDCommand m_RevPIDCommand = new RevPIDCommand(0.0, 0.0);
-  public static RevSRX m_RevSRX = new RevSRX();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,6 +32,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    System.out.println("Robot.robotInit()");
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -97,7 +95,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_RevSRX.start();
   }
 
   /**

@@ -7,50 +7,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.RevPIDSubsystem;
 
-public class RevPIDCommand extends Command {
+public class RevPIDCommand extends CommandBase {
   
-  double angle;
-  double velocity;
+  private final RevPIDSubsystem m_RevPIDSubsystem = new RevPIDSubsystem();
+
+  private final double angle;
+  private final double velocity;
   
   public RevPIDCommand(double position, double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_RevPIDSubsystem);
+    addRequirements(m_RevPIDSubsystem);
     angle = position;
     velocity = speed;
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    setTimeout(1);
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+      //setTimeout(1);
+    }
+  
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+      // Robot.m_RevPIDSubsystem.goToPosition(angle);
+      System.out.println("RevPIDCommand execute()");
+      m_RevPIDSubsystem.goToRPM(velocity);
+    }
+  
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+      //m_RevPIDSubsystem.done();
+    }
+  
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false; //isTimedOut();
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-   // Robot.m_RevPIDSubsystem.goToPosition(angle);
-    Robot.m_RevPIDSubsystem.goToRPM(velocity);
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return isTimedOut();
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    Robot.m_RevPIDSubsystem.done();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

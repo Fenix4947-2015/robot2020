@@ -12,21 +12,25 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * Add your docs here.
  */
-public class RevPIDSubsystem extends Subsystem {
+public class RevPIDSubsystem extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  CANSparkMax motor;
-  CANPIDController pid;
-  CANSparkMax motor2;
-  CANPIDController pid2;
+  private static final int MOTOR1_CAN_ID = 21;
+  private static final int MOTOR2_CAN_ID = 22;
+
+  private final CANSparkMax motor;
+  private final CANPIDController pid;
+  private final CANSparkMax motor2;
+  private final CANPIDController pid2;
+
   public RevPIDSubsystem() {
-    motor = new CANSparkMax(21, MotorType.kBrushless);
+    motor = new CANSparkMax(MOTOR1_CAN_ID, MotorType.kBrushless);
     pid = new CANPIDController(motor);
     pid.setP(5e-5);
     pid.setI(1e-6);
@@ -35,7 +39,7 @@ public class RevPIDSubsystem extends Subsystem {
     pid.setFF(0);
     pid.setOutputRange(-5700, 5700);
 
-    motor2 = new CANSparkMax(22, MotorType.kBrushless);
+    motor2 = new CANSparkMax(MOTOR2_CAN_ID, MotorType.kBrushless);
     pid2 = new CANPIDController(motor2);
     pid2.setP(1e-5);
     pid2.setI(1e-7);
@@ -64,12 +68,8 @@ public class RevPIDSubsystem extends Subsystem {
    
   }
 
-  public void done() {
 
-   
-  }
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  @Override
+  public void periodic() {
   }
 }
