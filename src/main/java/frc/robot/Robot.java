@@ -16,7 +16,12 @@ import frc.robot.subsystems.RevPIDSubsystem;import edu.wpi.first.wpilibj.command
 
 import frc.robot.commands.RevPIDCommand;
 import frc.robot.commands.RevSRX;
-import frc.robot.subsystems.RevPIDSubsystem;/**
+import frc.robot.subsystems.RevPIDSubsystem;
+import frc.robot.subsystems.DriveTrain;
+
+
+/**
+
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
@@ -30,6 +35,7 @@ public class Robot extends TimedRobot {
 
   //public static RevPIDCommand m_RevPIDCommand = new RevPIDCommand(0.0, 0.0);
   public static RevSRX m_RevSRX = new RevSRX();
+  public static DriveTrain driveTrain;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,6 +46,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     //m_robotContainer = new RobotContainer();
+    driveTrain = new DriveTrain();
   }
 
   /**

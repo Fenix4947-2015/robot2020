@@ -4,6 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -13,11 +18,14 @@ public class DriveTrain extends Subsystem {
 
   private static final double PEAK_OUTPUT = 0.5;
 
-  private WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR1_ADDRESS); // encoder
-  private WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR2_ADDRESS);
+  private CANSparkMax leftMotor1 = new CANSparkMax(23, MotorType.kBrushless); // encoder
+  private CANSparkMax leftMotor2 = new CANSparkMax(25, MotorType.kBrushless);
 
-  private WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR1_ADDRESS); // encoder
-  private WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR2_ADDRESS);
+  private CANSparkMax rightMotor1 = new CANSparkMax(24, MotorType.kBrushless); // encoder
+  private CANSparkMax rightMotor2 = new CANSparkMax(26, MotorType.kBrushless);
+
+  private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
+
 
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
@@ -25,26 +33,35 @@ public class DriveTrain extends Subsystem {
 
   public DriveTrain() {
     // Initialize drivetrain motors
-    setMotorsAllowablePower(leftMotor1);
-    setMotorsAllowablePower(leftMotor2);
+    //setMotorsAllowablePower(leftMotor1);
+    //setMotorsAllowablePower(leftMotor2);
 
-    setMotorsAllowablePower(rightMotor1);
-    setMotorsAllowablePower(rightMotor2);
+    //setMotorsAllowablePower(rightMotor1);
+    //setMotorsAllowablePower(rightMotor2);
 
-    leftMotor2.setInverted(false);
-    leftMotor2.set(ControlMode.Follower, leftMotor1.getDeviceID());
+    //leftMotor2.setInverted(false);
+    //leftMotor2.set(ControlMode.Follower, leftMotor1.getDeviceID());
 
-    rightMotor2.setInverted(false);
-    rightMotor2.set(ControlMode.Follower, rightMotor1.getDeviceID());
+    //rightMotor2.setInverted(false);
+    //rightMotor2.set(ControlMode.Follower, rightMotor1.getDeviceID());
 
-    robotDrive.setSafetyEnabled(false);
+    //robotDrive.setSafetyEnabled(false);
+    leftMotor1.restoreFactoryDefaults();
+    leftMotor2.restoreFactoryDefaults();
+
+    rightMotor1.restoreFactoryDefaults();
+    rightMotor2.restoreFactoryDefaults();
+
+    leftMotor2.follow(leftMotor1);
+    rightMotor2.follow(rightMotor1);
+
   }
 
-  private void setMotorsAllowablePower(WPI_TalonSRX motor) {
-    motor.configNominalOutputForward(0.0, DriveTrainConstants.TIMEOUT_MS);
-    motor.configNominalOutputReverse(0.0, DriveTrainConstants.TIMEOUT_MS);
-    motor.configPeakOutputForward(PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
-    motor.configPeakOutputReverse(-PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
+  private void setMotorsAllowablePower(CANSparkMax motor) {
+    //motor.configNominalOutputForward(0.0, DriveTrainConstants.TIMEOUT_MS);
+    //motor.configNominalOutputReverse(0.0, DriveTrainConstants.TIMEOUT_MS);
+    //motor.configPeakOutputForward(PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
+    //motor.configPeakOutputReverse(-PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
   }
 
   @Override
@@ -70,7 +87,7 @@ public class DriveTrain extends Subsystem {
 
   public class Pigeon {
 
-    private PigeonIMU pigeon = new PigeonIMU(leftMotor2);
+    private PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
 
     public double yaw;
     public double pitch;
