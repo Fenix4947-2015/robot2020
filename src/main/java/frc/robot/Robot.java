@@ -107,7 +107,6 @@ public class Robot extends TimedRobot {
     //  m_autonomousCommand.cancel();
     //}
     System.out.println("Robot.teleopInit()");
-    System.out.println("SRX");
     m_RevSRX.start();
   }
 

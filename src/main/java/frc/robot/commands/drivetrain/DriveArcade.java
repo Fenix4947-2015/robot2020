@@ -12,10 +12,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.joysticks.XBoxButton;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.limelight.Limelight;
 
 public class DriveArcade extends Command {
 
   private MoveMode moveMode = MoveMode.MANUAL;
+
+  public Limelight m_limelight = new Limelight();
 
   public DriveArcade() {
     requires(Robot.driveTrain);
@@ -34,6 +37,8 @@ public class DriveArcade extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    m_limelight.updateLimelightTracking();
+
     final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.B);
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
@@ -46,7 +51,20 @@ public class DriveArcade extends Command {
 
     moveMode = MoveMode.MANUAL;
     
-    Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
+    boolean auto = XBoxJoystick.DRIVER.A.get();
+    
+    if (auto) {
+      if (m_limelight.m_LimelightHasValidTarget) {
+        Robot.driveTrain.driveArcadeMethod(-m_limelight.m_LimelightDriveCommand, m_limelight.m_LimelightSteerCommand);
+            //arcadeDrive(0.0,-m_LimelightSteerCommand);
+      }
+      else {
+        Robot.driveTrain.driveArcadeMethod(0.0, 0.0);
+      }
+    }
+    else {
+      Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
+    }
 
     // Example of how to use the Pigeon IMU
 
