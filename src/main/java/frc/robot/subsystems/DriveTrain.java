@@ -12,20 +12,17 @@ import frc.robot.commands.drivetrain.DriveArcade;
 
 public class DriveTrain extends Subsystem {
 
-  private static final double PEAK_OUTPUT = 0.5;
-
-  private CANSparkMax leftMotor1 = new CANSparkMax(23, MotorType.kBrushless); // encoder
+  // main motion system
+  private CANSparkMax leftMotor1 = new CANSparkMax(23, MotorType.kBrushless); 
   private CANSparkMax leftMotor2 = new CANSparkMax(25, MotorType.kBrushless);
-
-  private CANSparkMax rightMotor1 = new CANSparkMax(24, MotorType.kBrushless); // encoder
+  private CANSparkMax rightMotor1 = new CANSparkMax(24, MotorType.kBrushless); 
   private CANSparkMax rightMotor2 = new CANSparkMax(26, MotorType.kBrushless);
-
-  private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
-
-
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
+  // Sensors
+  private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
   public Pigeon pigeon = new Pigeon();
+
 
   public DriveTrain() {
     // Initialize drivetrain motors
@@ -53,13 +50,6 @@ public class DriveTrain extends Subsystem {
 
   }
 
-  private void setMotorsAllowablePower(CANSparkMax motor) {
-    //motor.configNominalOutputForward(0.0, DriveTrainConstants.TIMEOUT_MS);
-    //motor.configNominalOutputReverse(0.0, DriveTrainConstants.TIMEOUT_MS);
-    //motor.configPeakOutputForward(PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
-    //motor.configPeakOutputReverse(-PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
-  }
-
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new DriveArcade());
@@ -81,9 +71,14 @@ public class DriveTrain extends Subsystem {
     robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);
   }
 
+  public void Stop()
+  {
+    robotDrive.arcadeDrive(0.0, 0.0);
+  }
+
   public class Pigeon {
 
-    private PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
+    private PigeonIMU pigeon;
 
     public double yaw;
     public double pitch;
@@ -104,6 +99,23 @@ public class DriveTrain extends Subsystem {
       accelX = xyz[0];
       accelY = xyz[1];
       accelZ = xyz[2];
+    }
+
+    public Pigeon()
+    {
+        pigeon = new PigeonIMU(pigeonTalon);
+        pigeon.setTemperatureCompensationDisable(false);
+        refresh();
+    }
+
+    public void reset()
+    {
+      pigeon.setFusedHeading(0);      
+    }
+
+    public double getHeading()
+    {
+      return pigeon.getFusedHeading();
     }
 
   }

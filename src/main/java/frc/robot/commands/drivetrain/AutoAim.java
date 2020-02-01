@@ -6,19 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.drivetrain;
-
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.joysticks.XBoxButton;
-import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.limelight.Limelight;
+import edu.wpi.first.wpilibj.command.Command;
 
-
-public class DriveArcade extends Command {
-
-  
-
-  public DriveArcade() {
+public class AutoAim extends Command {
+  public Limelight m_limelight = new Limelight();
+  public AutoAim() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.driveTrain);
   }
 
@@ -29,21 +24,18 @@ public class DriveArcade extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
-   
-    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
-    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
-    double moveValue = movePosValue - moveNegValue;
-    double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
-
-    // System.out.println("Move value: " + moveValue);
-    // System.out.println("Rotate value: " + rotateValue);
-
-    boolean auto = XBoxJoystick.DRIVER.A.get();
+  protected void execute() 
+  {
+    m_limelight.updateLimelightTracking();
+    if (m_limelight.m_LimelightHasValidTarget) 
+    {
+        Robot.driveTrain.driveArcadeMethod(-m_limelight.m_LimelightDriveCommand, m_limelight.m_LimelightSteerCommand);    
+    }
+    else 
+    {
+        Robot.driveTrain.Stop();
+    }
     
-   
-    Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
-   
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -55,6 +47,7 @@ public class DriveArcade extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveTrain.Stop();
   }
 
   // Called when another command which requires one or more of the same
