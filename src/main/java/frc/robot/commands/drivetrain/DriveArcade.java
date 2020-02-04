@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.joysticks.XBoxButton;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.limelight.Limelight;
 
 
 public class DriveArcade extends Command {
 
-  
+  public Limelight m_limelight = new Limelight();
 
   public DriveArcade() {
     requires(Robot.driveTrain);
@@ -41,8 +42,22 @@ public class DriveArcade extends Command {
 
     boolean auto = XBoxJoystick.DRIVER.A.get();
     
-   
+   if(auto)
+   {
+    m_limelight.updateLimelightTracking();
+    if (m_limelight.m_LimelightHasValidTarget) 
+    {
+        Robot.driveTrain.driveArcadeMethod(-m_limelight.m_LimelightDriveCommand, m_limelight.m_LimelightSteerCommand);    
+    }
+    else 
+    {
+        Robot.driveTrain.Stop();
+    }
+   }else
+   {
     Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
+   }
+    
    
   }
 
