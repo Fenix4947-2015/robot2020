@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   public static RevPIDSubsystem m_RevPIDSubsystem = new RevPIDSubsystem();
 
   //public static RevPIDCommand m_RevPIDCommand = new RevPIDCommand(0.0, 0.0);
-  public static RevSRX m_RevSRX = new RevSRX();
+  //public static RevSRX m_RevSRX = new RevSRX();
   public static DriveTrain driveTrain;
 
   /**
@@ -107,7 +107,6 @@ public class Robot extends TimedRobot {
     //  m_autonomousCommand.cancel();
     //}
     System.out.println("Robot.teleopInit()");
-    m_RevSRX.start();
   }
 
   /**

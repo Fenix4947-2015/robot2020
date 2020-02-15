@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.joysticks.XBoxJoystick;
 
 public class RevPIDCommand extends Command {
   
@@ -35,7 +36,13 @@ public class RevPIDCommand extends Command {
   protected void execute() {
     // Robot.m_RevPIDSubsystem.goToPosition(angle);
     //System.out.println("RevPIDCommand.execute()");
-    Robot.m_RevPIDSubsystem.goToRPM(velocity);
+
+    boolean is_shoot = XBoxJoystick.DRIVER.B.get();
+
+    if(is_shoot){
+      Robot.m_RevPIDSubsystem.goToRPM(velocity);
+    }
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()

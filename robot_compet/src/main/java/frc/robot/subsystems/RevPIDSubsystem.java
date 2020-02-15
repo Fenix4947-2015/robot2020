@@ -13,6 +13,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.RevPIDCommand;
 
 /**
  * Add your docs here.
@@ -71,6 +72,7 @@ public class RevPIDSubsystem extends Subsystem {
    
   }
   public void initDefaultCommand() {
+    setDefaultCommand(new RevPIDCommand(0.0, 100.0));
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
