@@ -9,14 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.RevSRX;
-//import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.RevPIDSubsystem;import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Launcher;
+import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.commands.RevPIDCommand;
-import frc.robot.commands.RevSRX;
-import frc.robot.subsystems.RevPIDSubsystem;
+import frc.robot.commands.Launcher.Shoot;
+
+
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -31,12 +29,13 @@ public class Robot extends TimedRobot {
   //private Command m_autonomousCommand;
 
   //private RobotContainer m_robotContainer;
-  public static RevPIDSubsystem m_RevPIDSubsystem = new RevPIDSubsystem();
+  public static Launcher m_Launcher = new Launcher();
 
   //public static RevPIDCommand m_RevPIDCommand = new RevPIDCommand(0.0, 0.0);
   //public static RevSRX m_RevSRX = new RevSRX();
   public static DriveTrain driveTrain;
 
+  public static OI oi;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -47,6 +46,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     //m_robotContainer = new RobotContainer();
     driveTrain = new DriveTrain();
+    oi = new OI();
   }
 
   /**
@@ -115,6 +115,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    log();
   }
 
   @Override
@@ -128,5 +129,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  public void log()
+  {
+      driveTrain.log();
+      m_Launcher.log();
+      
   }
 }

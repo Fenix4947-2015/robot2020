@@ -8,15 +8,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivetrain.DriveArcade;
 
 public class DriveTrain extends Subsystem {
 
   // main motion system
-  private CANSparkMax leftMotor1 = new CANSparkMax(23, MotorType.kBrushless); 
-  private CANSparkMax leftMotor2 = new CANSparkMax(25, MotorType.kBrushless);
-  private CANSparkMax rightMotor1 = new CANSparkMax(24, MotorType.kBrushless); 
-  private CANSparkMax rightMotor2 = new CANSparkMax(26, MotorType.kBrushless);
+  private CANSparkMax leftMotor1 = new CANSparkMax(33, MotorType.kBrushless); 
+  private CANSparkMax leftMotor2 = new CANSparkMax(34, MotorType.kBrushless);
+  private CANSparkMax rightMotor1 = new CANSparkMax(21, MotorType.kBrushless); 
+  private CANSparkMax rightMotor2 = new CANSparkMax(22, MotorType.kBrushless);
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
   // Sensors
@@ -118,6 +119,11 @@ public class DriveTrain extends Subsystem {
       return pigeon.getFusedHeading();
     }
 
+  }
+
+  public void log()
+  {
+    SmartDashboard.putNumber("banane", 3.14169);
   }
 
 }

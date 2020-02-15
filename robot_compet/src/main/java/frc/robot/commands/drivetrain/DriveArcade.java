@@ -40,23 +40,8 @@ public class DriveArcade extends Command {
     // System.out.println("Move value: " + moveValue);
     // System.out.println("Rotate value: " + rotateValue);
 
-    boolean auto = XBoxJoystick.DRIVER.A.get();
-    
-   if(auto)
-   {
-    m_limelight.updateLimelightTracking();
-    if (m_limelight.m_LimelightHasValidTarget) 
-    {
-        Robot.driveTrain.driveArcadeMethod(-m_limelight.m_LimelightDriveCommand, m_limelight.m_LimelightSteerCommand);    
-    }
-    else 
-    {
-        Robot.driveTrain.Stop();
-    }
-   }else
-   {
     Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
-   }
+   
     
    
   }

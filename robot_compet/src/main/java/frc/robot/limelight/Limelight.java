@@ -12,15 +12,16 @@ public class Limelight {
     public double m_LimelightSteerCommand = 0.0;
     public PIDController pid_angle = new PIDController(0.024, 0.0052, 0.005);
   
-    public void updateLimelightTracking() {
+    public void updateLimelightTracking() 
+    {
         // These numbers must be tuned for your Robot!  Be careful!
         final double STEER_K = 0.03;                    // how hard to turn toward the target
         final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
         final double DESIRED_TARGET_AREA = 0.025;        // Area of the target when the robot reaches the wall
-        final double DESIRED_HEIGHT = 4.0;
+        final double DESIRED_HEIGHT = 7.1;
         final double MAX_DRIVE = 0.7;                   // Simple speed limit so we don't drive too fast
 
-        final double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    final double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     final double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     final double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     final double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
