@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Launcher;
+package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -21,9 +21,9 @@ public class RoutineShoot extends CommandGroup {
 
     addSequential(new PreSpin()); // has its own timeout.
     addSequential(new RampMove(true));
-    addSequential(new Shoot(),2.0);
+    addSequential(new Shoot(), 2.5);
     addSequential(new RampMove(false));
-    
+
     // To run multiple commands at the same time,
     // use addParallel()
     // e.g. addParallel(new Command1());

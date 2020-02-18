@@ -9,15 +9,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Launcher.KeepBallInRamp;
-import frc.robot.commands.Launcher.Shoot;
+import frc.robot.RobotMap;
+import frc.robot.commands.launcher.KeepBallInRamp;
 
 /**
  * Add your docs here.
@@ -26,101 +25,99 @@ public class Launcher extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CANSparkMax MotorWheelUp;
-  private CANPIDController PidWheelUp;
-  private CANSparkMax MotorWheelDown;
-  private CANPIDController PidWheelDown;
+  private CANSparkMax motorWheelUp;
+  private CANPIDController pidWheelUp;
+  private CANSparkMax motorWheelDown;
+  private CANPIDController pidWheelDown;
   private Solenoid ramp;
 
-  private double _speedTargetDown = 0.0;
-  private double _speedTargetUp = 0.0;
-  private static final double _toleranceSpeed = 10;
+  private static final double DOWN_WHEEL_SPEED = 0.8;
+  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.7;
+  private static final double UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO = 0.1875;
+
+  private static final double TARGET_SPEED_DOWN = 900;
+  private static final double TARGET_SPEED_UP = 5100;
+  private static final double TOLERANCE_SPEED = 10;
 
   public Launcher() {
     System.out.println("Launcher constructor");
 
-    MotorWheelUp = new CANSparkMax(30, MotorType.kBrushless);
-    MotorWheelUp.setInverted(false);
-    MotorWheelUp.enableVoltageCompensation(12.0);
-    PidWheelUp = new CANPIDController(MotorWheelUp);
-    PidWheelUp.setP(5e-4);
-    PidWheelUp.setI(0.00e-8);
-    PidWheelUp.setD(0);
-    PidWheelUp.setIZone(0);
-    PidWheelUp.setFF(0);    
-    PidWheelUp.setOutputRange(-5700, 5700);
+    motorWheelUp = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_UP_CAN_ID, MotorType.kBrushless);
+    motorWheelUp.setInverted(false);
+    motorWheelUp.enableVoltageCompensation(12.0);
+    pidWheelUp = new CANPIDController(motorWheelUp);
+    pidWheelUp.setP(5e-4);
+    pidWheelUp.setI(0.00e-8);
+    pidWheelUp.setD(0);
+    pidWheelUp.setIZone(0);
+    pidWheelUp.setFF(0);
+    pidWheelUp.setOutputRange(-5700, 5700);
 
-    MotorWheelDown = new CANSparkMax(31, MotorType.kBrushless);
-    MotorWheelDown.setInverted(true);
-    MotorWheelDown.enableVoltageCompensation(12.0);
-    PidWheelDown = new CANPIDController(MotorWheelDown);
-    PidWheelDown.setP(1e-5);
-    PidWheelDown.setI(0.0e-8);
-    PidWheelDown.setD(0);
-    PidWheelDown.setIZone(0);
-    PidWheelDown.setFF(0);
+    motorWheelDown = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_DOWN_CAN_ID, MotorType.kBrushless);
+    motorWheelDown.setInverted(true);
+    motorWheelDown.enableVoltageCompensation(12.0);
+    pidWheelDown = new CANPIDController(motorWheelDown);
+    pidWheelDown.setP(1e-5);
+    pidWheelDown.setI(0.0e-8);
+    pidWheelDown.setD(0);
+    pidWheelDown.setIZone(0);
+    pidWheelDown.setFF(0);
+
+    pidWheelDown.setOutputRange(-5700, 5700);
+
+    ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
+  }
+
+  public void shootPIDRPM() {
+    pidWheelDown.setFF(TARGET_SPEED_DOWN * 12.0 / 5700.0 / 5700.0 / 10.0);
+    pidWheelUp.setFF(TARGET_SPEED_UP * 12.0 / 5700.0 / 5700.0 / 2.0);
+    pidWheelDown.setReference(TARGET_SPEED_DOWN, ControlType.kVelocity);
+    pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity); // direction is always inverted in spark setup
+                                                                     // (constructor)
+  }
+
+  public boolean isAtTargetSpeed() {
+    double currentDownSpeed = motorWheelDown.getEncoder().getVelocity();
+    double currentUpSpeed = motorWheelUp.getEncoder().getVelocity();
+    double totalError = Math.abs(currentDownSpeed - TARGET_SPEED_DOWN) + Math.abs(currentUpSpeed - TARGET_SPEED_UP);
+    return (totalError <= TOLERANCE_SPEED);
+  }
+
+  public void openLoopShoot(boolean isPreSpin) {
+    final double downWheelSpeed = isPreSpin ? PRE_SPIN_DOWN_WHEEL_SPEED : DOWN_WHEEL_SPEED;
+    final double upWheelSpeed = downWheelSpeed * UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO;
     
-    PidWheelDown.setOutputRange(-5700, 5700);
-
-    ramp = new Solenoid(0);
+    motorWheelUp.set(upWheelSpeed);
+    motorWheelDown.set(downWheelSpeed);
   }
 
-    
-  public void ShootPIDRPM()
-  {
-    _speedTargetDown = 900;
-    _speedTargetUp = 5100;
-    PidWheelDown.setFF(_speedTargetDown * 12.0 / 5700.0 /5700.0 / 10.0);
-    PidWheelUp.setFF(_speedTargetUp * 12.0/ 5700.0 /5700.0 /2.0 );
-    PidWheelDown.setReference(_speedTargetDown, ControlType.kVelocity);
-    PidWheelUp.setReference(_speedTargetUp, ControlType.kVelocity); // direction is always inverted in spark setup (constructor)
-  }
-
-  public boolean GetIsAtTargetSpeed()
-  {
-    double currentDownSpeed = MotorWheelDown.getEncoder().getVelocity();
-    double currentUpSpeed = MotorWheelUp.getEncoder().getVelocity();
-    double totalError = Math.abs(currentDownSpeed - _speedTargetDown) + Math.abs(currentUpSpeed - _speedTargetUp);
-    return (totalError <=_toleranceSpeed);
-  }
-
-  public void OpenLoopShoot()
-  {
-    MotorWheelUp.set(0.15);
-    MotorWheelDown.set(0.80);
-  }
-
-  public void Stop()
-  {
-    MotorWheelUp.set(0.0);
-    MotorWheelDown.set(0.0);
+  public void stop() {
+    motorWheelUp.set(0.0);
+    motorWheelDown.set(0.0);
   }
 
   public void done() {
 
-   
   }
 
-  public void RampUp()
-  {
+  public void rampUp() {
     ramp.set(true);
   }
 
-  public void RampDown()
-  {
+  public void rampDown() {
     ramp.set(false);
   }
 
+  @Override
   public void initDefaultCommand() {
     setDefaultCommand(new KeepBallInRamp());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void log()
-  {
-    SmartDashboard.putNumber("Encoder Speed Up", MotorWheelUp.getEncoder().getVelocity());
-    SmartDashboard.putNumber("Encoder Speed Down", MotorWheelDown.getEncoder().getVelocity());
+  public void log() {
+    SmartDashboard.putNumber("Encoder Speed Up", motorWheelUp.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Encoder Speed Down", motorWheelDown.getEncoder().getVelocity());
   }
 
 }

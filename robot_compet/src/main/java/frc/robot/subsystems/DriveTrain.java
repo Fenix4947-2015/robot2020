@@ -1,45 +1,44 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
 import frc.robot.commands.drivetrain.DriveArcade;
 
 public class DriveTrain extends Subsystem {
 
   // main motion system
-  private CANSparkMax leftMotor1 = new CANSparkMax(33, MotorType.kBrushless); 
-  private CANSparkMax leftMotor2 = new CANSparkMax(34, MotorType.kBrushless);
-  private CANSparkMax rightMotor1 = new CANSparkMax(21, MotorType.kBrushless); 
-  private CANSparkMax rightMotor2 = new CANSparkMax(22, MotorType.kBrushless);
+  private CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
+  private CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
   // Sensors
-  private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
-  public Pigeon pigeon = new Pigeon();
-
+  //private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
+  //public Pigeon pigeon = new Pigeon(pigeonTalon);
 
   public DriveTrain() {
     // Initialize drivetrain motors
-    //setMotorsAllowablePower(leftMotor1);
-    //setMotorsAllowablePower(leftMotor2);
+    // setMotorsAllowablePower(leftMotor1);
+    // setMotorsAllowablePower(leftMotor2);
 
-    //setMotorsAllowablePower(rightMotor1);
-    //setMotorsAllowablePower(rightMotor2);
+    // setMotorsAllowablePower(rightMotor1);
+    // setMotorsAllowablePower(rightMotor2);
 
-    //leftMotor2.setInverted(false);
-    //leftMotor2.set(ControlMode.Follower, leftMotor1.getDeviceID());
+    // leftMotor2.setInverted(false);
+    // leftMotor2.set(ControlMode.Follower, leftMotor1.getDeviceID());
 
-    //rightMotor2.setInverted(false);
-    //rightMotor2.set(ControlMode.Follower, rightMotor1.getDeviceID());
+    // rightMotor2.setInverted(false);
+    // rightMotor2.set(ControlMode.Follower, rightMotor1.getDeviceID());
 
-    //robotDrive.setSafetyEnabled(false);
+    // robotDrive.setSafetyEnabled(false);
     leftMotor1.restoreFactoryDefaults();
     leftMotor2.restoreFactoryDefaults();
 
@@ -56,24 +55,23 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new DriveArcade());
   }
 
-  public void driveArcadeMethod(double Speed, double Rotation) {
+  public void driveArcadeMethod(double speed, double rotation) {
 
     double rotationValueGain = 0.70; // for full rotation speed, use 1. Tune to have smoother rotation.
-    Rotation = Rotation * rotationValueGain;
+    rotation = rotation * rotationValueGain;
 
-    double GoStraightCompensation = 0;
-    if (Math.abs(Speed) > 0.1) {
+    double goStraightCompensation = 0;
+    if (Math.abs(speed) > 0.1) {
       // TODO Tune the constant values. Has a speed proportional component (friction
       // in mechanism() and a fixed component
-      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
-          + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed);
+      goStraightCompensation = speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
+          + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(speed);
     }
 
-    robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);
+    robotDrive.arcadeDrive(speed, rotation + goStraightCompensation);
   }
 
-  public void Stop()
-  {
+  public void stop() {
     robotDrive.arcadeDrive(0.0, 0.0);
   }
 
@@ -102,27 +100,23 @@ public class DriveTrain extends Subsystem {
       accelZ = xyz[2];
     }
 
-    public Pigeon()
-    {
-        pigeon = new PigeonIMU(pigeonTalon);
-        pigeon.setTemperatureCompensationDisable(false);
-        refresh();
+    public Pigeon(TalonSRX talon) {
+      pigeon = new PigeonIMU(talon);
+      pigeon.setTemperatureCompensationDisable(false);
+      refresh();
     }
 
-    public void reset()
-    {
-      pigeon.setFusedHeading(0);      
+    public void reset() {
+      pigeon.setFusedHeading(0);
     }
 
-    public double getHeading()
-    {
+    public double getHeading() {
       return pigeon.getFusedHeading();
     }
 
   }
 
-  public void log()
-  {
+  public void log() {
     SmartDashboard.putNumber("banane", 3.14169);
   }
 

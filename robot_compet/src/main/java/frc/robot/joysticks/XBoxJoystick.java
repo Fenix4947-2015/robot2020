@@ -3,24 +3,25 @@ package frc.robot.joysticks;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.RobotMap;
 
 
 public enum XBoxJoystick {
-    DRIVER(0),
-    HELPER(1);
+    DRIVER(RobotMap.JOYSTICK_DRIVER_PORT),
+    HELPER(RobotMap.JOYSTICK_HELPER_PORT);
 
     private static final double DEFAULT_DEADBAND = 0.1;
 
-    public JoystickButton A;
-    public JoystickButton B;
-    public JoystickButton X;
-    public JoystickButton Y;
-    public JoystickButton bumperLeft;
-    public JoystickButton bumperRight;
-    public JoystickButton back;
-    public JoystickButton start;
-    public JoystickButton stickLeft;
-    public JoystickButton stickRight;
+    public final JoystickButton A;
+    public final JoystickButton B;
+    public final JoystickButton X;
+    public final JoystickButton Y;
+    public final JoystickButton bumperLeft;
+    public final JoystickButton bumperRight;
+    public final JoystickButton back;
+    public final JoystickButton start;
+    public final JoystickButton stickLeft;
+    public final JoystickButton stickRight;
 
     private XboxController joystick;
 

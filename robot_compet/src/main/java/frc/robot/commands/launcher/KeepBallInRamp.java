@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Launcher;
+package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -14,7 +14,7 @@ public class KeepBallInRamp extends Command {
   public KeepBallInRamp() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_Launcher);
-   }
+  }
 
   // Called just before this Command runs the first time
   @Override
@@ -25,7 +25,7 @@ public class KeepBallInRamp extends Command {
   @Override
   protected void execute() {
     // set speed here
-    //Robot.m_Launcher.SetOpenLoopVoltage(-0.05, 0.0);
+    // Robot.m_Launcher.SetOpenLoopVoltage(-0.05, 0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,7 +37,7 @@ public class KeepBallInRamp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_Launcher.Stop();
+    Robot.m_Launcher.stop();
   }
 
   // Called when another command which requires one or more of the same

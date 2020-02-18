@@ -5,17 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Launcher;
+package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class RampMove extends Command {
-  boolean direction;
-  /// Up is true, down is false
-  
-  public RampMove(boolean UpDown) {
-    direction = UpDown;
+public class PreSpin extends Command {
+  public PreSpin() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_Launcher);
   }
@@ -23,26 +19,20 @@ public class RampMove extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(0.1);
+    setTimeout(1.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      if(direction)
-      {
-        Robot.m_Launcher.RampUp();
-      }
-      else
-      {
-        Robot.m_Launcher.RampDown();
-      }
+    // Robot.m_Launcher.goToRPM(5100, 900);
+    Robot.m_Launcher.openLoopShoot(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isTimedOut();
+    return (isTimedOut());// || Robot.m_Launcher.GetIsAtTargetSpeed());
   }
 
   // Called once after isFinished returns true
