@@ -32,13 +32,14 @@ public class Launcher extends Subsystem {
   private Solenoid ramp;
 
   private static final double DOWN_WHEEL_SPEED = 0.8;
-  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.7;
+  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; //0.7;
   private static final double UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO = 0.1875;
 
   private static final double TARGET_SPEED_DOWN = 900;
   private static final double TARGET_SPEED_UP = 5100;
   private static final double TOLERANCE_SPEED = 10;
 
+  //private final FileLogger fileLogger = new FileLogger("");
   public Launcher() {
     System.out.println("Launcher constructor");
 

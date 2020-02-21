@@ -15,7 +15,7 @@ public class Limelight {
     final double STEER_K = 0.03; // how hard to turn toward the target
     final double DRIVE_K = 0.35; // how hard to drive fwd toward the target
     final double DESIRED_TARGET_AREA = 0.025; // Area of the target when the robot reaches the wall
-    final double DESIRED_HEIGHT = 7.1;
+    final double DESIRED_HEIGHT = 8.6;
     final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
 
     final double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
@@ -49,9 +49,9 @@ public class Limelight {
 //    } else {
 //      steer_cmd = tx * STEER_K;
 //    }
-     
-    steer_cmd = steer_cmd + Math.signum(steer_cmd) * 0.175;
-    m_LimelightSteerCommand = steer_cmd;
+
+    double feedFwd = Math.signum(steer_cmd) * 0.175;
+    m_LimelightSteerCommand = steer_cmd + feedFwd;
 
     // try to drive forward until the target area reaches our desired area
     // double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
