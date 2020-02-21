@@ -9,21 +9,24 @@ package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Launcher;
 
 public class Shoot extends Command {
+  private final Launcher launcher = Robot.m_Launcher;
 
   public Shoot() {
     System.out.println("RevPIDCommand() constructor");
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_Launcher);
+    requires(launcher);
 
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    launcher.setCurrentPhase("shoot");
+    launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -34,8 +37,7 @@ public class Shoot extends Command {
 
     // Robot.m_Launcher.goToRPM(5100, 900);
 
-    Robot.m_Launcher.openLoopShoot(false);// .goToRPM(5100,900);
-
+    launcher.openLoopShoot(false);// .goToRPM(5100,900);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,7 +49,7 @@ public class Shoot extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_Launcher.stop();
+    launcher.stop();
   }
 
   // Called when another command which requires one or more of the same

@@ -136,6 +136,6 @@ public class Robot extends TimedRobot {
 
   private void log() {
     driveTrain.log();
-    m_Launcher.log();
+    //m_Launcher.log();
   }
 }

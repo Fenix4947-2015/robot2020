@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.time.Instant;
+
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -15,6 +17,7 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.FileLogger;
 import frc.robot.RobotMap;
 import frc.robot.commands.launcher.KeepBallInRamp;
 
@@ -32,14 +35,17 @@ public class Launcher extends Subsystem {
   private Solenoid ramp;
 
   private static final double DOWN_WHEEL_SPEED = 0.8;
-  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; //0.7;
+  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; // 0.7;
   private static final double UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO = 0.1875;
 
   private static final double TARGET_SPEED_DOWN = 900;
   private static final double TARGET_SPEED_UP = 5100;
   private static final double TOLERANCE_SPEED = 10;
 
-  //private final FileLogger fileLogger = new FileLogger("");
+  private FileLogger fileLogger;
+  private Instant startTime = Instant.now();
+  private String phase = "unknown";
+
   public Launcher() {
     System.out.println("Launcher constructor");
 
@@ -84,21 +90,49 @@ public class Launcher extends Subsystem {
     return (totalError <= TOLERANCE_SPEED);
   }
 
+  private void logSpeed() {
+    long msSincePhaseStart = Instant.now().toEpochMilli() - startTime.toEpochMilli();
+    double upVelocity = motorWheelUp.getEncoder().getVelocity();
+    double downVelocity = motorWheelDown.getEncoder().getVelocity();
+    fileLogger.writeText(String.format("%s,%d,%f,%f%n", phase, msSincePhaseStart, upVelocity, downVelocity));
+  }
+
+  public void initLogging() {
+    startTime = Instant.now();
+    if (fileLogger == null) {
+      fileLogger = new FileLogger("launcher.csv", true);
+    }
+  }
+
+  public void setCurrentPhase(String phase) {
+    this.phase = phase;
+  }
+
   public void openLoopShoot(boolean isPreSpin) {
     final double downWheelSpeed = isPreSpin ? PRE_SPIN_DOWN_WHEEL_SPEED : DOWN_WHEEL_SPEED;
     final double upWheelSpeed = downWheelSpeed * UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO;
-    
+
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
+
+    logSpeed();
   }
 
   public void stop() {
     motorWheelUp.set(0.0);
     motorWheelDown.set(0.0);
+    stopLogging();
+  }
+
+  private void stopLogging() {
+    if (fileLogger != null) {
+      fileLogger.close();
+      fileLogger = null;
+    }
   }
 
   public void done() {
-
+    stopLogging();
   }
 
   public void rampUp() {

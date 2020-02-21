@@ -9,24 +9,36 @@ public class FileLogger {
   private final File file;
   private final BufferedWriter bufferedWriter;
 
-  public FileLogger(String filename) throws IOException {
-    FileWriter fileWriter = null;
+  public FileLogger(String filename, boolean append) {
+    try {
+      FileWriter fileWriter = null;
 
-    file = new File("/home/lvuser/" + filename);
-    if (!file.exists()) {
-      file.createNewFile();
+      file = new File("/home/lvuser/" + filename);
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+      fileWriter = new FileWriter(file, append);
+
+      bufferedWriter = new BufferedWriter(fileWriter);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    fileWriter = new FileWriter(file);
-
-    bufferedWriter = new BufferedWriter(fileWriter);
   }
 
-  public void writeText(String text) throws IOException {
-    bufferedWriter.write(text);
+  public void writeText(String text) {
+    try {
+      bufferedWriter.write(text);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  public void close() throws IOException {
-    bufferedWriter.close();
+  public void close() {
+    try {
+      bufferedWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
 }

@@ -9,24 +9,29 @@ package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Launcher;
 
 public class PreSpin extends Command {
+  private final Launcher launcher = Robot.m_Launcher;
+
   public PreSpin() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_Launcher);
+    requires(launcher);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     setTimeout(1.5);
+    launcher.setCurrentPhase("prespin");
+    launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     // Robot.m_Launcher.goToRPM(5100, 900);
-    Robot.m_Launcher.openLoopShoot(true);
+    launcher.openLoopShoot(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
