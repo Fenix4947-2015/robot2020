@@ -50,7 +50,7 @@ public class Limelight extends SubsystemBase {
     final double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     final double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
-    System.out.println(String.format("tv: %f, tx: %f, ty: %f, ta: %f", tv, tx, ty, ta));
+    //System.out.println(String.format("tv: %f, tx: %f, ty: %f, ta: %f", tv, tx, ty, ta));
 
     if (tv < 1.0) {
       m_LimelightHasValidTarget = false;
