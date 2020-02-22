@@ -152,6 +152,14 @@ public class Robot extends TimedRobot {
   private Double _pidD;
   private Double _pidF;
   private String _pidType;
+  
+  public void initSmartDashboard(){
+    SmartDashboard.putNumber("pidP", 1.0);
+    SmartDashboard.putNumber("pidI", 1.0);
+    SmartDashboard.putNumber("pidD", 1.0);
+    SmartDashboard.putNumber("pidF", 1.0);
+    SmartDashboard.putString("pidType", "LLANGLE");
+  }
 
   public void getPidValues(){
     _pidP = SmartDashboard.getNumber("pidP", 1.0);
