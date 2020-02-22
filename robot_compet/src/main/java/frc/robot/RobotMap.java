@@ -1,21 +1,118 @@
 package frc.robot;
 
-public class RobotMap {
+import javax.annotation.Nullable;
 
-  // Joysticks.
+import com.google.auto.value.AutoValue;
+
+@AutoValue
+public abstract class RobotMap {
+
+  // Joysticks
   public static final int JOYSTICK_DRIVER_PORT = 0;
   public static final int JOYSTICK_HELPER_PORT = 1;
 
-  // Drive train.
-  public static final int LEFT_MOTOR1_CAN_ID = 33;
-  public static final int LEFT_MOTOR2_CAN_ID = 34;
-  public static final int RIGHT_MOTOR1_CAN_ID = 21;
-  public static final int RIGHT_MOTOR2_CAN_ID = 22;
+  @SuppressWarnings("unused")
+  private static final RobotMap CLONE_ROBOT_MAP = builder()
+      .leftMotor1CanID(33)
+      .leftMotor2CanID(34)
+      .rightMotor1CanID(21)
+      .rightMotor2CanID(22)
+      .shifterSolenoidChannelID(null)
+      .launcherMotorUpCanID(30)
+      .launcherMotorDownCanID(31)
+      .rampSolenoidChannelID(0)
+      .intakeMotorCanID(null)
+      .winchMotorCanID(null)
+      .armExtenderMotorCanID(null)
+      .pizzaTurnerCanID(null)
+      .build();
+
+  @SuppressWarnings("unused")
+  private static final RobotMap COMPET_ROBOT_MAP = builder()
+      .leftMotor1CanID(35)
+      .leftMotor2CanID(36)
+      .rightMotor1CanID(27)
+      .rightMotor2CanID(28)
+      .shifterSolenoidChannelID(1)
+      .launcherMotorUpCanID(32)
+      .launcherMotorDownCanID(29)
+      .rampSolenoidChannelID(0)
+      .intakeMotorCanID(23)
+      .winchMotorCanID(25)
+      .armExtenderMotorCanID(26)
+      .pizzaTurnerCanID(null)
+      .build();
+
+  public static RobotMap instance() {
+    // Changer selon le robot (clone ou competition):
+    return COMPET_ROBOT_MAP;
+  }
+
+  // Drivetrain
+  public abstract int leftMotor1CanID();
+
+  public abstract int leftMotor2CanID();
+
+  public abstract int rightMotor1CanID();
+
+  public abstract int rightMotor2CanID();
+
+  @Nullable
+  public abstract Integer shifterSolenoidChannelID();
 
   // Launcher
-  public static final int LAUNCHER_MOTOR_UP_CAN_ID = 30;
-  public static final int LAUNCHER_MOTOR_DOWN_CAN_ID = 31;
-  public static final int RAMP_SOLENOID_CHANNEL_ID = 0;
+  public abstract int launcherMotorUpCanID();
+
+  public abstract int launcherMotorDownCanID();
+
+  public abstract int rampSolenoidChannelID();
+
+  // Intake
+  @Nullable
+  public abstract Integer intakeMotorCanID();
+
+  // Winch
+  @Nullable
+  public abstract Integer winchMotorCanID();
+  @Nullable
+  public abstract Integer armExtenderMotorCanID();
+  
+  // Pizza turner
+  @Nullable
+  public abstract Integer pizzaTurnerCanID();
+
+  private static Builder builder() {
+    return new AutoValue_RobotMap.Builder();
+  }
+
+  @AutoValue.Builder
+  public static abstract class Builder {
+    public abstract Builder leftMotor1CanID(int leftMotor1CanID);
+
+    public abstract Builder leftMotor2CanID(int leftMotor2CanID);
+
+    public abstract Builder rightMotor1CanID(int rightMotor1CanID);
+
+    public abstract Builder rightMotor2CanID(int rightMotor2CanID);
+
+    public abstract Builder shifterSolenoidChannelID(@Nullable Integer shifterSolenoidChannelID);
+
+    public abstract Builder launcherMotorUpCanID(int launcherMotorUpCanID);
+
+    public abstract Builder launcherMotorDownCanID(int launcherMotorDownCanID);
+
+    public abstract Builder rampSolenoidChannelID(int rampSolenoidChannelID);
+
+    public abstract Builder intakeMotorCanID(@Nullable Integer intakeMotorCanID);
+
+    public abstract Builder winchMotorCanID(@Nullable Integer winchMotorCanID);
+    
+    public abstract Builder armExtenderMotorCanID(@Nullable Integer armExtenderMotorCanID);
+
+    public abstract Builder pizzaTurnerCanID(@Nullable Integer pizzaTurnerCanID);
+
+    public abstract RobotMap build();
+  }
 
   // Color Sensors
 //  public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x10;
