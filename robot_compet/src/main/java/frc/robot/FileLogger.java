@@ -13,7 +13,10 @@ public class FileLogger {
     try {
       FileWriter fileWriter = null;
 
-      file = new File("/home/lvuser/" + filename);
+      File folder = new File("/tmp/robotlogs");
+      folder.mkdirs();
+
+      file = new File(folder, filename);
       if (!file.exists()) {
         file.createNewFile();
       }

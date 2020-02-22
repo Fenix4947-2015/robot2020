@@ -22,7 +22,6 @@ public class PreSpin extends CommandBase {
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("prespin");
-    _launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run

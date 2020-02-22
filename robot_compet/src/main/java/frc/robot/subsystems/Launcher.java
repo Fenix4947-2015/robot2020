@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -78,7 +80,7 @@ public class Launcher extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
   }
 
   public void shootPIDRPM() {
@@ -103,15 +105,16 @@ public class Launcher extends SubsystemBase {
     fileLogger.writeText(String.format("%s,%d,%f,%f%n", phase, msSincePhaseStart, upVelocity, downVelocity));
   }
 
-  public void initLogging() {
+  private void initLogging() {
     startTime = Instant.now();
-    if (fileLogger == null) {
-      fileLogger = new FileLogger("launcher.csv", true);
-    }
+    stopLogging();
+    fileLogger = new FileLogger(String.format("launcher_%s_%s.csv",
+        DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(ZonedDateTime.now()), phase), true);
   }
 
   public void setCurrentPhase(String phase) {
     this.phase = phase;
+    initLogging();
   }
 
   public void openLoopShoot(boolean isPreSpin) {

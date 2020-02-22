@@ -22,7 +22,6 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("shoot");
-    _launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run
