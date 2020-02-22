@@ -33,7 +33,7 @@ public abstract class RobotMap {
       .leftMotor2CanID(36)
       .rightMotor1CanID(27)
       .rightMotor2CanID(28)
-      .shifterSolenoidChannelID(7)
+      .shifterSolenoidChannelID(1)
       .launcherMotorUpCanID(32)
       .launcherMotorDownCanID(29)
       .rampSolenoidChannelID(0)

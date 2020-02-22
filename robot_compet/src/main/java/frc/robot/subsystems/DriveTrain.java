@@ -18,8 +18,10 @@ public class DriveTrain extends SubsystemBase {
   private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.instance().rightMotor1CanID(), MotorType.kBrushless);
   private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.instance().rightMotor2CanID(), MotorType.kBrushless);
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
-  
-  private final Solenoid shifterSolenoid = new Solenoid(RobotMap.instance().shifterSolenoidChannelID());
+
+  private final Solenoid shifterSolenoid = RobotMap.instance().shifterSolenoidChannelID() != null
+      ? new Solenoid(RobotMap.instance().shifterSolenoidChannelID())
+      : null;
 
   // Sensors
   // private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
@@ -77,11 +79,15 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void shiftHigh() {
-    shifterSolenoid.set(true);
+    if (shifterSolenoid != null) {
+      shifterSolenoid.set(true);
+    }
   }
 
   public void shiftLow() {
-    shifterSolenoid.set(false);
+    if (shifterSolenoid != null) {
+      shifterSolenoid.set(false);
+    }
   }
 
   public class Pigeon {

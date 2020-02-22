@@ -95,7 +95,7 @@ public class RobotContainer {
 
     winchButton.whenHeld(_winchRobot);
     extendArmButton.whenHeld(_extendArm);
-    
+
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);
   }
