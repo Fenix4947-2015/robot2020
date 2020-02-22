@@ -7,49 +7,45 @@
 
 package frc.robot.commands.launcher;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Launcher;
 
-public class RampMove extends Command {
+public class RampMove extends CommandBase {
+  private final Launcher _launcher;
   private final boolean _isUp;
   /// Up is true, down is false
 
-  public RampMove(boolean isUp) {
+  public RampMove(Launcher launcher, boolean isUp) {
+    _launcher = launcher;
     _isUp = isUp;
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_Launcher);
+    addRequirements(_launcher);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    setTimeout(0.1);
+  public void initialize() {
+    // setTimeout(0.1);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     if (_isUp) {
-      Robot.m_Launcher.rampUp();
+      _launcher.rampUp();
     } else {
-      Robot.m_Launcher.rampDown();
+      _launcher.rampDown();
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    return isTimedOut();
+  public boolean isFinished() {
+    return false; // isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+  public void end(boolean interrupted) {
   }
 }

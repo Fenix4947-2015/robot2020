@@ -1,23 +1,20 @@
 package frc.robot;
 
-import frc.robot.commands.drivetrain.AutoAim;
-import frc.robot.commands.launcher.RampMove;
-import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
 
   public OI() {
-    initJoystickOfDriver(XBoxJoystick.DRIVER);
-    initJoystickOfHelper(XBoxJoystick.HELPER);
+//    initJoystickOfDriver(XBoxJoystick.DRIVER);
+//    initJoystickOfHelper(XBoxJoystick.HELPER);
   }
 
   private void initJoystickOfDriver(XBoxJoystick joystick) {
-    joystick.A.whileHeld(new AutoAim());
-    joystick.B.whenPressed(new RoutineShoot());
-
-    joystick.Y.whenPressed(new RampMove(true));
-    joystick.Y.whenReleased(new RampMove(false));
+//    joystick.A.whileHeld(new AutoAim());
+//    joystick.B.whenPressed(new RoutineShoot());
+//
+//    joystick.Y.whenPressed(new RampMove(true));
+//    joystick.Y.whenReleased(new RampMove(false));
 
 //        joystick.X.whenPressed(new IntakeOutPosition());
 //        joystick.A.whenPressed(new IntakeInPosition());

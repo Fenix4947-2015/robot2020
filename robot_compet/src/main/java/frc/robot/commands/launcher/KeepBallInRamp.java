@@ -7,43 +7,41 @@
 
 package frc.robot.commands.launcher;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Launcher;
 
-public class KeepBallInRamp extends Command {
-  public KeepBallInRamp() {
+public class KeepBallInRamp extends CommandBase {
+
+  private final Launcher _launcher;
+
+  public KeepBallInRamp(Launcher launcher) {
+    _launcher = launcher;
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_Launcher);
+    addRequirements(launcher);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     // set speed here
     // Robot.m_Launcher.SetOpenLoopVoltage(-0.05, 0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-    Robot.m_Launcher.stop();
+  public void end(boolean interrupted) {
+    _launcher.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
-  }
 }

@@ -7,55 +7,44 @@
 
 package frc.robot.commands.launcher;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Launcher;
 
-public class Shoot extends Command {
-  private final Launcher launcher = Robot.m_Launcher;
+public class Shoot extends CommandBase {
+  private final Launcher _launcher;
 
-  public Shoot() {
-    System.out.println("RevPIDCommand() constructor");
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(launcher);
-
+  public Shoot(Launcher launcher) {
+    this._launcher = launcher;
+    addRequirements(launcher);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    launcher.setCurrentPhase("shoot");
-    launcher.initLogging();
+  public void initialize() {
+    _launcher.setCurrentPhase("shoot");
+    _launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     // Robot.m_RevPIDSubsystem.goToPosition(angle);
     // System.out.println("RevPIDCommand.execute()");
 
     // Robot.m_Launcher.goToRPM(5100, 900);
 
-    launcher.openLoopShoot(false);// .goToRPM(5100,900);
+    _launcher.openLoopShoot(false);// .goToRPM(5100,900);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-    launcher.stop();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
+  public void end(boolean interrupted) {
+    _launcher.stop();
   }
 }

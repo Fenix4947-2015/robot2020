@@ -7,33 +7,18 @@
 
 package frc.robot.commands.launcher;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Launcher;
 
-public class RoutineShoot extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public RoutineShoot() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
+public class RoutineShoot extends SequentialCommandGroup {
 
-    addSequential(new PreSpin()); // has its own timeout.
-    addSequential(new RampMove(true));
-    addSequential(new Shoot(), 2.5);
-    addSequential(new RampMove(false));
+  private final Launcher _launcher;
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
+  public RoutineShoot(Launcher launcher) {
+    this._launcher = launcher;
+    addRequirements(launcher);
 
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
+    addCommands(new PreSpin(launcher).withTimeout(1.0), new RampMove(launcher, true).withTimeout(0.1),
+        (new Shoot(launcher)).withTimeout(2.5), new RampMove(launcher, false).withTimeout(0.1));
   }
 }

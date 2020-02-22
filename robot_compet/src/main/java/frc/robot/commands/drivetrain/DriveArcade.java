@@ -8,24 +8,27 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.DriveTrain;
 
-public class DriveArcade extends Command {
+public class DriveArcade extends CommandBase {
 
-  public DriveArcade() {
-    requires(Robot.driveTrain);
+  private final DriveTrain _driveTrain;
+
+  public DriveArcade(DriveTrain driveTrain) {
+    _driveTrain = driveTrain;
+    addRequirements(_driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  public void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
     double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
@@ -35,24 +38,17 @@ public class DriveArcade extends Command {
     // System.out.println("Move value: " + moveValue);
     // System.out.println("Rotate value: " + rotateValue);
 
-    Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
-
+    _driveTrain.driveArcadeMethod(-moveValue, rotateValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+  public void end(boolean interrupted) {
   }
 }

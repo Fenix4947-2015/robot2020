@@ -23,7 +23,7 @@ public enum XBoxJoystick {
     public final JoystickButton stickLeft;
     public final JoystickButton stickRight;
 
-    private XboxController joystick;
+    private final XboxController joystick;
 
     private XBoxJoystick(int port) {
         joystick = new XboxController(port);
@@ -38,6 +38,10 @@ public enum XBoxJoystick {
         start = new JoystickButton(joystick, XBoxButton.START.getValue());
         stickLeft = new JoystickButton(joystick, XBoxButton.STICK_LEFT.getValue());
         stickRight = new JoystickButton(joystick, XBoxButton.STICK_RIGHT.getValue());
+    }
+
+    public XboxController getJoystick() {
+      return joystick;
     }
 
     public double getX(Hand hand) {

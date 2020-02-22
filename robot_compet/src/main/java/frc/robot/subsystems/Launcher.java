@@ -15,8 +15,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FileLogger;
 import frc.robot.RobotMap;
 import frc.robot.commands.launcher.KeepBallInRamp;
@@ -24,15 +24,15 @@ import frc.robot.commands.launcher.KeepBallInRamp;
 /**
  * Add your docs here.
  */
-public class Launcher extends Subsystem {
+public class Launcher extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private CANSparkMax motorWheelUp;
-  private CANPIDController pidWheelUp;
-  private CANSparkMax motorWheelDown;
-  private CANPIDController pidWheelDown;
-  private Solenoid ramp;
+  private final CANSparkMax motorWheelUp;
+  private final CANPIDController pidWheelUp;
+  private final CANSparkMax motorWheelDown;
+  private final CANPIDController pidWheelDown;
+  private final Solenoid ramp;
 
   private static final double DOWN_WHEEL_SPEED = 0.8;
   private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; // 0.7;
@@ -48,6 +48,7 @@ public class Launcher extends Subsystem {
 
   public Launcher() {
     System.out.println("Launcher constructor");
+    setDefaultCommand(new KeepBallInRamp(this));
 
     motorWheelUp = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_UP_CAN_ID, MotorType.kBrushless);
     motorWheelUp.setInverted(false);
@@ -73,6 +74,11 @@ public class Launcher extends Subsystem {
     pidWheelDown.setOutputRange(-5700, 5700);
 
     ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
+  }
+
+  @Override
+  public void periodic() {
+    
   }
 
   public void shootPIDRPM() {
@@ -141,13 +147,6 @@ public class Launcher extends Subsystem {
 
   public void rampDown() {
     ramp.set(false);
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new KeepBallInRamp());
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 
   public void log() {

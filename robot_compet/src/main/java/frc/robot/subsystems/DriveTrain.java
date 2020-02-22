@@ -5,20 +5,18 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.commands.drivetrain.DriveArcade;
 
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends SubsystemBase {
 
   // main motion system
-  private CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
-  private CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
-  private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
+  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
+  private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
   // Sensors
   //private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
@@ -51,8 +49,8 @@ public class DriveTrain extends Subsystem {
   }
 
   @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new DriveArcade());
+  public void periodic() {
+    
   }
 
   public void driveArcadeMethod(double speed, double rotation) {
@@ -114,10 +112,6 @@ public class DriveTrain extends Subsystem {
       return pigeon.getFusedHeading();
     }
 
-  }
-
-  public void log() {
-    SmartDashboard.putNumber("banane", 3.14169);
   }
 
 }

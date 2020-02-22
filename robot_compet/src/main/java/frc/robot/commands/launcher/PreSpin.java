@@ -7,47 +7,40 @@
 
 package frc.robot.commands.launcher;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Launcher;
 
-public class PreSpin extends Command {
-  private final Launcher launcher = Robot.m_Launcher;
+public class PreSpin extends CommandBase {
+  private final Launcher launcher;
 
-  public PreSpin() {
-    // Use requires() here to declare subsystem dependencies
-    requires(launcher);
+  public PreSpin(Launcher launcher) {
+    this.launcher = launcher;
+    addRequirements(launcher);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    setTimeout(1.5);
+  public void initialize() {
     launcher.setCurrentPhase("prespin");
     launcher.initLogging();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  public void execute() {
     // Robot.m_Launcher.goToRPM(5100, 900);
     launcher.openLoopShoot(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
-    return (isTimedOut());// || Robot.m_Launcher.GetIsAtTargetSpeed());
+  public boolean isFinished() {
+    return false;// || Robot.m_Launcher.GetIsAtTargetSpeed());
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }
