@@ -37,15 +37,15 @@ public abstract class RobotMap {
       .launcherMotorUpCanID(32)
       .launcherMotorDownCanID(29)
       .rampSolenoidChannelID(0)
-      .intakeMotorCanID(25)
-      .winchMotorCanID(23)
-      .armExtenderMotorCanID(null)
+      .intakeMotorCanID(23)
+      .winchMotorCanID(25)
+      .armExtenderMotorCanID(26)
       .pizzaTurnerCanID(null)
       .build();
 
   public static RobotMap instance() {
     // Changer selon le robot (clone ou competition):
-    return CLONE_ROBOT_MAP;
+    return COMPET_ROBOT_MAP;
   }
 
   // Drivetrain

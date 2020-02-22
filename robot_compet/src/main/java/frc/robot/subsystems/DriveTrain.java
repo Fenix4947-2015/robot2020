@@ -5,7 +5,6 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -113,14 +112,12 @@ public class DriveTrain extends SubsystemBase {
       return pigeon.getFusedHeading();
     }
 
-    public void ShiftHigh()
-    {
-        // TODO IMPLEMENT
-        //shifter.set(true);
+    public void shiftHigh() {
+      // TODO IMPLEMENT
+      // shifter.set(true);
     }
 
-    public void ShiftLow()
-    {
+    public void shiftLow() {
       // TODO IMPLEMENT
       // shifter.set(false);
     }
