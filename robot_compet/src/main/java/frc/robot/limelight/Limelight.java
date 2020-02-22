@@ -4,9 +4,12 @@ import java.util.Objects;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.SmartDashboardSettings;
 
-public class Limelight {
+public class Limelight extends SubsystemBase {
+
+  public final SmartDashboardSettings _smartDashboardSettings;
 
   public boolean m_LimelightHasValidTarget = false;
   public double m_LimelightDriveCommand = 0.0;
@@ -14,7 +17,21 @@ public class Limelight {
   private PIDController pid_angle = new PIDController(0.024, 0.0052, 0.005);
   private double kFeedForward = 0.175;
 
-  public void updateAnglePID(double p, double i, double d, double f) {
+  public Limelight(SmartDashboardSettings smartDashboardSettings) {
+    _smartDashboardSettings = smartDashboardSettings;
+  }
+
+  @Override
+  public void periodic() {
+    _smartDashboardSettings.refreshPidValues();
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "LLANGLE")) {
+      setAnglePID(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
+          _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
+    }
+  }
+
+  public void setAnglePID(double p, double i, double d, double f) {
+    System.out.println(String.format("pid: %d %d %d %d", p, i, d, f));
     pid_angle.setPID(p, i, d);
     kFeedForward = f;
   }
@@ -78,34 +95,6 @@ public class Limelight {
       drive_cmd = MAX_DRIVE;
     }
     m_LimelightDriveCommand = drive_cmd;
-  }
-
-  private Double _pidP;
-  private Double _pidI;
-  private Double _pidD;
-  private Double _pidF;
-  private String _pidType;
-
-  public void initSmartDashboard() {
-    SmartDashboard.putNumber("pidP", 1.0);
-    SmartDashboard.putNumber("pidI", 1.0);
-    SmartDashboard.putNumber("pidD", 1.0);
-    SmartDashboard.putNumber("pidF", 1.0);
-    SmartDashboard.putString("pidType", "LLANGLE");
-  }
-
-  public void getPidValues() {
-    _pidP = SmartDashboard.getNumber("pidP", 1.0);
-    _pidI = SmartDashboard.getNumber("pidI", 1.0);
-    _pidD = SmartDashboard.getNumber("pidD", 1.0);
-    _pidF = SmartDashboard.getNumber("pidF", 1.0);
-    _pidType = SmartDashboard.getString("pidType", "LLANGLE");
-  }
-
-  public void updatePidValues() {
-    if (Objects.equals(_pidType, "LLANGLE")) {
-      updateAnglePID(_pidP, _pidI, _pidD, _pidF);
-    }
   }
 
 }

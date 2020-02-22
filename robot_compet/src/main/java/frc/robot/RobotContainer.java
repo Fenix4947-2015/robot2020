@@ -16,6 +16,7 @@ import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Launcher;
 
@@ -27,11 +28,14 @@ import frc.robot.subsystems.Launcher;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final SmartDashboardSettings _smartDashboardSettings = new SmartDashboardSettings();
+
   // The robot's subsystems and commands are defined here...
   private final DriveTrain _driveTrain = new DriveTrain();
   private final Launcher _launcher = new Launcher();
+  private final Limelight _limelight = new Limelight(_smartDashboardSettings);
 
-  private final AutoAim _autoAim = new AutoAim(_driveTrain);
+  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);
   private final RoutineShoot _routineShoot = new RoutineShoot(_launcher);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);

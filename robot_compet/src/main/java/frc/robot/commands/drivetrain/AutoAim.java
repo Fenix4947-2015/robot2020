@@ -13,11 +13,12 @@ import frc.robot.subsystems.DriveTrain;
 
 public class AutoAim extends CommandBase {
   private final DriveTrain _driveTrain;
-  private final Limelight m_limelight = new Limelight();
+  private final Limelight _limelight;
 
-  public AutoAim(DriveTrain driveTrain) {
+  public AutoAim(DriveTrain driveTrain, Limelight limelight) {
     _driveTrain = driveTrain;
-    addRequirements(_driveTrain);
+    _limelight = limelight;
+    addRequirements(_driveTrain, _limelight);
   }
 
   // Called just before this Command runs the first time
@@ -29,9 +30,9 @@ public class AutoAim extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    m_limelight.updateLimelightTracking();
-    if (m_limelight.m_LimelightHasValidTarget) {
-      _driveTrain.driveArcadeMethod(-m_limelight.m_LimelightDriveCommand, m_limelight.m_LimelightSteerCommand);
+    _limelight.updateLimelightTracking();
+    if (_limelight.m_LimelightHasValidTarget) {
+      _driveTrain.driveArcadeMethod(-_limelight.m_LimelightDriveCommand, _limelight.m_LimelightSteerCommand);
     } else {
       _driveTrain.stop();
     }
