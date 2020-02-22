@@ -7,17 +7,17 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
+import frc.robot.commands.autonomous.InitializeRobot;
+import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.drivetrain.Shift;
-import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
@@ -41,18 +41,17 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain _driveTrain = new DriveTrain();
-  private final Launcher _launcher = new Launcher(_smartDashboardSettings);
-  private final Limelight _limelight = new Limelight();
+  private final Launcher _launcher = new Launcher();
+  private final Limelight _limelight = new Limelight(_smartDashboardSettings);
   private final SubCompressor _compressor = new SubCompressor();
   private final Intake _intake = new Intake();
   private final Winch _winch = new Winch();
 
-  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight, _smartDashboardSettings);
-  private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor);
+  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);
+  private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor, _intake);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 
-  private final BallPickup _ballPickup = new BallPickup(_driveTrain, _limelight, _intake, _smartDashboardSettings);
   private final RollIntake _rollIntake = new RollIntake(_intake);
 
   private final ExtendArm _extendArm = new ExtendArm(_winch);
@@ -62,16 +61,16 @@ public class RobotContainer {
   private final Shift _shiftHigh = new Shift(_driveTrain, true);
   private final Shift _shiftLow = new Shift(_driveTrain, false);
 
+  private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _launcher);
+  private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     _driveTrain.setDefaultCommand(_driveArcade);
-
+    _compressor.setDefaultCommand(_compressorDefault);
     // Configure the button bindings
     configureButtonBindings();
-    
-    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -91,15 +90,17 @@ public class RobotContainer {
     JoystickButton shiftHighButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
     JoystickButton shiftLowButton = new JoystickButton(driverController, XboxController.Button.kBack.value);
 
+    
+
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
     rampButton.whenPressed(_rampMoveUp);
     rampButton.whenReleased(_rampMoveDown);
 
-    intakeButton.whenHeld(_ballPickup);
+    intakeButton.whenHeld(_rollIntake);
 
     winchButton.whenHeld(_winchRobot);
-    extendArmButton.whenHeld(_extendArm);
+    extendArmButton.whenHeld(_initializeRobot); // todo change to good functioné
 
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);

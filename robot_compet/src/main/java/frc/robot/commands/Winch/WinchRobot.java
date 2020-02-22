@@ -40,7 +40,7 @@ public class WinchRobot extends CommandBase {
     if(_winch.endGameModeEnabled())
     {
       double liftingSpeed = 0.5 * XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.armExtend(liftingSpeed);      
+      _winch.armExtend(1.0);      // Todo : validate if we need to use copilot
     }
   }
 

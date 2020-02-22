@@ -10,37 +10,45 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class RollIntake extends CommandBase {
+public class IntakeRollLowLevel extends CommandBase {
   /**
-   * Creates a new ExtendArm.
+   * Creates a new IntakeRollLowLevel.
    */
-  private final Intake _intake;
-  public RollIntake(Intake intake) {
+  private Intake _intake;
+  private boolean _spinInside;
+  public IntakeRollLowLevel(Intake intake, boolean spinInside) {
     // Use addRequirements() here to declare subsystem dependencies.
-    _intake = intake;
     addRequirements(intake);
+    _intake = intake;
+    _spinInside = spinInside;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(_spinInside)
+    {
+      _intake.intakeStart(0.7);
+    }
+    else
+    {
+      _intake.intakeStop();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _intake.intakeStart(0.70);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _intake.intakeStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

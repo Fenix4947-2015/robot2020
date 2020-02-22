@@ -5,37 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.DriveTrain;
 
-public class RollIntake extends CommandBase {
+public class TimedMove extends CommandBase {
   /**
-   * Creates a new ExtendArm.
+   * Creates a new TimedMove.
    */
-  private final Intake _intake;
-  public RollIntake(Intake intake) {
+  private DriveTrain _driveTrain;
+  private double _speed;
+  
+  public TimedMove(DriveTrain driveTrain, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    _intake = intake;
-    addRequirements(intake);
+    _driveTrain = driveTrain;
+    _speed = speed;
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _intake.intakeStart(0.70);
+    _driveTrain.driveArcadeMethod(_speed, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _intake.intakeStop();
+    _driveTrain.stop();
   }
 
   // Returns true when the command should end.

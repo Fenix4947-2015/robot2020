@@ -68,7 +68,8 @@ public class Winch extends SubsystemBase {
   public boolean endGameModeEnabled() {
     double remainingTime = Timer.getMatchTime();
 
-    return (remainingTime < 40.0);
+    return true; // todo change this for matches
+    //return (remainingTime < 40.0);
   }
 
   @Override
