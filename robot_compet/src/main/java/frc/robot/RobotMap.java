@@ -29,8 +29,8 @@ public abstract class RobotMap {
 
   @SuppressWarnings("unused")
   private static final RobotMap COMPET_ROBOT_MAP = builder()
-      .leftMotor1CanID(33)
-      .leftMotor2CanID(34)
+      .leftMotor1CanID(35)
+      .leftMotor2CanID(36)
       .rightMotor1CanID(27)
       .rightMotor2CanID(28)
       .shifterSolenoidChannelID(7)
