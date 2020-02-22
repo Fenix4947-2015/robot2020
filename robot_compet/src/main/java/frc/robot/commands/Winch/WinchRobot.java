@@ -31,23 +31,23 @@ public class WinchRobot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _compressor.DisableCompressor();
+    _compressor.disableCompressor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_winch.EndGameModeEnabled())
+    if(_winch.endGameModeEnabled())
     {
       double liftingSpeed = 0.5 * XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.ArmExtend(liftingSpeed);      
+      _winch.armExtend(liftingSpeed);      
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _winch.WinchStop();
+    _winch.winchStop();
   }
 
   // Returns true when the command should end.
