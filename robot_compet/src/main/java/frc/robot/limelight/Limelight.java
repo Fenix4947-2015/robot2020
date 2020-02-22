@@ -2,6 +2,7 @@ package frc.robot.limelight;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight {
 
@@ -9,6 +10,12 @@ public class Limelight {
   public double m_LimelightDriveCommand = 0.0;
   public double m_LimelightSteerCommand = 0.0;
   private PIDController pid_angle = new PIDController(0.024, 0.0052, 0.005);
+  private double kFeedForward = 0.175;
+
+  public void updateAnglePID(double p, double i, double d, double f){
+    pid_angle.setPID(p, i, d);
+    kFeedForward = f;
+  }
 
   public void updateLimelightTracking() {
     // These numbers must be tuned for your Robot! Be careful!
@@ -16,6 +23,7 @@ public class Limelight {
     final double DRIVE_K = 0.35; // how hard to drive fwd toward the target
     final double DESIRED_TARGET_AREA = 0.025; // Area of the target when the robot reaches the wall
     final double DESIRED_HEIGHT = 8.6;
+    final double DESIRED_ANGLE = 0.0;
     final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
 
     final double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
@@ -33,7 +41,7 @@ public class Limelight {
     }
 
     m_LimelightHasValidTarget = true;
-    pid_angle.setSetpoint(0.0);
+    pid_angle.setSetpoint(DESIRED_ANGLE);
     pid_angle.setTolerance(0.25);
     double steer_cmd = pid_angle.calculate(-tx);
 
@@ -50,7 +58,7 @@ public class Limelight {
 //      steer_cmd = tx * STEER_K;
 //    }
 
-    double feedFwd = Math.signum(steer_cmd) * 0.175;
+    double feedFwd = Math.signum(steer_cmd) * kFeedForward;
     m_LimelightSteerCommand = steer_cmd + feedFwd;
 
     // try to drive forward until the target area reaches our desired area
@@ -69,4 +77,25 @@ public class Limelight {
     }
     m_LimelightDriveCommand = drive_cmd;
   }
+  
+  private Double _pidP;
+  private Double _pidI;
+  private Double _pidD;
+  private Double _pidF;
+  private String _pidType;
+
+  public void getPidValues(){
+    _pidP = SmartDashboard.getNumber("pidP", 1.0);
+    _pidI = SmartDashboard.getNumber("pidI", 1.0);
+    _pidD = SmartDashboard.getNumber("pidD", 1.0);
+    _pidF = SmartDashboard.getNumber("pidF", 1.0);
+    _pidType = SmartDashboard.getString("pidType", "LLANGLE");
+  }
+
+  public void updatePidValues(){
+    if(_pidType == "LLANGLE"){
+      updateAnglePID(_pidP, _pidI, _pidD, _pidF);
+    }
+  }
+  
 }
