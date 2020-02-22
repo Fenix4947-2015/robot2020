@@ -68,13 +68,17 @@ public abstract class RobotMap {
   public abstract int rampSolenoidChannelID();
 
   // Intake
+  @Nullable
   public abstract Integer intakeMotorCanID();
 
   // Winch
+  @Nullable
   public abstract Integer winchMotorCanID();
+  @Nullable
   public abstract Integer armExtenderMotorCanID();
   
   // Pizza turner
+  @Nullable
   public abstract Integer pizzaTurnerCanID();
 
   private static Builder builder() {

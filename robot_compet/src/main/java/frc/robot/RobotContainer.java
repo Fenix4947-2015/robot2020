@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Winch.ExtendArm;
+import frc.robot.commands.Winch.WinchRobot;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.launcher.RampMove;
@@ -18,8 +20,10 @@ import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.SubCompressor;
+import frc.robot.subsystems.Winch;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,13 +40,17 @@ public class RobotContainer {
   private final Launcher _launcher = new Launcher();
   private final Limelight _limelight = new Limelight(_smartDashboardSettings);
   private final SubCompressor _compressor = new SubCompressor();
-
+  private final Intake _intake = new Intake();
+  private final Winch _winch = new Winch();
 
   private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);
   private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 
+  private final ExtendArm _extendArm = new ExtendArm(_winch);
+  private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor);
+  
   private final DriveArcade _driveArcade = new DriveArcade(_driveTrain);
 
   /**
@@ -66,6 +74,7 @@ public class RobotContainer {
         XboxController.Button.kA.value);
     JoystickButton shootButton = new JoystickButton(XBoxJoystick.DRIVER.getJoystick(), XboxController.Button.kB.value);
     JoystickButton rampButton = new JoystickButton(XBoxJoystick.DRIVER.getJoystick(), XboxController.Button.kY.value);
+    //JoystickButton winchButton = new JoystickButton(joystick, buttonNumber)
 
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
