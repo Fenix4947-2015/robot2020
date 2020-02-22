@@ -20,5 +20,6 @@ public class RoutineShoot extends SequentialCommandGroup {
 
     addCommands(new PreSpin(launcher).withTimeout(1.0), new RampMove(launcher, true).withTimeout(0.1),
         (new Shoot(launcher)).withTimeout(2.5), new RampMove(launcher, false).withTimeout(0.1));
+        
   }
 }

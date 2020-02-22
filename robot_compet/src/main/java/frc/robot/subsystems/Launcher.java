@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Objects;
+
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FileLogger;
 import frc.robot.RobotMap;
+import frc.robot.SmartDashboardSettings;
 import frc.robot.commands.launcher.KeepBallInRamp;
 
 /**
@@ -29,6 +32,8 @@ import frc.robot.commands.launcher.KeepBallInRamp;
 public class Launcher extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  public final SmartDashboardSettings _smartDashboardSettings;
 
   private final CANSparkMax motorWheelUp;
   private final CANPIDController pidWheelUp;
@@ -40,15 +45,17 @@ public class Launcher extends SubsystemBase {
   private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; // 0.7;
   private static final double UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO = 0.1875;
 
-  private static final double TARGET_SPEED_DOWN = 900;
-  private static final double TARGET_SPEED_UP = 5100;
+  private static final double TARGET_SPEED_DOWN = 4200;
+  private static final double TARGET_SPEED_UP = 750;
   private static final double TOLERANCE_SPEED = 10;
 
   private FileLogger fileLogger;
   private Instant startTime = Instant.now();
   private String phase = "unknown";
 
-  public Launcher() {
+  public Launcher(SmartDashboardSettings smartDashboardSettings) {
+    _smartDashboardSettings = smartDashboardSettings;
+
     System.out.println("Launcher constructor");
     setDefaultCommand(new KeepBallInRamp(this));
 
@@ -56,22 +63,24 @@ public class Launcher extends SubsystemBase {
     motorWheelUp.setInverted(false);
     motorWheelUp.enableVoltageCompensation(12.0);
     pidWheelUp = new CANPIDController(motorWheelUp);
-    pidWheelUp.setP(5e-4);
+    pidWheelUp.setP(5e-6);
     pidWheelUp.setI(0.00e-8);
     pidWheelUp.setD(0);
     pidWheelUp.setIZone(0);
-    pidWheelUp.setFF(0);
+    pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
     pidWheelUp.setOutputRange(-5700, 5700);
+    pidWheelDown.setFF(0.0);
 
     motorWheelDown = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_DOWN_CAN_ID, MotorType.kBrushless);
     motorWheelDown.setInverted(true);
     motorWheelDown.enableVoltageCompensation(12.0);
     pidWheelDown = new CANPIDController(motorWheelDown);
-    pidWheelDown.setP(1e-5);
-    pidWheelDown.setI(0.0e-8);
+    pidWheelDown.setP(1.2e-4);
+    pidWheelDown.setI(0.0);
     pidWheelDown.setD(0);
     pidWheelDown.setIZone(0);
-    pidWheelDown.setFF(0);
+    //pidWheelDown.setFF(0.0001/2300.0*TARGET_SPEED_DOWN);
+    pidWheelDown.setFF(0.0);
 
     pidWheelDown.setOutputRange(-5700, 5700);
 
@@ -80,15 +89,36 @@ public class Launcher extends SubsystemBase {
 
   @Override
   public void periodic() {
+    _smartDashboardSettings.refreshPidValues();
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "LAUNCHERUP")) {
+      setPidWheelUp(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
+          _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
+    }
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "LAUNCHERDOWN")) {
+      setPidWheelDown(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
+          _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
+    }
+  }
 
+  public void setPidWheelUp(double p, double i, double d, double f){
+    pidWheelUp.setP(p);
+    pidWheelUp.setI(i);
+    pidWheelUp.setD(d);
+    //pidWheelUp.setFF(f);
+  }
+
+  public void setPidWheelDown(double p, double i, double d, double f){
+    System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+    pidWheelDown.setP(p);
+    pidWheelDown.setI(i);
+    pidWheelDown.setD(d);
+    //pidWheelDown.setFF(f);
   }
 
   public void shootPIDRPM() {
-    pidWheelDown.setFF(TARGET_SPEED_DOWN * 12.0 / 5700.0 / 5700.0 / 10.0);
-    pidWheelUp.setFF(TARGET_SPEED_UP * 12.0 / 5700.0 / 5700.0 / 2.0);
     pidWheelDown.setReference(TARGET_SPEED_DOWN, ControlType.kVelocity);
-    pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity); // direction is always inverted in spark setup
-                                                                     // (constructor)
+    pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity); 
+    logSpeed();
   }
 
   public boolean isAtTargetSpeed() {
@@ -124,8 +154,9 @@ public class Launcher extends SubsystemBase {
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
 
-    logSpeed();
   }
+
+
 
   public void stop() {
     motorWheelUp.set(0.0);

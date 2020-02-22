@@ -32,7 +32,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain _driveTrain = new DriveTrain();
-  private final Launcher _launcher = new Launcher();
+  private final Launcher _launcher = new Launcher(_smartDashboardSettings);
   private final Limelight _limelight = new Limelight(_smartDashboardSettings);
 
   private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);

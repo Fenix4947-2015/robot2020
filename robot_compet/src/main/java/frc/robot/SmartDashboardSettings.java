@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SmartDashboardSettings {
 
-  private double _pidP = 0.024;
-  private double _pidI = 0.0052;
-  private double _pidD = 0.005;
-  private double _pidF = 0.175;
-  private String _pidType = "LLANGLE";
+  private double _pidP = 1.2e-4;
+  private double _pidI = 0.0;
+  private double _pidD = 0.0;
+  private double _pidF = 0.0;
+  private String _pidType = "LAUNCHERUP";
 
   public SmartDashboardSettings() {
     initSmartDashboard();

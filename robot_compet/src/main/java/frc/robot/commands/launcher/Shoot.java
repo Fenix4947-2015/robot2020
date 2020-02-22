@@ -32,7 +32,8 @@ public class Shoot extends CommandBase {
 
     // Robot.m_Launcher.goToRPM(5100, 900);
 
-    _launcher.openLoopShoot(false);// .goToRPM(5100,900);
+    //_launcher.openLoopShoot(false);// .goToRPM(5100,900);
+    _launcher.shootPIDRPM();
   }
 
   // Make this return true when this Command no longer needs to run execute()

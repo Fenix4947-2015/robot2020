@@ -28,7 +28,8 @@ public class PreSpin extends CommandBase {
   @Override
   public void execute() {
     // Robot.m_Launcher.goToRPM(5100, 900);
-    _launcher.openLoopShoot(true);
+    //_launcher.openLoopShoot(true);
+    _launcher.shootPIDRPM();
   }
 
   // Make this return true when this Command no longer needs to run execute()
