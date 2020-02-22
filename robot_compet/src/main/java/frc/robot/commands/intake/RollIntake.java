@@ -29,7 +29,7 @@ public class RollIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _intake.intakeStart(0.5);
+    _intake.intakeStart(1.0);
   }
 
   // Called once the command ends or is interrupted.
