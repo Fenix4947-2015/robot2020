@@ -1,5 +1,7 @@
 package frc.robot.limelight;
 
+import java.util.Objects;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +14,7 @@ public class Limelight {
   private PIDController pid_angle = new PIDController(0.024, 0.0052, 0.005);
   private double kFeedForward = 0.175;
 
-  public void updateAnglePID(double p, double i, double d, double f){
+  public void updateAnglePID(double p, double i, double d, double f) {
     pid_angle.setPID(p, i, d);
     kFeedForward = f;
   }
@@ -77,14 +79,22 @@ public class Limelight {
     }
     m_LimelightDriveCommand = drive_cmd;
   }
-  
+
   private Double _pidP;
   private Double _pidI;
   private Double _pidD;
   private Double _pidF;
   private String _pidType;
 
-  public void getPidValues(){
+  public void initSmartDashboard() {
+    SmartDashboard.putNumber("pidP", 1.0);
+    SmartDashboard.putNumber("pidI", 1.0);
+    SmartDashboard.putNumber("pidD", 1.0);
+    SmartDashboard.putNumber("pidF", 1.0);
+    SmartDashboard.putString("pidType", "LLANGLE");
+  }
+
+  public void getPidValues() {
     _pidP = SmartDashboard.getNumber("pidP", 1.0);
     _pidI = SmartDashboard.getNumber("pidI", 1.0);
     _pidD = SmartDashboard.getNumber("pidD", 1.0);
@@ -92,10 +102,10 @@ public class Limelight {
     _pidType = SmartDashboard.getString("pidType", "LLANGLE");
   }
 
-  public void updatePidValues(){
-    if(_pidType == "LLANGLE"){
+  public void updatePidValues() {
+    if (Objects.equals(_pidType, "LLANGLE")) {
       updateAnglePID(_pidP, _pidI, _pidD, _pidF);
     }
   }
-  
+
 }
