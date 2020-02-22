@@ -5,6 +5,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -17,6 +18,8 @@ public class DriveTrain extends SubsystemBase {
   private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.instance().rightMotor1CanID(), MotorType.kBrushless);
   private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.instance().rightMotor2CanID(), MotorType.kBrushless);
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
+  
+  private final Solenoid shifterSolenoid = new Solenoid(RobotMap.instance().shifterSolenoidChannelID());
 
   // Sensors
   // private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
@@ -73,6 +76,14 @@ public class DriveTrain extends SubsystemBase {
     robotDrive.arcadeDrive(0.0, 0.0);
   }
 
+  public void shiftHigh() {
+    shifterSolenoid.set(true);
+  }
+
+  public void shiftLow() {
+    shifterSolenoid.set(false);
+  }
+
   public class Pigeon {
 
     private PigeonIMU pigeon;
@@ -110,16 +121,6 @@ public class DriveTrain extends SubsystemBase {
 
     public double getHeading() {
       return pigeon.getFusedHeading();
-    }
-
-    public void shiftHigh() {
-      // TODO IMPLEMENT
-      // shifter.set(true);
-    }
-
-    public void shiftLow() {
-      // TODO IMPLEMENT
-      // shifter.set(false);
     }
 
   }

@@ -10,14 +10,17 @@ package frc.robot.commands.drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class ShiftHigh extends CommandBase {
+public class Shift extends CommandBase {
   /**
    * Creates a new ShiftHigh.
    */
-  DriveTrain _driveTrain;
-  public ShiftHigh(final DriveTrain driveTrain) {
+  private final DriveTrain _driveTrain;
+  private final boolean _high;
+
+  public Shift(final DriveTrain driveTrain, boolean high) {
     // Use addRequirements() here to declare subsystem dependencies.
     _driveTrain = driveTrain;
+    _high = high;
     addRequirements(_driveTrain);
   }
 
@@ -29,7 +32,11 @@ public class ShiftHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    if (_high) {
+      _driveTrain.shiftHigh();
+    } else {
+      _driveTrain.shiftLow();
+    }
   }
 
   // Called once the command ends or is interrupted.

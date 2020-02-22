@@ -15,6 +15,7 @@ import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
+import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
@@ -55,6 +56,8 @@ public class RobotContainer {
   private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor);
 
   private final DriveArcade _driveArcade = new DriveArcade(_driveTrain);
+  private final Shift _shiftHigh = new Shift(_driveTrain, true);
+  private final Shift _shiftLow = new Shift(_driveTrain, false);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -80,6 +83,8 @@ public class RobotContainer {
     JoystickButton intakeButton = new JoystickButton(driverController, XboxController.Button.kX.value);
     JoystickButton winchButton = new JoystickButton(driverController, XboxController.Button.kBumperLeft.value);
     JoystickButton extendArmButton = new JoystickButton(driverController, XboxController.Button.kBumperRight.value);
+    JoystickButton shiftHighButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
+    JoystickButton shiftLowButton = new JoystickButton(driverController, XboxController.Button.kBack.value);
 
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
@@ -90,6 +95,9 @@ public class RobotContainer {
 
     winchButton.whenHeld(_winchRobot);
     extendArmButton.whenHeld(_extendArm);
+    
+    shiftHighButton.whenPressed(_shiftHigh);
+    shiftLowButton.whenPressed(_shiftLow);
   }
 
   /**
