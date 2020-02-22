@@ -26,7 +26,7 @@ public class PreSpin extends CommandBase {
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("prespin");
-    _compressor.DisableCompressor();
+    _compressor.disableCompressor();
   }
 
   // Called repeatedly when this Command is scheduled to run

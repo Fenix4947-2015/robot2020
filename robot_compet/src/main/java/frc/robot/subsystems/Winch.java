@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Winch extends SubsystemBase {
   /**
@@ -23,34 +24,44 @@ public class Winch extends SubsystemBase {
 
   public Winch() {
     // TODO update with Robotmap
-    winch = new CANSparkMax(25, MotorType.kBrushed);
-    armExtender = new CANSparkMax(1, MotorType.kBrushless);
-
+    if (RobotMap.instance().winchMotorCanID() != null) {
+      winch = new CANSparkMax(RobotMap.instance().winchMotorCanID(), MotorType.kBrushed);
+    } else {
+      winch = null;
+    }
+    if (RobotMap.instance().armExtenderMotorCanID() != null) {
+      armExtender = new CANSparkMax(RobotMap.instance().armExtenderMotorCanID(), MotorType.kBrushless);
+    } else {
+      armExtender = null;
+    }
   }
 
-  public void WinchStop()
-  {
-    winch.stopMotor();
+  public void winchStop() {
+    if (winch != null) {
+      winch.stopMotor();
+    }
   }
 
-  public void ArmExtendStop()
-  {
-    armExtender.stopMotor();
+  public void armExtendStop() {
+    if (armExtender != null) {
+      armExtender.stopMotor();
+    }
   }
 
-  public void WinchLiftRobot(double Speed)
-  {
-    winch.set(Speed);
+  public void winchLiftRobot(double Speed) {
+    if (winch != null) {
+      winch.set(Speed);
+    }
   }
 
-  public void ArmExtend(double Speed)
-  {
-    armExtender.set(Speed);
+  public void armExtend(double Speed) {
+    if (armExtender != null) {
+      armExtender.set(Speed);
+    }
   }
 
   /// Makes sure the winch cannot be activated before the end of game.
-  public boolean EndGameModeEnabled()
-  {
+  public boolean endGameModeEnabled() {
     double remainingTime = Timer.getMatchTime();
 
     return (remainingTime < 40.0);

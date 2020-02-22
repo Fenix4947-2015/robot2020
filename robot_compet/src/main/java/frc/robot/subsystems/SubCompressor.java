@@ -11,24 +11,20 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SubCompressor extends SubsystemBase {
-  /**
-   * Creates a new SubCompressor.
-   */
-  Compressor _Compressor;
-  public SubCompressor() 
-  {
-    _Compressor = new Compressor();    
+
+  private Compressor _compressor;
+
+  public SubCompressor() {
+    _compressor = new Compressor();
   }
 
-  public void EnableCompressor()
-  {
-    _Compressor.setClosedLoopControl(true);
+  public void enableCompressor() {
+    _compressor.setClosedLoopControl(true);
   }
 
-  public void DisableCompressor()
-  {
-    _Compressor.setClosedLoopControl(false);
-  }  
+  public void disableCompressor() {
+    _compressor.setClosedLoopControl(false);
+  }
 
   @Override
   public void periodic() {

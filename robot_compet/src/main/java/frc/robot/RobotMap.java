@@ -23,6 +23,7 @@ public abstract class RobotMap {
       .rampSolenoidChannelID(0)
       .intakeMotorCanID(null)
       .winchMotorCanID(null)
+      .armExtenderMotorCanID(null)
       .pizzaTurnerCanID(null)
       .build();
 
@@ -38,6 +39,7 @@ public abstract class RobotMap {
       .rampSolenoidChannelID(0)
       .intakeMotorCanID(25)
       .winchMotorCanID(23)
+      .armExtenderMotorCanID(null)
       .pizzaTurnerCanID(null)
       .build();
 
@@ -70,7 +72,8 @@ public abstract class RobotMap {
 
   // Winch
   public abstract Integer winchMotorCanID();
-
+  public abstract Integer armExtenderMotorCanID();
+  
   // Pizza turner
   public abstract Integer pizzaTurnerCanID();
 
@@ -99,6 +102,8 @@ public abstract class RobotMap {
     public abstract Builder intakeMotorCanID(@Nullable Integer intakeMotorCanID);
 
     public abstract Builder winchMotorCanID(@Nullable Integer winchMotorCanID);
+    
+    public abstract Builder armExtenderMotorCanID(@Nullable Integer armExtenderMotorCanID);
 
     public abstract Builder pizzaTurnerCanID(@Nullable Integer pizzaTurnerCanID);
 

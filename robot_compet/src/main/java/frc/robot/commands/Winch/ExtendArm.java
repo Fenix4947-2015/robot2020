@@ -31,17 +31,17 @@ public class ExtendArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_winch.EndGameModeEnabled())
+    if(_winch.endGameModeEnabled())
     {
       double extensionSpeed = 0.5 * XBoxJoystick.HELPER.getTriggerAxis(Hand.kRight,0.1);
-      _winch.ArmExtend(extensionSpeed);      
+      _winch.armExtend(extensionSpeed);      
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _winch.ArmExtendStop();
+    _winch.armExtendStop();
   }
 
   // Returns true when the command should end.

@@ -14,7 +14,8 @@ public class CompressorDefault extends CommandBase {
   /**
    * Creates a new CompressorDefault.
    */
-  SubCompressor _compressor;
+  private SubCompressor _compressor;
+
   public CompressorDefault(SubCompressor compressor) {
     // Use addRequirements() here to declare subsystem dependencies.
     _compressor = compressor;
@@ -29,7 +30,7 @@ public class CompressorDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _compressor.EnableCompressor();
+    _compressor.enableCompressor();
   }
 
   // Called once the command ends or is interrupted.

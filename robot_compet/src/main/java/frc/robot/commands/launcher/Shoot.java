@@ -26,7 +26,7 @@ public class Shoot extends CommandBase {
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("shoot");
-    _compressor.DisableCompressor();
+    _compressor.disableCompressor();
   }
 
   // Called repeatedly when this Command is scheduled to run
