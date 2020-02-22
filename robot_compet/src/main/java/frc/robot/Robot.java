@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Launcher;
 
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
   // public static RevPIDCommand m_RevPIDCommand = new RevPIDCommand(0.0, 0.0);
   // public static RevSRX m_RevSRX = new RevSRX();
   public static DriveTrain driveTrain;
+  public static Limelight limeLight;
 
   public static OI oi;
 
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     // m_robotContainer = new RobotContainer();
     driveTrain = new DriveTrain();
+    limeLight = new Limelight();
     oi = new OI();
   }
 
@@ -132,10 +136,35 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
+    log();
+    getPidValues();
+    updatePidValues();
   }
 
   private void log() {
     driveTrain.log();
     //m_Launcher.log();
   }
+
+  private Double _pidP;
+  private Double _pidI;
+  private Double _pidD;
+  private Double _pidF;
+  private String _pidType;
+
+  public void getPidValues(){
+    _pidP = SmartDashboard.getNumber("pidP", 1.0);
+    _pidI = SmartDashboard.getNumber("pidI", 1.0);
+    _pidD = SmartDashboard.getNumber("pidD", 1.0);
+    _pidF = SmartDashboard.getNumber("pidF", 1.0);
+    _pidType = SmartDashboard.getString("pidType", "LLANGLE");
+  }
+
+  public void updatePidValues(){
+    if(_pidType == "LLANGLE"){
+      limeLight.updateAnglePID(_pidP, _pidI, _pidD, _pidF);
+    }
+  }
+
 }
