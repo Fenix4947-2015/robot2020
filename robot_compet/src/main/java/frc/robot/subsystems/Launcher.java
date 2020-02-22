@@ -52,7 +52,7 @@ public class Launcher extends SubsystemBase {
     System.out.println("Launcher constructor");
     setDefaultCommand(new KeepBallInRamp(this));
 
-    motorWheelUp = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_UP_CAN_ID, MotorType.kBrushless);
+    motorWheelUp = new CANSparkMax(RobotMap.instance().launcherMotorUpCanID(), MotorType.kBrushless);
     motorWheelUp.setInverted(false);
     motorWheelUp.enableVoltageCompensation(12.0);
     pidWheelUp = new CANPIDController(motorWheelUp);
@@ -63,7 +63,7 @@ public class Launcher extends SubsystemBase {
     pidWheelUp.setFF(0);
     pidWheelUp.setOutputRange(-5700, 5700);
 
-    motorWheelDown = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_DOWN_CAN_ID, MotorType.kBrushless);
+    motorWheelDown = new CANSparkMax(RobotMap.instance().launcherMotorDownCanID(), MotorType.kBrushless);
     motorWheelDown.setInverted(true);
     motorWheelDown.enableVoltageCompensation(12.0);
     pidWheelDown = new CANPIDController(motorWheelDown);
@@ -75,7 +75,7 @@ public class Launcher extends SubsystemBase {
 
     pidWheelDown.setOutputRange(-5700, 5700);
 
-    ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
+    ramp = new Solenoid(RobotMap.instance().rampSolenoidChannelID());
   }
 
   @Override

@@ -12,15 +12,15 @@ import frc.robot.RobotMap;
 public class DriveTrain extends SubsystemBase {
 
   // main motion system
-  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.instance().leftMotor1CanID(), MotorType.kBrushless);
+  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.instance().leftMotor2CanID(), MotorType.kBrushless);
+  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.instance().rightMotor1CanID(), MotorType.kBrushless);
+  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.instance().rightMotor2CanID(), MotorType.kBrushless);
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
   // Sensors
-  //private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
-  //public Pigeon pigeon = new Pigeon(pigeonTalon);
+  // private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
+  // public Pigeon pigeon = new Pigeon(pigeonTalon);
 
   public DriveTrain() {
     // Initialize drivetrain motors
@@ -50,7 +50,7 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
   }
 
   public void driveArcadeMethod(double speed, double rotation) {
