@@ -12,10 +12,10 @@ import frc.robot.subsystems.Launcher;
 
 public class RoutineShoot extends SequentialCommandGroup {
 
-  private final Launcher _launcher;
+  //private final Launcher _launcher;
 
   public RoutineShoot(Launcher launcher) {
-    this._launcher = launcher;
+    //_launcher = launcher;
     addRequirements(launcher);
 
     addCommands(new PreSpin(launcher).withTimeout(1.0), new RampMove(launcher, true).withTimeout(0.1),

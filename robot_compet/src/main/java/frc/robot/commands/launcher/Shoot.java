@@ -14,7 +14,7 @@ public class Shoot extends CommandBase {
   private final Launcher _launcher;
 
   public Shoot(Launcher launcher) {
-    this._launcher = launcher;
+    _launcher = launcher;
     addRequirements(launcher);
   }
 
