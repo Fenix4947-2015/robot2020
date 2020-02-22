@@ -69,7 +69,7 @@ public class Launcher extends SubsystemBase {
     pidWheelUp.setIZone(0);
     pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
     pidWheelUp.setOutputRange(-5700, 5700);
-    pidWheelDown.setFF(0.0);
+    pidWheelUp.setFF(0.0);
 
     motorWheelDown = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_DOWN_CAN_ID, MotorType.kBrushless);
     motorWheelDown.setInverted(true);
