@@ -19,6 +19,7 @@ import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.SubCompressor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,9 +35,11 @@ public class RobotContainer {
   private final DriveTrain _driveTrain = new DriveTrain();
   private final Launcher _launcher = new Launcher();
   private final Limelight _limelight = new Limelight(_smartDashboardSettings);
+  private final SubCompressor _compressor = new SubCompressor();
+
 
   private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);
-  private final RoutineShoot _routineShoot = new RoutineShoot(_launcher);
+  private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 

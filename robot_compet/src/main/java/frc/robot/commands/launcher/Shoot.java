@@ -9,19 +9,24 @@ package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.SubCompressor;
 
 public class Shoot extends CommandBase {
   private final Launcher _launcher;
+  private final SubCompressor _compressor;
 
-  public Shoot(Launcher launcher) {
+  public Shoot(Launcher launcher, SubCompressor compressor) {
     _launcher = launcher;
+    _compressor = compressor;
     addRequirements(launcher);
+    addRequirements(compressor);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("shoot");
+    _compressor.DisableCompressor();
   }
 
   // Called repeatedly when this Command is scheduled to run

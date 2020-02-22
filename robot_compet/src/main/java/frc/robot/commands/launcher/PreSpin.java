@@ -9,19 +9,24 @@ package frc.robot.commands.launcher;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.SubCompressor;
 
 public class PreSpin extends CommandBase {
   private final Launcher _launcher;
+  private SubCompressor _compressor;
 
-  public PreSpin(Launcher launcher) {
+  public PreSpin(Launcher launcher, SubCompressor compressor) {
     _launcher = launcher;
+    _compressor = compressor;
     addRequirements(launcher);
+    addRequirements(compressor);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
     _launcher.setCurrentPhase("prespin");
+    _compressor.DisableCompressor();
   }
 
   // Called repeatedly when this Command is scheduled to run
