@@ -15,6 +15,7 @@ import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
+import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
@@ -48,9 +49,11 @@ public class RobotContainer {
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 
+  private final RollIntake _rollIntake = new RollIntake(_intake);
+
   private final ExtendArm _extendArm = new ExtendArm(_winch);
   private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor);
-  
+
   private final DriveArcade _driveArcade = new DriveArcade(_driveTrain);
 
   /**
@@ -70,16 +73,23 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton autoAimButton = new JoystickButton(XBoxJoystick.DRIVER.getJoystick(),
-        XboxController.Button.kA.value);
-    JoystickButton shootButton = new JoystickButton(XBoxJoystick.DRIVER.getJoystick(), XboxController.Button.kB.value);
-    JoystickButton rampButton = new JoystickButton(XBoxJoystick.DRIVER.getJoystick(), XboxController.Button.kY.value);
-    //JoystickButton winchButton = new JoystickButton(joystick, buttonNumber)
+    final XboxController driverController = XBoxJoystick.DRIVER.getJoystick();
+    JoystickButton autoAimButton = new JoystickButton(driverController, XboxController.Button.kA.value);
+    JoystickButton shootButton = new JoystickButton(driverController, XboxController.Button.kB.value);
+    JoystickButton rampButton = new JoystickButton(driverController, XboxController.Button.kY.value);
+    JoystickButton intakeButton = new JoystickButton(driverController, XboxController.Button.kX.value);
+    JoystickButton winchButton = new JoystickButton(driverController, XboxController.Button.kBumperLeft.value);
+    JoystickButton extendArmButton = new JoystickButton(driverController, XboxController.Button.kBumperRight.value);
 
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
     rampButton.whenPressed(_rampMoveUp);
     rampButton.whenReleased(_rampMoveDown);
+
+    intakeButton.whenHeld(_rollIntake);
+
+    winchButton.whenHeld(_winchRobot);
+    extendArmButton.whenHeld(_extendArm);
   }
 
   /**
