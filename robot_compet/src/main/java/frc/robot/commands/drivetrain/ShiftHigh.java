@@ -5,54 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Winch;
+package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.SubCompressor;
-import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.DriveTrain;
 
-public class WinchRobot extends CommandBase {
+public class ShiftHigh extends CommandBase {
   /**
-   * Creates a new WinchRobot.
+   * Creates a new ShiftHigh.
    */
-  Winch _winch;
-  SubCompressor _compressor;
-  
-  public WinchRobot(Winch winch, SubCompressor compressor) {
-    _winch = winch;
-    _compressor = compressor;
-    addRequirements(winch);
-    addRequirements(compressor);
+  DriveTrain _driveTrain;
+  public ShiftHigh(final DriveTrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
+    _driveTrain = driveTrain;
+    addRequirements(_driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _compressor.DisableCompressor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_winch.EndGameModeEnabled())
-    {
-      double liftingSpeed = 0.5 * XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.ArmExtend(liftingSpeed);      
-    }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    _winch.WinchStop();
+  public void end(final boolean interrupted) {
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
