@@ -63,21 +63,22 @@ public class Launcher extends SubsystemBase {
     motorWheelUp.setInverted(false);
     motorWheelUp.enableVoltageCompensation(12.0);
     pidWheelUp = new CANPIDController(motorWheelUp);
-    pidWheelUp.setP(5e-6);
-    pidWheelUp.setI(0.00e-8);
-    pidWheelUp.setD(0);
+    pidWheelUp.setP(1.1e-4);
+    pidWheelUp.setI(7.0e-7);
+    pidWheelUp.setD(2.4e-4);
     pidWheelUp.setIZone(0);
-    pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
-    pidWheelUp.setOutputRange(-5700, 5700);
     pidWheelUp.setFF(0.0);
+    //pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
+    pidWheelUp.setOutputRange(-5700, 5700);
+    
 
     motorWheelDown = new CANSparkMax(RobotMap.instance().launcherMotorDownCanID(), MotorType.kBrushless);
     motorWheelDown.setInverted(true);
     motorWheelDown.enableVoltageCompensation(12.0);
     pidWheelDown = new CANPIDController(motorWheelDown);
-    pidWheelDown.setP(1.2e-4);
-    pidWheelDown.setI(0.0);
-    pidWheelDown.setD(0);
+    pidWheelDown.setP(1.1e-4);
+    pidWheelDown.setI(7.0e-7);
+    pidWheelDown.setD(2.4e-4);
     pidWheelDown.setIZone(0);
     //pidWheelDown.setFF(0.0001/2300.0*TARGET_SPEED_DOWN);
     pidWheelDown.setFF(0.0);
@@ -101,10 +102,11 @@ public class Launcher extends SubsystemBase {
   }
 
   public void setPidWheelUp(double p, double i, double d, double f){
+    System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     pidWheelUp.setP(p);
     pidWheelUp.setI(i);
     pidWheelUp.setD(d);
-    //pidWheelUp.setFF(f);
+    pidWheelUp.setFF(f);
   }
 
   public void setPidWheelDown(double p, double i, double d, double f){
@@ -112,7 +114,7 @@ public class Launcher extends SubsystemBase {
     pidWheelDown.setP(p);
     pidWheelDown.setI(i);
     pidWheelDown.setD(d);
-    //pidWheelDown.setFF(f);
+    pidWheelDown.setFF(f);
   }
 
   public void shootPIDRPM() {
@@ -148,11 +150,12 @@ public class Launcher extends SubsystemBase {
   }
 
   public void openLoopShoot(boolean isPreSpin) {
-    final double downWheelSpeed = isPreSpin ? PRE_SPIN_DOWN_WHEEL_SPEED : DOWN_WHEEL_SPEED;
+    final double downWheelSpeed = PRE_SPIN_DOWN_WHEEL_SPEED;
     final double upWheelSpeed = downWheelSpeed * UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO;
 
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
+    logSpeed();
 
   }
 
