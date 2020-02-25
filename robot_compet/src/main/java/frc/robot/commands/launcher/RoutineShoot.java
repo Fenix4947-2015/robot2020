@@ -21,6 +21,6 @@ public class RoutineShoot extends SequentialCommandGroup {
     addRequirements(compressor);
 
     addCommands(new PreSpin(launcher, compressor).withTimeout(1.0), new RampMove(launcher, true).withTimeout(0.1),
-        (new Shoot(launcher, compressor)).withTimeout(2.5), new RampMove(launcher, false).withTimeout(0.1
+        (new Shoot(launcher, compressor)).withTimeout(2.5), new RampMove(launcher, false).withTimeout(0.1));
   }
 }
