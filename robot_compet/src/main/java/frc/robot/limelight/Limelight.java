@@ -17,6 +17,7 @@ public class Limelight extends SubsystemBase {
   private PIDController pid_angle = new PIDController(0.024, 0.0052, 0.005);
   private double kFeedForward = 0.175;
 
+  
   public Limelight(SmartDashboardSettings smartDashboardSettings) {
     _smartDashboardSettings = smartDashboardSettings;
   }
@@ -37,6 +38,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void updateLimelightTracking() {
+    this.changePipeline(0);
     // These numbers must be tuned for your Robot! Be careful!
     final double STEER_K = 0.03; // how hard to turn toward the target
     final double DRIVE_K = 0.35; // how hard to drive fwd toward the target
@@ -95,6 +97,10 @@ public class Limelight extends SubsystemBase {
       drive_cmd = MAX_DRIVE;
     }
     m_LimelightDriveCommand = drive_cmd;
+  }
+
+  public void changePipeline(int pipelineID){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineID);
   }
 
 }
