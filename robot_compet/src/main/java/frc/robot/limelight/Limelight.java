@@ -38,4 +38,8 @@ public class Limelight extends SubsystemBase {
   public boolean isTargetValid() {
     return targetValid;
   }
+
+  public void changePipeline(int pipelineID){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineID);
+  }
 }

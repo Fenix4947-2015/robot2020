@@ -22,6 +22,8 @@ public class AutoAim extends CommandBase {
   public static final double K_PID_D = 0.005;
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
+  private static final int AUTOAIM_PIPELINE = 0;
+
   private final DriveTrain _driveTrain;
   private final Limelight _limelight;
 
@@ -48,6 +50,7 @@ public class AutoAim extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
+    _limelight.changePipeline(AUTOAIM_PIPELINE);
     refreshPidValues();
 
     if (_limelight.isTargetValid()) {
