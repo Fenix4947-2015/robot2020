@@ -33,14 +33,14 @@ public class PreSpin extends CommandBase {
   @Override
   public void execute() {
     // Robot.m_Launcher.goToRPM(5100, 900);
-    _launcher.shootPIDRPM();
+    _launcher.openLoopShoot(true);
     //_launcher.shootPIDRPM();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;// || Robot.m_Launcher.GetIsAtTargetSpeed());
+    return _launcher.isAtTargetSpeed();
   }
 
   // Called once after isFinished returns true

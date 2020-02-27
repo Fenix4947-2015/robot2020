@@ -41,13 +41,16 @@ public class Launcher extends SubsystemBase {
   private final CANPIDController pidWheelDown;
   private final Solenoid ramp;
 
-  private static final double DOWN_WHEEL_SPEED = 0.8;
-  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 0.8; // 0.7;
-  private static final double UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO = 0.1875;
+  private static final boolean IS_OPEN_LOOP = true;
+
+  private static final double DOWN_WHEEL_SPEED = 0.75;
+  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 1.0; // 0.7;
+  private static final double UP_WHEEL_SPEED = 0.21;
 
   private static final double TARGET_SPEED_DOWN = 4200;
   private static final double TARGET_SPEED_UP = 750;
-  private static final double TOLERANCE_SPEED = 10;
+  private static final double TOLERANCE_SPEED = 50;
+  private static final double MAXIMUM_SPEED = 5400;
 
   private FileLogger fileLogger;
   private Instant startTime = Instant.now();
@@ -126,8 +129,24 @@ public class Launcher extends SubsystemBase {
   public boolean isAtTargetSpeed() {
     double currentDownSpeed = motorWheelDown.getEncoder().getVelocity();
     double currentUpSpeed = motorWheelUp.getEncoder().getVelocity();
-    double totalError = Math.abs(currentDownSpeed - TARGET_SPEED_DOWN) + Math.abs(currentUpSpeed - TARGET_SPEED_UP);
-    return (totalError <= TOLERANCE_SPEED);
+    
+    double _targetSpeedDown;
+    double _targetSpeedUp;
+    
+    if(IS_OPEN_LOOP){
+      _targetSpeedDown = MAXIMUM_SPEED * DOWN_WHEEL_SPEED;
+      _targetSpeedUp = MAXIMUM_SPEED * DOWN_WHEEL_SPEED *UP_WHEEL_SPEED;
+    }
+    else{
+      _targetSpeedDown = TARGET_SPEED_DOWN;
+      _targetSpeedUp = TARGET_SPEED_UP;
+    }
+
+    boolean isAtTargetDown = (currentDownSpeed >= (_targetSpeedDown-TOLERANCE_SPEED));
+    boolean isAtTargetUp = (currentUpSpeed >= (_targetSpeedUp-TOLERANCE_SPEED));
+
+    //double totalError = Math.abs(currentDownSpeed - _targetSpeedDown) + Math.abs(currentUpSpeed - _targetSpeedUp);
+    return (isAtTargetDown && isAtTargetUp);
   }
 
   private void logSpeed() {
@@ -150,8 +169,8 @@ public class Launcher extends SubsystemBase {
   }
 
   public void openLoopShoot(boolean isPreSpin) {
-    final double downWheelSpeed = PRE_SPIN_DOWN_WHEEL_SPEED;
-    final double upWheelSpeed = downWheelSpeed * UP_WHEEL_TO_DOWN_WHEEL_SPEED_RATIO;
+    final double downWheelSpeed = DOWN_WHEEL_SPEED;
+    final double upWheelSpeed = downWheelSpeed * UP_WHEEL_SPEED;
 
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
