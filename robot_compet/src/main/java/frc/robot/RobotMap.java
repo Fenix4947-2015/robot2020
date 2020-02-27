@@ -45,7 +45,7 @@ public abstract class RobotMap {
 
   public static RobotMap instance() {
     // Changer selon le robot (clone ou competition):
-    return CLONE_ROBOT_MAP;
+    return COMPET_ROBOT_MAP;
   }
 
   // Drivetrain
