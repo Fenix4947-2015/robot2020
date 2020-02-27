@@ -40,12 +40,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain _driveTrain = new DriveTrain();
   private final Launcher _launcher = new Launcher(_smartDashboardSettings);
-  private final Limelight _limelight = new Limelight(_smartDashboardSettings);
+  private final Limelight _limelight = new Limelight();
   private final SubCompressor _compressor = new SubCompressor();
   private final Intake _intake = new Intake();
   private final Winch _winch = new Winch();
 
-  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight);
+  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight, _smartDashboardSettings);
   private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
