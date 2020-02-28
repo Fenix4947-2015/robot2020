@@ -17,6 +17,7 @@ import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.intake.RollIntake;
+import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
@@ -50,6 +51,7 @@ public class RobotContainer {
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 
+  private final BallPickup _ballPickup = new BallPickup(_driveTrain, _limelight, _intake, _smartDashboardSettings);
   private final RollIntake _rollIntake = new RollIntake(_intake);
 
   private final ExtendArm _extendArm = new ExtendArm(_winch);
@@ -91,7 +93,7 @@ public class RobotContainer {
     rampButton.whenPressed(_rampMoveUp);
     rampButton.whenReleased(_rampMoveDown);
 
-    intakeButton.whenHeld(_rollIntake);
+    intakeButton.whenHeld(_ballPickup);
 
     winchButton.whenHeld(_winchRobot);
     extendArmButton.whenHeld(_extendArm);
