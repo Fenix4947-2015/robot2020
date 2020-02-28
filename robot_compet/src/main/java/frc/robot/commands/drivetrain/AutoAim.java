@@ -52,6 +52,7 @@ public class AutoAim extends CommandBase {
   public void execute() {
     _limelight.changePipeline(AUTOAIM_PIPELINE);
     refreshPidValues();
+    updateTracking();
 
     if (_limelight.isTargetValid()) {
       _driveTrain.driveArcadeMethod(-_driveCommand, _steerCommand);
@@ -87,7 +88,7 @@ public class AutoAim extends CommandBase {
     _feedForward = f;
   }
 
-  public void updateLimelightTracking() {
+  public void updateTracking() {
     _driveCommand = 0.0;
     _steerCommand = 0.0;
 
@@ -95,7 +96,7 @@ public class AutoAim extends CommandBase {
     final double STEER_K = 0.03; // how hard to turn toward the target
     final double DRIVE_K = 0.35; // how hard to drive fwd toward the target
     final double DESIRED_TARGET_AREA = 0.025; // Area of the target when the robot reaches the wall
-    final double DESIRED_HEIGHT = 8.6;
+    final double DESIRED_HEIGHT = 16.5; //8.6;
     final double DESIRED_ANGLE = 0.0;
     final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
 
@@ -103,8 +104,7 @@ public class AutoAim extends CommandBase {
     final double tx = _limelight.getTx();
     final double ty = _limelight.getTy();
 
-    // System.out.println(String.format("tv: %f, tx: %f, ty: %f, ta: %f", tv, tx,
-    // ty, ta));
+    //System.out.println(String.format("tv: %s, tx: %f, ty: %f", tv, tx, ty));
 
     if (!tv) {
       return;
