@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,8 +17,8 @@ import frc.robot.commands.Winch.WinchRobot;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.drivetrain.Shift;
-import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.intake.BallPickup;
+import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.joysticks.XBoxJoystick;
@@ -69,6 +70,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+    
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**

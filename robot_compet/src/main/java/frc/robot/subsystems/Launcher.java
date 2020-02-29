@@ -7,11 +7,10 @@
 
 package frc.robot.subsystems;
 
-import java.util.Objects;
-
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -43,7 +42,7 @@ public class Launcher extends SubsystemBase {
 
   private static final boolean IS_OPEN_LOOP = true;
 
-  private static final double DOWN_WHEEL_SPEED = 0.75;
+  private static final double DOWN_WHEEL_SPEED = 0.78;
   private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 1.0; // 0.7;
   private static final double UP_WHEEL_SPEED = 0.21;
 
@@ -59,7 +58,6 @@ public class Launcher extends SubsystemBase {
   public Launcher(SmartDashboardSettings smartDashboardSettings) {
     _smartDashboardSettings = smartDashboardSettings;
 
-    System.out.println("Launcher constructor");
     setDefaultCommand(new KeepBallInRamp(this));
 
     motorWheelUp = new CANSparkMax(RobotMap.instance().launcherMotorUpCanID(), MotorType.kBrushless);
@@ -105,7 +103,7 @@ public class Launcher extends SubsystemBase {
   }
 
   public void setPidWheelUp(double p, double i, double d, double f){
-    System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+    //System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     pidWheelUp.setP(p);
     pidWheelUp.setI(i);
     pidWheelUp.setD(d);
@@ -113,7 +111,7 @@ public class Launcher extends SubsystemBase {
   }
 
   public void setPidWheelDown(double p, double i, double d, double f){
-    System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+    //System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     pidWheelDown.setP(p);
     pidWheelDown.setI(i);
     pidWheelDown.setD(d);
