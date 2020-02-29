@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.autonomous.DoNothing;
 
 /**
  * 
@@ -23,7 +27,10 @@ public class Robot extends TimedRobot {
   // private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
+  
+  String m_autonomousCommand;
+	SendableChooser<String> m_chooser = new SendableChooser<>();
+	Command m_currentCommand;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -34,6 +41,14 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    CameraServer.getInstance().startAutomaticCapture(0);
+
+    
+    SmartDashboard.putString("-------AUTONOMOUS--------","");
+		m_chooser.setDefaultOption("DO NOTHING", "DoNothing");
+    m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
+    SmartDashboard.putData("Auto mode", m_chooser);
+
   }
 
   /**

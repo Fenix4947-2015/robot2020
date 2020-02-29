@@ -25,6 +25,7 @@ public abstract class RobotMap {
       .winchMotorCanID(null)
       .armExtenderMotorCanID(null)
       .pizzaTurnerCanID(null)
+      .pizzaTurnerExtenderChannelID(null)
       .build();
 
   @SuppressWarnings("unused")
@@ -40,7 +41,8 @@ public abstract class RobotMap {
       .intakeMotorCanID(23)
       .winchMotorCanID(25)
       .armExtenderMotorCanID(8) // talon
-      .pizzaTurnerCanID(null)
+      .pizzaTurnerCanID(24)
+      .pizzaTurnerExtenderChannelID(2)
       .build();
 
   public static RobotMap instance() {
@@ -80,6 +82,8 @@ public abstract class RobotMap {
   // Pizza turner
   @Nullable
   public abstract Integer pizzaTurnerCanID();
+  @Nullable
+  public abstract Integer pizzaTurnerExtenderChannelID();
 
   private static Builder builder() {
     return new AutoValue_RobotMap.Builder();
@@ -110,7 +114,10 @@ public abstract class RobotMap {
     public abstract Builder armExtenderMotorCanID(@Nullable Integer armExtenderMotorCanID);
 
     public abstract Builder pizzaTurnerCanID(@Nullable Integer pizzaTurnerCanID);
+    
+    public abstract Builder pizzaTurnerExtenderChannelID(@Nullable Integer pizzaTurnerExtenderChannelID);
 
+    
     public abstract RobotMap build();
   }
 

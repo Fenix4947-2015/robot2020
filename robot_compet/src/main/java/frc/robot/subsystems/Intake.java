@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,6 +15,7 @@ public class Intake extends SubsystemBase {
     // TODO update with Robotmap
     if (RobotMap.instance().intakeMotorCanID() != null) {
       intake = new CANSparkMax(RobotMap.instance().intakeMotorCanID(), MotorType.kBrushless);
+      intake.setIdleMode(IdleMode.kBrake);
     } else {
       intake = null;
     }

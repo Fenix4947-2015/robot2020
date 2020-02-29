@@ -5,54 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Winch;
+package frc.robot.commands.pizzaTurner;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.SubCompressor;
-import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.PizzaTurner;
 
-public class WinchRobot extends CommandBase {
+public class RetractPizzaTurner extends CommandBase {
   /**
-   * Creates a new WinchRobot.
+   * Creates a new RetractPizzaTurner.
    */
-  Winch _winch;
-  SubCompressor _compressor;
-  
-  public WinchRobot(Winch winch, SubCompressor compressor) {
-    _winch = winch;
-    _compressor = compressor;
-    addRequirements(winch);
-    addRequirements(compressor);
+  PizzaTurner _pizzaTurner;
+  public RetractPizzaTurner(PizzaTurner pizzaTurner) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(pizzaTurner);
+    _pizzaTurner = pizzaTurner;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _compressor.disableCompressor();
+    _pizzaTurner.RetractPizzaTurner();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_winch.endGameModeEnabled())
-    {
-      double liftingSpeed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.winchLiftRobot(liftingSpeed);      // Todo : validate if we need to use copilot
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _winch.winchStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

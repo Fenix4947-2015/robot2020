@@ -5,49 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Winch;
+package frc.robot.commands.pizzaTurner;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.SubCompressor;
-import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.PizzaTurner;
 
-public class WinchRobot extends CommandBase {
+public class SpinPizza extends CommandBase {
   /**
-   * Creates a new WinchRobot.
+   * Creates a new SpinPizza.
    */
-  Winch _winch;
-  SubCompressor _compressor;
-  
-  public WinchRobot(Winch winch, SubCompressor compressor) {
-    _winch = winch;
-    _compressor = compressor;
-    addRequirements(winch);
-    addRequirements(compressor);
+  PizzaTurner _pizza;
+  public SpinPizza(PizzaTurner pizza) {
     // Use addRequirements() here to declare subsystem dependencies.
+    _pizza = pizza;
+    addRequirements(pizza);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _compressor.disableCompressor();
+    _pizza.ExtendPizzaTurner();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(_winch.endGameModeEnabled())
-    {
-      double liftingSpeed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.winchLiftRobot(liftingSpeed);      // Todo : validate if we need to use copilot
-    }
+  public void execute() 
+  {    
+    double speed = XBoxJoystick.HELPER.getX(Hand.kLeft, 0.1);
+    _pizza.SpinPizza(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _winch.winchStop();
+    _pizza.StopPizzaTurner();
+    _pizza.RetractPizzaTurner();
   }
 
   // Returns true when the command should end.

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -51,6 +52,11 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.follow(leftMotor1);
     rightMotor2.follow(rightMotor1);
 
+    leftMotor1.setIdleMode(IdleMode.kBrake);
+    leftMotor2.setIdleMode(IdleMode.kBrake);
+    rightMotor1.setIdleMode(IdleMode.kBrake);
+    rightMotor2.setIdleMode(IdleMode.kBrake);
+
   }
 
   @Override
@@ -60,7 +66,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void driveArcadeMethod(double speed, double rotation) {
 
-    double rotationValueGain = 0.70; // for full rotation speed, use 1. Tune to have smoother rotation.
+    double rotationValueGain = 1.0; // for full rotation speed, use 1. Tune to have smoother rotation.
     rotation = rotation * rotationValueGain;
 
     double goStraightCompensation = 0;
