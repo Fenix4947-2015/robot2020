@@ -1,0 +1,8 @@
+sendable chooser pour les différentes routines automatiques
+tester les routines autonomes (avec choix dans le smart dashboard)
+
+Tester la répétabilité du grimpage
+
+pizza spinner. faire une routine qui fait entre 3 et 5 tours de la grosse roue (viser 4.25 tours)
+
+À voir : feuille avec les boutons. 
