@@ -39,7 +39,7 @@ public abstract class RobotMap {
       .rampSolenoidChannelID(0)
       .intakeMotorCanID(23)
       .winchMotorCanID(25)
-      .armExtenderMotorCanID(26)
+      .armExtenderMotorCanID(8) // talon
       .pizzaTurnerCanID(null)
       .build();
 

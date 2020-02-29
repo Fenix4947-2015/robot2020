@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -20,7 +22,7 @@ public class Winch extends SubsystemBase {
    */
 
   private final CANSparkMax winch;
-  private final CANSparkMax armExtender;
+  private final TalonSRX armExtender;
 
   public Winch() {
     // TODO update with Robotmap
@@ -30,7 +32,8 @@ public class Winch extends SubsystemBase {
       winch = null;
     }
     if (RobotMap.instance().armExtenderMotorCanID() != null) {
-      armExtender = new CANSparkMax(RobotMap.instance().armExtenderMotorCanID(), MotorType.kBrushless);
+      armExtender = new TalonSRX(RobotMap.instance().armExtenderMotorCanID());
+          //new CANSparkMax(RobotMap.instance().armExtenderMotorCanID(), MotorType.kBrushless);
     } else {
       armExtender = null;
     }
@@ -44,7 +47,8 @@ public class Winch extends SubsystemBase {
 
   public void armExtendStop() {
     if (armExtender != null) {
-      armExtender.stopMotor();
+      //armExtender.stopMotor();
+      armExtender.set(ControlMode.PercentOutput, 0.0);
     }
   }
 
@@ -56,7 +60,7 @@ public class Winch extends SubsystemBase {
 
   public void armExtend(double Speed) {
     if (armExtender != null) {
-      armExtender.set(Speed);
+      armExtender.set(ControlMode.PercentOutput, Speed);
     }
   }
 
