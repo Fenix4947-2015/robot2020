@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,11 +25,11 @@ import frc.robot.commands.autonomous.DoNothing;
  * project.
  */
 public class Robot extends TimedRobot {
-  // private Command m_autonomousCommand;
+  private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
   
-  String m_autonomousCommand;
+  
 	SendableChooser<String> m_chooser = new SendableChooser<>();
 	Command m_currentCommand;
   /**
@@ -45,8 +46,8 @@ public class Robot extends TimedRobot {
 
     
     SmartDashboard.putString("-------AUTONOMOUS--------","");
-		m_chooser.setDefaultOption("DO NOTHING", "DoNothing");
     m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
+		m_chooser.addOption("DO NOTHING", "DoNothing");
     SmartDashboard.putData("Auto mode", m_chooser);
 
   }
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
   }
 
   @Override
@@ -111,9 +112,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.cancel();
-    // }
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
     System.out.println("Robot.teleopInit()");
   }
 
