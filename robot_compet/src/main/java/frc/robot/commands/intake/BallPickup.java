@@ -36,6 +36,8 @@ public class BallPickup extends CommandBase {
   private PIDController _pidAngle = new PIDController(K_PID_P, K_PID_I, K_PID_D);
   private double _feedForward = K_FEED_FORWARD;
 
+  private boolean _ballInRange = false;
+
   public BallPickup(DriveTrain driveTrain, Limelight limelight, Intake intake, SmartDashboardSettings smartDashboardSettings) {
     _driveTrain = driveTrain;
     _limelight = limelight;
@@ -48,6 +50,7 @@ public class BallPickup extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
+    _ballInRange = false;
 
   }
 
@@ -59,11 +62,14 @@ public class BallPickup extends CommandBase {
     updateTracking();
     _intake.intakeStart(1.0);
 
-    if (_limelight.isTargetValid()) {
+    if (_ballInRange == true) {
+      _driveTrain.driveArcadeMethod(0.25, 0);
+    } else if (_limelight.isTargetValid()){
       _driveTrain.driveArcadeMethod(-_driveCommand, _steerCommand);
-    } else {
+    }   else {
       _driveTrain.stop();
     }
+
 
   }
 
@@ -152,6 +158,12 @@ public class BallPickup extends CommandBase {
       drive_cmd = MAX_DRIVE;
     }
     _driveCommand = drive_cmd;
+  if (ty < 0.0) {
+
+    _ballInRange = true;
+
+  }
+  
   }
 
 }
