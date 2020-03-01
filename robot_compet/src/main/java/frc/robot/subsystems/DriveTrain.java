@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,19 +12,15 @@ import frc.robot.RobotMap;
 public class DriveTrain extends SubsystemBase {
 
   // main motion system
-  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.instance().leftMotor1CanID(), MotorType.kBrushless);
-  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.instance().leftMotor2CanID(), MotorType.kBrushless);
-  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.instance().rightMotor1CanID(), MotorType.kBrushless);
-  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.instance().rightMotor2CanID(), MotorType.kBrushless);
+  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
+  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
-  private final Solenoid shifterSolenoid = RobotMap.instance().shifterSolenoidChannelID() != null
-      ? new Solenoid(RobotMap.instance().shifterSolenoidChannelID())
+  private final Solenoid shifterSolenoid = RobotMap.SHIFTER_SOLENOID_CHANNEL_ID != null
+      ? new Solenoid(RobotMap.SHIFTER_SOLENOID_CHANNEL_ID)
       : null;
-
-  // Sensors
-  // private WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(8);
-  // public Pigeon pigeon = new Pigeon(pigeonTalon);
 
   public DriveTrain() {
     // Initialize drivetrain motors
@@ -94,47 +88,6 @@ public class DriveTrain extends SubsystemBase {
     if (shifterSolenoid != null) {
       shifterSolenoid.set(false);
     }
-  }
-
-  public class Pigeon {
-
-    private PigeonIMU pigeon;
-
-    public double yaw;
-    public double pitch;
-    public double roll;
-    public short accelX;
-    public short accelY;
-    public short accelZ;
-
-    public void refresh() {
-      double[] ypr = new double[3];
-      pigeon.getYawPitchRoll(ypr);
-      yaw = ypr[0];
-      pitch = ypr[1];
-      roll = ypr[2];
-
-      short[] xyz = new short[3];
-      pigeon.getBiasedAccelerometer(xyz);
-      accelX = xyz[0];
-      accelY = xyz[1];
-      accelZ = xyz[2];
-    }
-
-    public Pigeon(TalonSRX talon) {
-      pigeon = new PigeonIMU(talon);
-      pigeon.setTemperatureCompensationDisable(false);
-      refresh();
-    }
-
-    public void reset() {
-      pigeon.setFusedHeading(0);
-    }
-
-    public double getHeading() {
-      return pigeon.getFusedHeading();
-    }
-
   }
 
 }

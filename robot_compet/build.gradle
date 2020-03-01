@@ -1,8 +1,6 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.3.2"
-    id 'net.ltgt.apt' version '0.19'
-    id 'net.ltgt.apt-eclipse' version '0.19'
     id 'eclipse'
 }
 
@@ -49,9 +47,6 @@ dependencies {
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
-
-    annotationProcessor group: 'com.google.auto.value', name: 'auto-value', version: '1.6.2'
-    implementation group: 'com.google.auto.value', name: 'auto-value-annotations', version: '1.6.2'
 
     implementation wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)

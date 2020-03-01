@@ -29,6 +29,7 @@ import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PizzaTurner;
 import frc.robot.subsystems.SubCompressor;
 import frc.robot.subsystems.Winch;
@@ -51,6 +52,7 @@ public class RobotContainer {
   private final Intake _intake = new Intake();
   private final Winch _winch = new Winch();
   private final PizzaTurner _pizzaTurner = new PizzaTurner();
+  private final Pigeon _pigeon = new Pigeon(_winch.getArmExtenderTalonSRX());
 
   private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight, _smartDashboardSettings);
   private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor, _intake);

@@ -1,132 +1,57 @@
 package frc.robot;
 
-import javax.annotation.Nullable;
+public class RobotMap {
 
-import com.google.auto.value.AutoValue;
-
-@AutoValue
-public abstract class RobotMap {
+  public static final boolean COMPET = true;
 
   // Joysticks
   public static final int JOYSTICK_DRIVER_PORT = 0;
   public static final int JOYSTICK_HELPER_PORT = 1;
 
-  @SuppressWarnings("unused")
-  private static final RobotMap CLONE_ROBOT_MAP = builder()
-      .leftMotor1CanID(33)
-      .leftMotor2CanID(34)
-      .rightMotor1CanID(21)
-      .rightMotor2CanID(22)
-      .shifterSolenoidChannelID(null)
-      .launcherMotorUpCanID(30)
-      .launcherMotorDownCanID(31)
-      .rampSolenoidChannelID(0)
-      .intakeMotorCanID(null)
-      .winchMotorCanID(null)
-      .armExtenderMotorCanID(null)
-      .pizzaTurnerCanID(null)
-      .pizzaTurnerExtenderChannelID(null)
-      .build();
+  public static final Integer LEFT_MOTOR1_CAN_ID;
+  public static final Integer LEFT_MOTOR2_CAN_ID;
+  public static final Integer RIGHT_MOTOR1_CAN_ID;
+  public static final Integer RIGHT_MOTOR2_CAN_ID;
+  public static final Integer SHIFTER_SOLENOID_CHANNEL_ID;
+  public static final Integer LAUNCHER_MOTOR_UP_CAN_ID;
+  public static final Integer LAUNCHER_MOTOR_DOWN_CAN_ID;
+  public static final Integer RAMP_SOLENOID_CHANNEL_ID;
+  public static final Integer INTAKE_MOTOR_CAN_ID;
+  public static final Integer WINCH_MOTOR_CAN_ID;
+  public static final Integer ARM_EXTENDER_MOTOR_CAN_ID;
+  public static final Integer PIZZA_TURNER_CAN_ID;
+  public static final Integer PIZZA_TURNER_EXTENDER_CHANNEL_ID;
 
-  @SuppressWarnings("unused")
-  private static final RobotMap COMPET_ROBOT_MAP = builder()
-      .leftMotor1CanID(35)
-      .leftMotor2CanID(36)
-      .rightMotor1CanID(27)
-      .rightMotor2CanID(28)
-      .shifterSolenoidChannelID(1)
-      .launcherMotorUpCanID(32)
-      .launcherMotorDownCanID(29)
-      .rampSolenoidChannelID(0)
-      .intakeMotorCanID(23)
-      .winchMotorCanID(25)
-      .armExtenderMotorCanID(8) // talon
-      .pizzaTurnerCanID(24)
-      .pizzaTurnerExtenderChannelID(2)
-      .build();
-
-  public static RobotMap instance() {
-    // Changer selon le robot (clone ou competition):
-    return COMPET_ROBOT_MAP;
+  static {
+    if (COMPET) {
+      LEFT_MOTOR1_CAN_ID = 35;
+      LEFT_MOTOR2_CAN_ID = 36;
+      RIGHT_MOTOR1_CAN_ID = 27;
+      RIGHT_MOTOR2_CAN_ID = 28;
+      SHIFTER_SOLENOID_CHANNEL_ID = 1;
+      LAUNCHER_MOTOR_UP_CAN_ID = 32;
+      LAUNCHER_MOTOR_DOWN_CAN_ID = 29;
+      RAMP_SOLENOID_CHANNEL_ID = 0;
+      INTAKE_MOTOR_CAN_ID = 23;
+      WINCH_MOTOR_CAN_ID = 25;
+      ARM_EXTENDER_MOTOR_CAN_ID = 8; // talon
+      PIZZA_TURNER_CAN_ID = 24;
+      PIZZA_TURNER_EXTENDER_CHANNEL_ID = 2;
+    } else {
+      LEFT_MOTOR1_CAN_ID = 33;
+      LEFT_MOTOR2_CAN_ID = 34;
+      RIGHT_MOTOR1_CAN_ID = 21;
+      RIGHT_MOTOR2_CAN_ID = 22;
+      SHIFTER_SOLENOID_CHANNEL_ID = null;
+      LAUNCHER_MOTOR_UP_CAN_ID = 30;
+      LAUNCHER_MOTOR_DOWN_CAN_ID = 31;
+      RAMP_SOLENOID_CHANNEL_ID = 0;
+      INTAKE_MOTOR_CAN_ID = null;
+      WINCH_MOTOR_CAN_ID = null;
+      ARM_EXTENDER_MOTOR_CAN_ID = null;
+      PIZZA_TURNER_CAN_ID = null;
+      PIZZA_TURNER_EXTENDER_CHANNEL_ID = null;
+    }
   }
-
-  // Drivetrain
-  public abstract int leftMotor1CanID();
-
-  public abstract int leftMotor2CanID();
-
-  public abstract int rightMotor1CanID();
-
-  public abstract int rightMotor2CanID();
-
-  @Nullable
-  public abstract Integer shifterSolenoidChannelID();
-
-  // Launcher
-  public abstract int launcherMotorUpCanID();
-
-  public abstract int launcherMotorDownCanID();
-
-  public abstract int rampSolenoidChannelID();
-
-  // Intake
-  @Nullable
-  public abstract Integer intakeMotorCanID();
-
-  // Winch
-  @Nullable
-  public abstract Integer winchMotorCanID();
-  @Nullable
-  public abstract Integer armExtenderMotorCanID();
-  
-  // Pizza turner
-  @Nullable
-  public abstract Integer pizzaTurnerCanID();
-  @Nullable
-  public abstract Integer pizzaTurnerExtenderChannelID();
-
-  private static Builder builder() {
-    return new AutoValue_RobotMap.Builder();
-  }
-
-  @AutoValue.Builder
-  public static abstract class Builder {
-    public abstract Builder leftMotor1CanID(int leftMotor1CanID);
-
-    public abstract Builder leftMotor2CanID(int leftMotor2CanID);
-
-    public abstract Builder rightMotor1CanID(int rightMotor1CanID);
-
-    public abstract Builder rightMotor2CanID(int rightMotor2CanID);
-
-    public abstract Builder shifterSolenoidChannelID(@Nullable Integer shifterSolenoidChannelID);
-
-    public abstract Builder launcherMotorUpCanID(int launcherMotorUpCanID);
-
-    public abstract Builder launcherMotorDownCanID(int launcherMotorDownCanID);
-
-    public abstract Builder rampSolenoidChannelID(int rampSolenoidChannelID);
-
-    public abstract Builder intakeMotorCanID(@Nullable Integer intakeMotorCanID);
-
-    public abstract Builder winchMotorCanID(@Nullable Integer winchMotorCanID);
-    
-    public abstract Builder armExtenderMotorCanID(@Nullable Integer armExtenderMotorCanID);
-
-    public abstract Builder pizzaTurnerCanID(@Nullable Integer pizzaTurnerCanID);
-    
-    public abstract Builder pizzaTurnerExtenderChannelID(@Nullable Integer pizzaTurnerExtenderChannelID);
-
-    
-    public abstract RobotMap build();
-  }
-
-  // Color Sensors
-//  public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x10;
-//  public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x14;
-//  public static final int COLOR_SENSOR_FRONT_LEFT_ADDRESS = 0x0;
-//  public static final int COLOR_SENSOR_MIDDLE_RIGHT_ADDRESS = 0x0;
-//  public static final int COLOR_SENSOR_REAR_RIGHT_ADDRESS = 0x0;
-//  public static final int COLOR_SENSOR_FRONT_RIGHT_ADDRESS = 0x0;
 
 }

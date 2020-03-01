@@ -26,13 +26,13 @@ public class Winch extends SubsystemBase {
 
   public Winch() {
     // TODO update with Robotmap
-    if (RobotMap.instance().winchMotorCanID() != null) {
-      winch = new CANSparkMax(RobotMap.instance().winchMotorCanID(), MotorType.kBrushed);
+    if (RobotMap.WINCH_MOTOR_CAN_ID != null) {
+      winch = new CANSparkMax(RobotMap.WINCH_MOTOR_CAN_ID, MotorType.kBrushed);
     } else {
       winch = null;
     }
-    if (RobotMap.instance().armExtenderMotorCanID() != null) {
-      armExtender = new TalonSRX(RobotMap.instance().armExtenderMotorCanID());
+    if (RobotMap.ARM_EXTENDER_MOTOR_CAN_ID != null) {
+      armExtender = new TalonSRX(RobotMap.ARM_EXTENDER_MOTOR_CAN_ID);
           //new CANSparkMax(RobotMap.instance().armExtenderMotorCanID(), MotorType.kBrushless);
     } else {
       armExtender = null;
@@ -75,5 +75,9 @@ public class Winch extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public TalonSRX getArmExtenderTalonSRX() {
+    return armExtender;
   }
 }

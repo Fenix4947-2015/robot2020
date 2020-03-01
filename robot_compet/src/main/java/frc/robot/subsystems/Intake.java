@@ -13,8 +13,8 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
     // TODO update with Robotmap
-    if (RobotMap.instance().intakeMotorCanID() != null) {
-      intake = new CANSparkMax(RobotMap.instance().intakeMotorCanID(), MotorType.kBrushless);
+    if (RobotMap.INTAKE_MOTOR_CAN_ID != null) {
+      intake = new CANSparkMax(RobotMap.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
       intake.setIdleMode(IdleMode.kBrake);
     } else {
       intake = null;

@@ -23,14 +23,14 @@ public class PizzaTurner extends SubsystemBase {
   private final CANSparkMax spinner;
 
   public PizzaTurner() {
-    if (RobotMap.instance().pizzaTurnerExtenderChannelID() != null) {
-      extender = new Solenoid(RobotMap.instance().pizzaTurnerExtenderChannelID());
+    if (RobotMap.PIZZA_TURNER_EXTENDER_CHANNEL_ID != null) {
+      extender = new Solenoid(RobotMap.PIZZA_TURNER_EXTENDER_CHANNEL_ID);
     } else {
       extender = null;
     }
 
-    if (RobotMap.instance().pizzaTurnerCanID() != null) {
-      spinner = new CANSparkMax(RobotMap.instance().pizzaTurnerCanID(), MotorType.kBrushless);
+    if (RobotMap.PIZZA_TURNER_CAN_ID != null) {
+      spinner = new CANSparkMax(RobotMap.PIZZA_TURNER_CAN_ID, MotorType.kBrushless);
     } else {
       spinner = null;
     }    
