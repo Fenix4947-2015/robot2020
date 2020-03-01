@@ -19,6 +19,7 @@ import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.drivetrain.Shift;
+import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
@@ -61,6 +62,7 @@ public class RobotContainer {
 
   private final RollIntake _rollIntake = new RollIntake(_intake);
   private final ReverseIntake _reverseIntake = new ReverseIntake(_intake);
+  private final BallPickup _ballPickup = new BallPickup(_driveTrain, _limelight, _intake, _smartDashboardSettings);
   private final ExtendArm _extendArm = new ExtendArm(_winch,_pizzaTurner);
   private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor);
 
@@ -117,7 +119,7 @@ public class RobotContainer {
 
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
-    intakeButton.whenHeld(_rollIntake);
+    intakeButton.whenHeld(_ballPickup);
     reverseIntakeButton.whileHeld(_reverseIntake);
 
     winchButton.whileHeld(_winchRobot);
