@@ -79,6 +79,7 @@ public class RobotContainer {
     _compressor.setDefaultCommand(_compressorDefault);
     // Configure the button bindings
     configureButtonBindings();
+    
   }
 
   /**
@@ -118,7 +119,7 @@ public class RobotContainer {
     reverseIntakeButton.whileHeld(_reverseIntake);
 
     winchButton.whileHeld(_winchRobot);
-    extendArmButton.whileHeld(_extendArm); // todo change to good functioné
+    extendArmButton.whileHeld(_extendArm); // todo change to good function
 
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);

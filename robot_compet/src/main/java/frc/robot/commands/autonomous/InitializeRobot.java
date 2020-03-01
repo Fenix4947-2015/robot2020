@@ -30,7 +30,8 @@ public class InitializeRobot extends SequentialCommandGroup {
     addRequirements(launcher);
     addRequirements(pizzaTurner);
 
-    addCommands(new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false), new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
+    addCommands(new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
+        new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
 
   }
 }
