@@ -37,6 +37,7 @@ public class BallPickup extends CommandBase {
   private double _feedForward = K_FEED_FORWARD;
 
   private boolean _ballInRange = false;
+  private boolean _ballInIntake = false;
 
   public BallPickup(DriveTrain driveTrain, Limelight limelight, Intake intake, SmartDashboardSettings smartDashboardSettings) {
     _driveTrain = driveTrain;
@@ -51,6 +52,7 @@ public class BallPickup extends CommandBase {
   @Override
   public void initialize() {
     _ballInRange = false;
+    _ballInIntake = false;
 
   }
 
@@ -63,7 +65,12 @@ public class BallPickup extends CommandBase {
     _intake.intakeStart(1.0);
 
     if (_ballInRange == true) {
-      _driveTrain.driveArcadeMethod(0.25, 0);
+      _driveTrain.driveArcadeMethod(0.3, 0);
+      if(_driveTrain.getAverageEncoderDistance() > 1.5){
+        _ballInIntake = true;
+        _ballInRange = false;
+
+      }
     } else if (_limelight.isTargetValid()){
       _driveTrain.driveArcadeMethod(-_driveCommand, _steerCommand);
     }   else {
@@ -84,7 +91,7 @@ public class BallPickup extends CommandBase {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;
+    return _ballInIntake;
   }
 
   // Called once after isFinished returns true
@@ -161,6 +168,7 @@ public class BallPickup extends CommandBase {
   if (ty < 0.0) {
 
     _ballInRange = true;
+    _driveTrain.resetEncoders();
 
   }
   

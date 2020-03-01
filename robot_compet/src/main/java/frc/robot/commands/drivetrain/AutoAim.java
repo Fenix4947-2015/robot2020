@@ -16,10 +16,16 @@ import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 public class AutoAim extends CommandBase {
-  public static final double K_FEED_FORWARD = 0.175;
-  public static final double K_PID_P = 0.024;
-  public static final double K_PID_I = 0.0052;
-  public static final double K_PID_D = 0.005;
+  public static final double K_FEED_FORWARD_ANGLE = 0.175;
+  public static final double K_PID_P_ANGLE = 0.024;
+  public static final double K_PID_I_ANGLE = 0.0052;
+  public static final double K_PID_D_ANGLE = 0.005;
+
+  public static final double K_FEED_FORWARD_DISTANCE = 0.0;
+  public static final double K_PID_P_DISTANCE = 0.35;
+  public static final double K_PID_I_DISTANCE = 0.0;
+  public static final double K_PID_D_DISTANCE = 0.0;
+
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
   private static final int AUTOAIM_PIPELINE = 0;
@@ -31,8 +37,9 @@ public class AutoAim extends CommandBase {
 
   public double _driveCommand = 0.0;
   public double _steerCommand = 0.0;
-  private PIDController _pidAngle = new PIDController(K_PID_P, K_PID_I, K_PID_D);
-  private double _feedForward = K_FEED_FORWARD;
+  private PIDController _pidAngle = new PIDController(K_PID_P_ANGLE, K_PID_I_ANGLE, K_PID_D_ANGLE);
+  private PIDController _pidDistance = new PIDController(K_PID_P_DISTANCE, K_PID_I_DISTANCE, K_PID_D_DISTANCE);
+  private double _feedForward = K_FEED_FORWARD_ANGLE;
 
   public AutoAim(DriveTrain driveTrain, Limelight limelight, SmartDashboardSettings smartDashboardSettings) {
     _driveTrain = driveTrain;
@@ -114,25 +121,16 @@ public class AutoAim extends CommandBase {
     _pidAngle.setTolerance(0.25);
     double steer_cmd = _pidAngle.calculate(-tx);
 
-    // Start with proportional steering
-//    final double steerTarget = 0.0;
-//    double steer_cmd = 0.0;
-//    if (Math.abs(tx - steerTarget) < 0.5) {
-//      steer_cmd = 0.0;
-//    } else if (tx > steerTarget) {
-//      steer_cmd = 0.50;
-//    } else if (tx < steerTarget) {
-//      steer_cmd = -0.50;
-//    } else {
-//      steer_cmd = tx * STEER_K;
-//    }
-
     double feedFwd = Math.signum(steer_cmd) * _feedForward;
     _steerCommand = steer_cmd + feedFwd;
 
+    _pidDistance.setSetpoint(DESIRED_HEIGHT);
+    _pidDistance.setTolerance(0.1);
+    double drive_cmd = _pidDistance.calculate(-ty);
+
     // try to drive forward until the target area reaches our desired area
     // double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
-    double drive_cmd = (DESIRED_HEIGHT - ty) * -DRIVE_K;
+    //double drive_cmd = (DESIRED_HEIGHT - ty) * -DRIVE_K;
 
     steer_cmd = Math.max(steer_cmd, -0.5);
     drive_cmd = Math.max(drive_cmd, -0.5);
@@ -145,6 +143,10 @@ public class AutoAim extends CommandBase {
       drive_cmd = MAX_DRIVE;
     }
     _driveCommand = drive_cmd;
+
+    _pidAngle.atSetpoint();
+
   }
+  
 
 }

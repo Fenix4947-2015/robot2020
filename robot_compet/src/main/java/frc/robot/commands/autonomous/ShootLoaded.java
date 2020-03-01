@@ -29,8 +29,8 @@ public class ShootLoaded extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(new InitializeRobot(driveTrain, launcher, pizzaTurner),  
-    new TimedMove(driveTrain, -0.75).withTimeout(1.5), 
-    new AutoAim(driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
+    new AutoNavigate(driveTrain, smartDashboardSettings, 5.0, 0.0).withTimeout(5.0), 
+    //new AutoAim(driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
     new RoutineShoot(launcher, compressor, intake));
     //super();
   }
