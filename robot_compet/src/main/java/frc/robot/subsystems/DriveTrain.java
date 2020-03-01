@@ -59,10 +59,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotor1.setIdleMode(IdleMode.kBrake);
     rightMotor2.setIdleMode(IdleMode.kBrake);
 
-    m_leftEncoder.setPositionConversionFactor(DriveTrainConstants.ENCODER_DISTANCE_PER_TURN);
-    m_leftEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
-    m_rightEncoder.setPositionConversionFactor(DriveTrainConstants.ENCODER_DISTANCE_PER_TURN);
-    m_rightEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
+    m_leftEncoder.setPositionConversionFactor(DriveTrainConstants.LEFT_ENCODER_DISTANCE_M_PER_TURN);
+    // m_leftEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
+    m_rightEncoder.setPositionConversionFactor(DriveTrainConstants.RIGHT_ENCODER_DISTANCE_M_PER_TURN);
+    // m_rightEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
 
     resetEncoders();
     zeroHeading();
@@ -120,7 +120,8 @@ public class DriveTrain extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (m_leftEncoder.getPosition() + m_rightEncoder.getPosition()) / 2.0;
+    return ((m_leftEncoder.getPosition() * DriveTrainConstants.LEFT_ENCODER_DIRECTION)
+        + (m_rightEncoder.getPosition() * DriveTrainConstants.RIGHT_ENCODER_DIRECTION)) / 2.0;
   }
 
   public void zeroHeading() {

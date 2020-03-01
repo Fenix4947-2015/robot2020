@@ -24,6 +24,12 @@ public class DriveTrainConstants {
 	
 	public static final boolean GYRO_REVERSED = false;
 	
-	public static final double ENCODER_DISTANCE_PER_TURN = 0.5; // meters
-	public static final double ENCODER_VELOCITY_METER_PER_SECONDS = 0.5;
+	public static final double FEET_PER_METER = 0.3048;
+	public static final double LEFT_ENCODER_DISTANCE_FEET_PER_TURN = 0.536;
+	public static final double LEFT_ENCODER_DISTANCE_M_PER_TURN = LEFT_ENCODER_DISTANCE_FEET_PER_TURN * FEET_PER_METER;
+	public static final double LEFT_ENCODER_DIRECTION = 1.0;
+	public static final double RIGHT_ENCODER_DISTANCE_FEET_PER_TURN = 0.534;
+	public static final double RIGHT_ENCODER_DISTANCE_M_PER_TURN = RIGHT_ENCODER_DISTANCE_FEET_PER_TURN * FEET_PER_METER;
+	public static final double RIGHT_ENCODER_DIRECTION = -1.0;
+
 }
