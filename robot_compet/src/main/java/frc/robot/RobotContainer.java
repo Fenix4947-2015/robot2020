@@ -15,6 +15,7 @@ import frc.robot.commands.StopAllCommands;
 import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
 import frc.robot.commands.autonomous.InitializeRobot;
+import frc.robot.commands.autonomous.ShootLoaded;
 import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
@@ -73,6 +74,8 @@ public class RobotContainer {
   private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _launcher, _pizzaTurner);
   private final StopAllCommands _stopAllCommands = new StopAllCommands(_driveTrain,_intake,_compressor,_launcher,_winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
+
+  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight, _smartDashboardSettings, _compressor, _intake);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -138,7 +141,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    
     // An ExampleCommand will run in autonomous
-    return null;
+    return _shootLoaded;
   }
 }
