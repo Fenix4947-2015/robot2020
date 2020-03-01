@@ -47,7 +47,6 @@ public class RobotContainer {
   private final SmartDashboardSettings _smartDashboardSettings = new SmartDashboardSettings();
 
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain _driveTrain = new DriveTrain();
   private final Launcher _launcher = new Launcher(_smartDashboardSettings);
   private final Limelight _limelight = new Limelight();
   private final SubCompressor _compressor = new SubCompressor();
@@ -55,6 +54,7 @@ public class RobotContainer {
   private final Winch _winch = new Winch();
   private final PizzaTurner _pizzaTurner = new PizzaTurner();
   private final Pigeon _pigeon = new Pigeon(_winch.getArmExtenderTalonSRX());
+  private final DriveTrain _driveTrain = new DriveTrain(_pigeon);
 
   private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight, _smartDashboardSettings);
   private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor, _intake);

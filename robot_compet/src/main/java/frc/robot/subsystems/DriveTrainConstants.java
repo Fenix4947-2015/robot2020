@@ -21,4 +21,9 @@ public class DriveTrainConstants {
 
 	public static final double GO_STRAIGHT_COMPENSATION_DYNAMIC = 0;
 	public static final double GO_STRAIGHT_COMPENSATION_STATIC = 0;
+	
+	public static final boolean GYRO_REVERSED = false;
+	
+	public static final double ENCODER_DISTANCE_PER_TURN = 0.5; // meters
+	public static final double ENCODER_VELOCITY_METER_PER_SECONDS = 0.5;
 }

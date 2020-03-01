@@ -3,9 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-public class Pigeon extends SubsystemBase {
+public class Pigeon {
 
   private PigeonIMU _pigeon;
 
@@ -15,11 +13,14 @@ public class Pigeon extends SubsystemBase {
   private short _accelX;
   private short _accelY;
   private short _accelZ;
+  private double _dpsX;
+  private double _dpsY;
+  private double _dpsZ;
 
-  @Override
-  public void periodic() {
-    refresh();
-  }
+//  @Override
+//  public void periodic() {
+//    refresh();
+//  }
 
   public void refresh() {
     double[] ypr = new double[3];
@@ -33,6 +34,12 @@ public class Pigeon extends SubsystemBase {
     _accelX = xyz[0];
     _accelY = xyz[1];
     _accelZ = xyz[2];
+
+    double[] xyz_dps = new double[3];
+    _pigeon.getRawGyro(xyz_dps);
+    _dpsX = xyz_dps[0];
+    _dpsY = xyz_dps[1];
+    _dpsZ = xyz_dps[2];
   }
 
   public Pigeon(TalonSRX talon) {
@@ -41,7 +48,7 @@ public class Pigeon extends SubsystemBase {
     refresh();
   }
 
-  public void reset() {
+  public void resetHeading() {
     _pigeon.setFusedHeading(0);
   }
 
@@ -71,5 +78,17 @@ public class Pigeon extends SubsystemBase {
 
   public short getAccelZ() {
     return _accelZ;
+  }
+
+  public double getDpsX() {
+    return _dpsX;
+  }
+
+  public double getDpsY() {
+    return _dpsY;
+  }
+
+  public double getDpsZ() {
+    return _dpsZ;
   }
 }

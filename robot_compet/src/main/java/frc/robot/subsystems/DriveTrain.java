@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -18,11 +20,17 @@ public class DriveTrain extends SubsystemBase {
   private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
   private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
+  private final CANEncoder m_leftEncoder = leftMotor1.getEncoder();
+  private final CANEncoder m_rightEncoder = rightMotor1.getEncoder();
+
   private final Solenoid shifterSolenoid = RobotMap.SHIFTER_SOLENOID_CHANNEL_ID != null
       ? new Solenoid(RobotMap.SHIFTER_SOLENOID_CHANNEL_ID)
       : null;
 
-  public DriveTrain() {
+  private final Pigeon _pigeon;
+
+  public DriveTrain(Pigeon pigeon) {
+    _pigeon = pigeon;
     // Initialize drivetrain motors
     // setMotorsAllowablePower(leftMotor1);
     // setMotorsAllowablePower(leftMotor2);
@@ -51,11 +59,22 @@ public class DriveTrain extends SubsystemBase {
     rightMotor1.setIdleMode(IdleMode.kBrake);
     rightMotor2.setIdleMode(IdleMode.kBrake);
 
+    m_leftEncoder.setPositionConversionFactor(DriveTrainConstants.ENCODER_DISTANCE_PER_TURN);
+    m_leftEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
+    m_rightEncoder.setPositionConversionFactor(DriveTrainConstants.ENCODER_DISTANCE_PER_TURN);
+    m_rightEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
+
+    resetEncoders();
+    zeroHeading();
   }
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("Drivetrain encoder left pos", m_leftEncoder.getPosition());
+    SmartDashboard.putNumber("Drivetrain encoder right pos", m_rightEncoder.getPosition());
+    SmartDashboard.putNumber("Drivetrain encoder left velocity", m_leftEncoder.getVelocity());
+    SmartDashboard.putNumber("Drivetrain encoder right velocity", m_rightEncoder.getVelocity());
+    SmartDashboard.putNumber("Heading", getHeading());
   }
 
   public void driveArcadeMethod(double speed, double rotation) {
@@ -90,4 +109,31 @@ public class DriveTrain extends SubsystemBase {
     }
   }
 
+  public void resetEncoders() {
+    m_leftEncoder.setPosition(0.0);
+    m_rightEncoder.setPosition(0.0);
+  }
+
+  /**
+   * Gets the average distance of the two encoders.
+   *
+   * @return the average of the two encoder readings
+   */
+  public double getAverageEncoderDistance() {
+    return (m_leftEncoder.getPosition() + m_rightEncoder.getPosition()) / 2.0;
+  }
+
+  public void zeroHeading() {
+    _pigeon.resetHeading();
+  }
+
+  public double getHeadingAbsolute() {
+    // return Math.IEEEremainder(m_gyro.getAngle(), 360) *
+    // (DriveTrainConstants.GYRO_REVERSED ? -1.0 : 1.0);
+    return Math.IEEEremainder(_pigeon.getHeading(), 360) * (DriveTrainConstants.GYRO_REVERSED ? -1.0 : 1.0);
+  }
+
+  public double getHeading() {
+    return _pigeon.getHeading();
+  }
 }
