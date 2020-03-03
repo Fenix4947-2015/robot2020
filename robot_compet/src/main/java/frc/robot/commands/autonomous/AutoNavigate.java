@@ -73,7 +73,7 @@ public class AutoNavigate extends CommandBase {
           _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
     }
     _smartDashboardSettings.refreshPidValues();
-    if (Objects.equals(_smartDashboardSettings.getPidType(), "AUTONAV_ANGLE")) {
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "AUTONAV_DISTANCE")) {
       setDistancePID(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
           _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
     }
@@ -146,6 +146,8 @@ public class AutoNavigate extends CommandBase {
     _driveCommand = Math.min(_driveCommand, MAX_DRIVE);
 
     _isAtSetPoint = _pidAngle.atSetpoint() && _pidDistance.atSetpoint();
+    System.out.println(""+_pidAngle.atSetpoint() + "  " + _pidDistance.atSetpoint());
+    
   }
 
 }
