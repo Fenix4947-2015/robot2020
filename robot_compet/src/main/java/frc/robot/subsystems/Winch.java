@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -62,14 +61,6 @@ public class Winch extends SubsystemBase {
     if (armExtender != null) {
       armExtender.set(ControlMode.PercentOutput, Speed);
     }
-  }
-
-  /// Makes sure the winch cannot be activated before the end of game.
-  public boolean endGameModeEnabled() {
-    double remainingTime = Timer.getMatchTime();
-
-    return true; // todo change this for matches
-    //return (remainingTime < 40.0);
   }
 
   @Override

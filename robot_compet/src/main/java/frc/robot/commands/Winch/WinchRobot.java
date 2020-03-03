@@ -9,6 +9,7 @@ package frc.robot.commands.Winch;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.SubCompressor;
 import frc.robot.subsystems.Winch;
@@ -17,12 +18,14 @@ public class WinchRobot extends CommandBase {
   /**
    * Creates a new WinchRobot.
    */
-  Winch _winch;
-  SubCompressor _compressor;
-  
-  public WinchRobot(Winch winch, SubCompressor compressor) {
+  private final Winch _winch;
+  private final SubCompressor _compressor;
+  private final RobotContainer _robotContainer;
+
+  public WinchRobot(Winch winch, SubCompressor compressor, RobotContainer robotContainer) {
     _winch = winch;
     _compressor = compressor;
+    _robotContainer = robotContainer;
     addRequirements(winch);
     addRequirements(compressor);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,10 +40,9 @@ public class WinchRobot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_winch.endGameModeEnabled())
-    {
-      double liftingSpeed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft,0.1);
-      _winch.winchLiftRobot(liftingSpeed);      // Todo : validate if we need to use copilot
+    if (_robotContainer.getGameState().winchAllowed) {
+      double liftingSpeed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft, 0.1);
+      _winch.winchLiftRobot(liftingSpeed); // Todo : validate if we need to use copilot
     }
   }
 

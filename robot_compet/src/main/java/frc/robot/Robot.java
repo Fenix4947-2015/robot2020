@@ -9,12 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.autonomous.DoNothing;
 
 /**
  * 
@@ -28,10 +26,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  
-  
-	SendableChooser<String> m_chooser = new SendableChooser<>();
-	Command m_currentCommand;
+
+  SendableChooser<String> m_chooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -44,10 +41,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     CameraServer.getInstance().startAutomaticCapture(0);
 
-    
-    SmartDashboard.putString("-------AUTONOMOUS--------","");
+    SmartDashboard.putString("-------AUTONOMOUS--------", "");
     m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
-		m_chooser.addOption("DO NOTHING", "DoNothing");
+    m_chooser.addOption("DO NOTHING", "DoNothing");
     SmartDashboard.putData("Auto mode", m_chooser);
 
   }
@@ -78,6 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    m_robotContainer.setGameState(GameState.UNKNOWN);
   }
 
   @Override
@@ -90,6 +87,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    m_robotContainer.setGameState(GameState.AUTONOMOUS);
+
     Command autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -103,7 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    //Scheduler.getInstance().run();
   }
 
   @Override
@@ -115,6 +114,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.setGameState(GameState.TELEOP);
+
     System.out.println("Robot.teleopInit()");
   }
 
@@ -123,12 +125,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    m_robotContainer.refreshGameState();
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
+    m_robotContainer.setGameState(GameState.TEST);
   }
 
   /**

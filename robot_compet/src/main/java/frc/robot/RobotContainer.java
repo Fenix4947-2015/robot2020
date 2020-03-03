@@ -7,8 +7,12 @@
 
 package frc.robot;
 
+import java.util.Objects;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.StopAllCommands;
@@ -64,8 +68,8 @@ public class RobotContainer {
   private final RollIntake _rollIntake = new RollIntake(_intake);
   private final ReverseIntake _reverseIntake = new ReverseIntake(_intake);
   private final BallPickup _ballPickup = new BallPickup(_driveTrain, _limelight, _intake, _smartDashboardSettings);
-  private final ExtendArm _extendArm = new ExtendArm(_winch,_pizzaTurner);
-  private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor);
+  private final ExtendArm _extendArm = new ExtendArm(_winch, _pizzaTurner, this);
+  private final WinchRobot _winchRobot = new WinchRobot(_winch, _compressor, this);
 
   private final DriveArcade _driveArcade = new DriveArcade(_driveTrain);
   private final Shift _shiftHigh = new Shift(_driveTrain, true);
@@ -74,10 +78,15 @@ public class RobotContainer {
   private final SpinPizza _spinPizza = new SpinPizza(_pizzaTurner);
 
   private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _launcher, _pizzaTurner);
-  private final StopAllCommands _stopAllCommands = new StopAllCommands(_driveTrain,_intake,_compressor,_launcher,_winch);
+  private final StopAllCommands _stopAllCommands = new StopAllCommands(_driveTrain, _intake, _compressor, _launcher,
+      _winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
 
-  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight, _smartDashboardSettings, _compressor, _intake);
+  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
+      _smartDashboardSettings, _compressor, _intake);
+
+  private GameState _gameState = GameState.UNKNOWN;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -86,7 +95,7 @@ public class RobotContainer {
     _compressor.setDefaultCommand(_compressorDefault);
     // Configure the button bindings
     configureButtonBindings();
-    
+
   }
 
   /**
@@ -98,23 +107,22 @@ public class RobotContainer {
   private void configureButtonBindings() {
     final XboxController driverController = XBoxJoystick.DRIVER.getJoystick();
     final XboxController helperController = XBoxJoystick.HELPER.getJoystick();
-    
+
     // DRIVER COMMANDS
     JoystickButton shiftHighButton = new JoystickButton(driverController, XboxController.Button.kBumperLeft.value);
     JoystickButton shiftLowButton = new JoystickButton(driverController, XboxController.Button.kBumperRight.value);
-    // joystick gauche driver pour l'orientation et les 2 gachettes pour la vitesse. 
+    // joystick gauche driver pour l'orientation et les 2 gachettes pour la vitesse.
     JoystickButton autoAimButton = new JoystickButton(driverController, XboxController.Button.kA.value);
     JoystickButton shootButton = new JoystickButton(driverController, XboxController.Button.kB.value);
     JoystickButton reverseIntakeButton = new JoystickButton(driverController, XboxController.Button.kY.value);
     JoystickButton intakeButton = new JoystickButton(driverController, XboxController.Button.kX.value);
-    
+
     JoystickButton resetAllRobotButton = new JoystickButton(driverController, XboxController.Button.kStart.value);
     JoystickButton initializeRobotButton = new JoystickButton(driverController, XboxController.Button.kBack.value);
-    
 
     // HELPER COMMANDS
     JoystickButton winchButton = new JoystickButton(helperController, XboxController.Button.kBumperLeft.value);
-    JoystickButton extendArmButton = new JoystickButton(helperController, XboxController.Button.kBack.value);   
+    JoystickButton extendArmButton = new JoystickButton(helperController, XboxController.Button.kBack.value);
     JoystickButton spinPizzaButton = new JoystickButton(helperController, XboxController.Button.kA.value);
 
     // y driver reverse intake
@@ -143,8 +151,27 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    
+
     // An ExampleCommand will run in autonomous
     return _shootLoaded;
+  }
+
+  public GameState getGameState() {
+    return _gameState;
+  }
+
+  public void setGameState(GameState gameState) {
+    _gameState = gameState;
+  }
+
+  public void refreshGameState() {
+    double matchTime = Timer.getMatchTime();
+    if (Objects.equals(_gameState, GameState.TELEOP)) {
+      if (matchTime < 40.0) {
+        _gameState = GameState.TELEOP_ENDGAME;
+      }
+    }
+    SmartDashboard.putString("GameState: ", _gameState.toString());
+    SmartDashboard.putNumber("MatchTime: ", matchTime);
   }
 }

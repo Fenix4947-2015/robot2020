@@ -19,41 +19,41 @@ public class PizzaTurner extends SubsystemBase {
    * Creates a new PizzaTurner.
    */
 
-  private final Solenoid extender;
-  private final CANSparkMax spinner;
+  private final Solenoid _extender;
+  private final CANSparkMax _spinner;
 
   public PizzaTurner() {
     if (RobotMap.PIZZA_TURNER_EXTENDER_CHANNEL_ID != null) {
-      extender = new Solenoid(RobotMap.PIZZA_TURNER_EXTENDER_CHANNEL_ID);
+      _extender = new Solenoid(RobotMap.PIZZA_TURNER_EXTENDER_CHANNEL_ID);
     } else {
-      extender = null;
+      _extender = null;
     }
 
     if (RobotMap.PIZZA_TURNER_CAN_ID != null) {
-      spinner = new CANSparkMax(RobotMap.PIZZA_TURNER_CAN_ID, MotorType.kBrushless);
+      _spinner = new CANSparkMax(RobotMap.PIZZA_TURNER_CAN_ID, MotorType.kBrushless);
     } else {
-      spinner = null;
+      _spinner = null;
     }    
   }
 
   public void ExtendPizzaTurner()
   {
-    extender.set(true);
+    _extender.set(true);
   }
 
   public void RetractPizzaTurner()
   {
-    extender.set(false);
+    _extender.set(false);
   }
 
   public void StopPizzaTurner()
   {
-    spinner.stopMotor();
+    _spinner.stopMotor();
   }
 
   public void SpinPizza(double speed)
   {
-    spinner.set(speed);
+    _spinner.set(speed);
   }
 
   @Override
