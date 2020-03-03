@@ -77,7 +77,7 @@ public class RobotContainer {
 
   private final SpinPizza _spinPizza = new SpinPizza(_pizzaTurner);
 
-  private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _launcher, _pizzaTurner);
+  private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _intake, _launcher, _pizzaTurner);
   private final StopAllCommands _stopAllCommands = new StopAllCommands(_driveTrain, _intake, _compressor, _launcher,
       _winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);

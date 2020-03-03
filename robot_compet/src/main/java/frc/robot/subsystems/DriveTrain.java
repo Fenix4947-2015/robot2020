@@ -64,8 +64,7 @@ public class DriveTrain extends SubsystemBase {
     m_rightEncoder.setPositionConversionFactor(DriveTrainConstants.RIGHT_ENCODER_DISTANCE_M_PER_TURN);
     // m_rightEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
 
-    resetEncoders();
-    zeroHeading();
+    resetEncoderAndHeading();
   }
 
   @Override
@@ -138,5 +137,10 @@ public class DriveTrain extends SubsystemBase {
 
   public double getHeading() {
     return _pigeon.getHeading();
+  }
+  
+  public void resetEncoderAndHeading() {
+    resetEncoders();
+    zeroHeading();
   }
 }

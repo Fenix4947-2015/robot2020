@@ -9,6 +9,7 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.PizzaTurner;
 
@@ -22,10 +23,10 @@ public class DoNothing extends SequentialCommandGroup {
   
 	
 	
-  public DoNothing(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner) {
+  public DoNothing(DriveTrain driveTrain, Intake intake, Launcher launcher, PizzaTurner pizzaTurner) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    addCommands(new InitializeRobot(driveTrain, launcher, pizzaTurner));
+    addCommands(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner));
     //super();
     
   }
