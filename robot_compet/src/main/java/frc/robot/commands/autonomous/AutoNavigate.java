@@ -12,7 +12,6 @@ import java.util.Objects;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.SmartDashboardSettings;
-import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 public class AutoNavigate extends CommandBase {
@@ -27,7 +26,6 @@ public class AutoNavigate extends CommandBase {
   public static final double K_PID_D_DISTANCE = 0.0;
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
-  private static final int AUTOAIM_PIPELINE = 0;
 
   private final DriveTrain _driveTrain;
 
@@ -40,7 +38,8 @@ public class AutoNavigate extends CommandBase {
   private PIDController _pidAngle = new PIDController(K_PID_P_ANGLE, K_PID_I_ANGLE, K_PID_D_ANGLE);
   private PIDController _pidDistance = new PIDController(K_PID_P_DISTANCE, K_PID_I_DISTANCE, K_PID_D_DISTANCE);
   private boolean _isAtSetPoint = false;
-  private double _feedForward = K_FEED_FORWARD_ANGLE;
+  private double _feedForward_angle = K_FEED_FORWARD_ANGLE;
+  private double _feedForward_distance = K_FEED_FORWARD_DISTANCE;
 
   public AutoNavigate(DriveTrain driveTrain, SmartDashboardSettings smartDashboardSettings, double distance, double angle) {
     _driveTrain = driveTrain;
@@ -69,8 +68,13 @@ public class AutoNavigate extends CommandBase {
 
   private void refreshPidValues() {
     _smartDashboardSettings.refreshPidValues();
-    if (Objects.equals(_smartDashboardSettings.getPidType(), PIDTYPE_AUTOAIM)) {
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "AUTONAV_ANGLE")) {
       setAnglePID(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
+          _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
+    }
+    _smartDashboardSettings.refreshPidValues();
+    if (Objects.equals(_smartDashboardSettings.getPidType(), "AUTONAV_ANGLE")) {
+      setDistancePID(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
           _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
     }
   }
@@ -90,7 +94,13 @@ public class AutoNavigate extends CommandBase {
   public void setAnglePID(double p, double i, double d, double f) {
     // System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     _pidAngle.setPID(p, i, d);
-    _feedForward = f;
+    _feedForward_angle = f;
+  }
+
+  public void setDistancePID(double p, double i, double d, double f) {
+    // System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+    _pidDistance.setPID(p, i, d);
+    _feedForward_distance = f;
   }
 
   public void updateTracking( double desired_distance,
@@ -99,9 +109,6 @@ public class AutoNavigate extends CommandBase {
     _steerCommand = 0.0;
 
     // These numbers must be tuned for your Robot! Be careful!
-    final double STEER_K = 0.03; // how hard to turn toward the target
-    final double DRIVE_K = 0.35; // how hard to drive fwd toward the target
-    final double DESIRED_TARGET_AREA = 0.025; // Area of the target when the robot reaches the wall
     final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
 
     final boolean tv =  true;
@@ -118,28 +125,25 @@ public class AutoNavigate extends CommandBase {
     _pidAngle.setTolerance(0.25);
     double steer_cmd = _pidAngle.calculate(-tx);
 
-    double feedFwd = Math.signum(steer_cmd) * _feedForward;
+    double feedFwd = Math.signum(steer_cmd) * _feedForward_angle;
     _steerCommand = steer_cmd + feedFwd;
 
     _pidDistance.setSetpoint(desired_distance);
     _pidDistance.setTolerance(0.1);
     double drive_cmd = _pidDistance.calculate(ty);
 
+    feedFwd = Math.signum(drive_cmd) * _feedForward_distance;
+    _driveCommand = drive_cmd + feedFwd;
+
     // try to drive forward until the target area reaches our desired area
     // double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
     //double drive_cmd = (desired_distance - ty) * -DRIVE_K;
 
-    steer_cmd = Math.max(steer_cmd, -0.5);
-    drive_cmd = Math.max(drive_cmd, -0.5);
+    _steerCommand = Math.max(_steerCommand, -MAX_DRIVE);
+    _driveCommand = Math.max(_driveCommand, -MAX_DRIVE);
 
-    steer_cmd = Math.min(steer_cmd, 0.5);
-    drive_cmd = Math.min(drive_cmd, 0.5);
-
-    // don't let the robot drive too fast into the goal
-    if (drive_cmd > MAX_DRIVE) {
-      drive_cmd = MAX_DRIVE;
-    }
-    _driveCommand = drive_cmd;
+    _steerCommand = Math.min(_steerCommand, MAX_DRIVE);
+    _driveCommand = Math.min(_driveCommand, MAX_DRIVE);
 
     _isAtSetPoint = _pidAngle.atSetpoint() && _pidDistance.atSetpoint();
   }
