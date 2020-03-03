@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.pizzaTurner.RetractPizzaTurner;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.PizzaTurner;
 
@@ -21,7 +22,7 @@ public class InitializeRobot extends SequentialCommandGroup {
   /**
    * Creates a new InitializeRobot.
    */
-  public InitializeRobot(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner) {
+  public InitializeRobot(DriveTrain driveTrain, Intake intake, Launcher launcher, PizzaTurner pizzaTurner) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
@@ -31,6 +32,7 @@ public class InitializeRobot extends SequentialCommandGroup {
     addRequirements(pizzaTurner);
 
     driveTrain.resetEncoderAndHeading();
+    intake.intakeStop();
 
     addCommands(new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
         new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
