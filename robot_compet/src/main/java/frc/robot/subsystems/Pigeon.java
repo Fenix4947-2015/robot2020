@@ -17,6 +17,7 @@ public class Pigeon {
   private double _dpsY;
   private double _dpsZ;
 
+  private double _zeroYaw = 0.0;
 //  @Override
 //  public void periodic() {
 //    refresh();
@@ -50,12 +51,12 @@ public class Pigeon {
 
   public void resetHeading() {
     //_pigeon.setFusedHeading(0);
-    _pigeon.setYaw(0.0);
+    _zeroYaw = getYaw();
   }
 
   public double getHeading() {
     //return _pigeon.getFusedHeading();
-    return getYaw();
+    return _zeroYaw - getYaw();
   }
 
   public double getYaw() {
