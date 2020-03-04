@@ -66,7 +66,7 @@ public class BallPickup extends CommandBase {
 
     if (_ballInRange == true) {
       _driveTrain.driveArcadeMethod(0.3, 0);
-      if(_driveTrain.getAverageEncoderDistance() > 0.8){
+      if(_driveTrain.getAverageEncoderDistance() > 1.5){
         _ballInIntake = true;
         _ballInRange = false;
 

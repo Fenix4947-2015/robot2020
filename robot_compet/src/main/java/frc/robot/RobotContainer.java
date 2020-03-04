@@ -82,8 +82,8 @@ public class RobotContainer {
       _winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
 
-  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
-      _smartDashboardSettings, _compressor, _intake);
+//  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
+//      _smartDashboardSettings, _compressor, _intake);
 
   private GameState _gameState = GameState.UNKNOWN;
 
@@ -153,7 +153,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     // An ExampleCommand will run in autonomous
-    return _shootLoaded;
+    //return _shootLoaded;
+    return new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
+    _smartDashboardSettings, _compressor, _intake);
   }
 
   public GameState getGameState() {

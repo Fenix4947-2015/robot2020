@@ -32,7 +32,7 @@ public class ShootLoaded extends SequentialCommandGroup {
         new AutoNavigate(driveTrain, smartDashboardSettings, 4.0, 0.0).withTimeout(5.0),
         new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
         new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
-        new AutoNavigate(driveTrain, smartDashboardSettings, 0.0, -170.0).withTimeout(5.0),
+        new AutoNavigate(driveTrain, smartDashboardSettings, 0.0, 170.0).withTimeout(5.0),
         new AutoAim(driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
         new RoutineShoot(launcher, compressor, intake));
     // super();
