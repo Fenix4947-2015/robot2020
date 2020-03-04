@@ -15,15 +15,15 @@ import frc.robot.SmartDashboardSettings;
 import frc.robot.subsystems.DriveTrain;
 
 public class AutoNavigate extends CommandBase {
-  public static final double K_FEED_FORWARD_ANGLE = 0.175;
-  public static final double K_PID_P_ANGLE = 0.024;
-  public static final double K_PID_I_ANGLE = 0.0052;
-  public static final double K_PID_D_ANGLE = 0.005;
+  public static final double K_FEED_FORWARD_ANGLE = 0.240;
+  public static final double K_PID_P_ANGLE = 0.020;
+  public static final double K_PID_I_ANGLE = 0.000;
+  public static final double K_PID_D_ANGLE = 0.004;
 
   public static final double K_FEED_FORWARD_DISTANCE = 0.0;
-  public static final double K_PID_P_DISTANCE = 0.35;
+  public static final double K_PID_P_DISTANCE = 0.5;
   public static final double K_PID_I_DISTANCE = 0.0;
-  public static final double K_PID_D_DISTANCE = 0.0;
+  public static final double K_PID_D_DISTANCE = 0.07;
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
 
@@ -109,7 +109,7 @@ public class AutoNavigate extends CommandBase {
     _steerCommand = 0.0;
 
     // These numbers must be tuned for your Robot! Be careful!
-    final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
+    final double MAX_DRIVE = 0.5; // Simple speed limit so we don't drive too fast
 
     final boolean tv =  true;
     final double tx = _driveTrain.getHeading();
@@ -122,14 +122,14 @@ public class AutoNavigate extends CommandBase {
     }
 
     _pidAngle.setSetpoint(desired_angle);
-    _pidAngle.setTolerance(0.25);
-    double steer_cmd = _pidAngle.calculate(-tx);
+    _pidAngle.setTolerance(2.5);
+    double steer_cmd = _pidAngle.calculate(tx);
 
     double feedFwd = Math.signum(steer_cmd) * _feedForward_angle;
     _steerCommand = steer_cmd + feedFwd;
 
     _pidDistance.setSetpoint(desired_distance);
-    _pidDistance.setTolerance(0.1);
+    _pidDistance.setTolerance(0.5);
     double drive_cmd = _pidDistance.calculate(ty);
 
     feedFwd = Math.signum(drive_cmd) * _feedForward_distance;

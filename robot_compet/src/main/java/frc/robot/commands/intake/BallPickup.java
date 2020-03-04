@@ -66,7 +66,7 @@ public class BallPickup extends CommandBase {
 
     if (_ballInRange == true) {
       _driveTrain.driveArcadeMethod(0.3, 0);
-      if(_driveTrain.getAverageEncoderDistance() > 1.5){
+      if(_driveTrain.getAverageEncoderDistance() > 0.8){
         _ballInIntake = true;
         _ballInRange = false;
 
@@ -118,7 +118,7 @@ public class BallPickup extends CommandBase {
     final double DESIRED_TARGET_AREA = 0.025; // Area of the target when the robot reaches the wall
     final double DESIRED_HEIGHT = 0.0; //8.6;
     final double DESIRED_ANGLE = 0.0;
-    final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
+    final double MAX_DRIVE = 0.3; // Simple speed limit so we don't drive too fast
 
     final boolean tv = _limelight.isTargetValid();
     final double tx = _limelight.getTx();

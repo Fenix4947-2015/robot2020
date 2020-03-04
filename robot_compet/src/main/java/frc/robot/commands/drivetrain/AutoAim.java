@@ -16,10 +16,10 @@ import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 public class AutoAim extends CommandBase {
-  public static final double K_FEED_FORWARD_ANGLE = 0.175;
-  public static final double K_PID_P_ANGLE = 0.024;
-  public static final double K_PID_I_ANGLE = 0.0052;
-  public static final double K_PID_D_ANGLE = 0.005;
+  public static final double K_FEED_FORWARD_ANGLE = 0.240;
+  public static final double K_PID_P_ANGLE = 0.020;
+  public static final double K_PID_I_ANGLE = 0.000;
+  public static final double K_PID_D_ANGLE = 0.004;
 
   public static final double K_FEED_FORWARD_DISTANCE = 0.0;
   public static final double K_PID_P_DISTANCE = 0.35;
@@ -41,6 +41,8 @@ public class AutoAim extends CommandBase {
   private PIDController _pidDistance = new PIDController(K_PID_P_DISTANCE, K_PID_I_DISTANCE, K_PID_D_DISTANCE);
   private double _feedForward = K_FEED_FORWARD_ANGLE;
 
+  private boolean _isAtSetPoint = false;
+
   public AutoAim(DriveTrain driveTrain, Limelight limelight, SmartDashboardSettings smartDashboardSettings) {
     _driveTrain = driveTrain;
     _limelight = limelight;
@@ -52,6 +54,7 @@ public class AutoAim extends CommandBase {
   @Override
   public void initialize() {
     _driveTrain.shiftLow();
+    _isAtSetPoint = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -80,7 +83,7 @@ public class AutoAim extends CommandBase {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;
+    return _isAtSetPoint;
   }
 
   // Called once after isFinished returns true
@@ -118,14 +121,14 @@ public class AutoAim extends CommandBase {
     }
 
     _pidAngle.setSetpoint(DESIRED_ANGLE);
-    _pidAngle.setTolerance(0.25);
+    _pidAngle.setTolerance(0.5);
     double steer_cmd = _pidAngle.calculate(-tx);
 
     double feedFwd = Math.signum(steer_cmd) * _feedForward;
     _steerCommand = steer_cmd + feedFwd;
 
     _pidDistance.setSetpoint(DESIRED_HEIGHT);
-    _pidDistance.setTolerance(0.1);
+    _pidDistance.setTolerance(0.5);
     double drive_cmd = _pidDistance.calculate(-ty);
 
     // try to drive forward until the target area reaches our desired area
@@ -145,6 +148,7 @@ public class AutoAim extends CommandBase {
     _driveCommand = drive_cmd;
 
     _pidAngle.atSetpoint();
+    _isAtSetPoint = _pidAngle.atSetpoint() && _pidDistance.atSetpoint();
 
   }
   
