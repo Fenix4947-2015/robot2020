@@ -9,8 +9,6 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.SmartDashboardSettings;
-import frc.robot.commands.drivetrain.AutoAim;
-import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
@@ -26,17 +24,11 @@ public class ShootLoaded extends SequentialCommandGroup {
   /**
    * Creates a new DoNothing.
    */
-  public ShootLoaded(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner, Limelight limelight, 
-  SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
-
-    // Add your commands in the super() call, e.g.
-    //super();
+  public ShootLoaded(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner, Limelight limelight,
+      SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
     addCommands(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner),
-    new AutoNavigate(driveTrain, smartDashboardSettings, 4.0, 0.0).withTimeout(5.0),
-    new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
-    new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
-    new AutoNavigate(driveTrain, smartDashboardSettings, 0.0, -170.0).withTimeout(5.0),
-        new AutoAim(driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
+        new AutoNavigate(driveTrain, smartDashboardSettings, 5.0, 0.0).withTimeout(5.0),
+        // new AutoAim(driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
         new RoutineShoot(launcher, compressor, intake));
     // super();
 
