@@ -123,7 +123,7 @@ public class AutoNavigate extends CommandBase {
 
     _pidAngle.setSetpoint(desired_angle);
     _pidAngle.setTolerance(2.5);
-    double steer_cmd = _pidAngle.calculate(tx);
+    double steer_cmd = _pidAngle.calculate(-tx);
 
     double feedFwd = Math.signum(steer_cmd) * _feedForward_angle;
     _steerCommand = steer_cmd + feedFwd;
