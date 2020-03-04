@@ -56,7 +56,7 @@ public class Pigeon {
 
   public double getHeading() {
     //return _pigeon.getFusedHeading();
-    return _zeroYaw - getYaw();
+    return getYaw() - _zeroYaw;
   }
 
   public double getYaw() {
