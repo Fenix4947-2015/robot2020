@@ -69,6 +69,8 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    _pigeon.refresh();
+
     SmartDashboard.putNumber("Drivetrain encoder left pos", m_leftEncoder.getPosition());
     SmartDashboard.putNumber("Drivetrain encoder right pos", m_rightEncoder.getPosition());
     SmartDashboard.putNumber("Drivetrain encoder left velocity", m_leftEncoder.getVelocity());

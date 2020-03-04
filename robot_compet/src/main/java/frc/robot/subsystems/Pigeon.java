@@ -49,11 +49,13 @@ public class Pigeon {
   }
 
   public void resetHeading() {
-    _pigeon.setFusedHeading(0);
+    //_pigeon.setFusedHeading(0);
+    _pigeon.setYaw(0.0);
   }
 
   public double getHeading() {
-    return _pigeon.getFusedHeading();
+    //return _pigeon.getFusedHeading();
+    return getYaw();
   }
 
   public double getYaw() {
