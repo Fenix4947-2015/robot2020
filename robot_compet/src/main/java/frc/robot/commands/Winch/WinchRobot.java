@@ -53,6 +53,7 @@ public class WinchRobot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     _winch.winchStop();
+    _compressor.enableCompressor();
   }
 
   // Returns true when the command should end.

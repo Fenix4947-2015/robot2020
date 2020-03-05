@@ -12,7 +12,7 @@ public class ResetState extends CommandBase {
   public ResetState(final DriveTrain driveTrain, final Intake intake) {
     _driveTrain = driveTrain;
     _intake = intake;
-    addRequirements(driveTrain, intake);
+    addRequirements(_driveTrain, _intake);
   }
 
   @Override

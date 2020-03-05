@@ -53,5 +53,6 @@ public class Shoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     _launcher.stop();
+    _compressor.enableCompressor();
   }
 }

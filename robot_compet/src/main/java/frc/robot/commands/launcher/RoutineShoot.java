@@ -20,8 +20,6 @@ public class RoutineShoot extends SequentialCommandGroup {
 
   public RoutineShoot(boolean far, Launcher launcher, SubCompressor compressor, Intake intake) {
     // _launcher = launcher;
-    addRequirements(launcher);
-    addRequirements(compressor);
 
     addCommands(new PreSpin(far, launcher, compressor).withTimeout(1.0), new IntakeRollLowLevel(intake, true),
         new RampMove(launcher, true).withTimeout(0.1), new Shoot(far, launcher, compressor).withTimeout(3.25),

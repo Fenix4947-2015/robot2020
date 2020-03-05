@@ -42,10 +42,10 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     CameraServer.getInstance().startAutomaticCapture(0);
 
-    SmartDashboard.putString("-------AUTONOMOUS--------", "");
-    m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
-    m_chooser.addOption("DO NOTHING", "DoNothing");
-    SmartDashboard.putData("Auto mode", m_chooser);
+    //SmartDashboard.putString("-------AUTONOMOUS--------", "");
+    //m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
+    //m_chooser.addOption("DO NOTHING", "DoNothing");
+    //SmartDashboard.putData("Auto mode", m_chooser);
 
   }
 

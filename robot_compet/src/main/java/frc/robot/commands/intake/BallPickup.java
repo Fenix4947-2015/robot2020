@@ -45,7 +45,7 @@ public class BallPickup extends CommandBase {
     _smartDashboardSettings = smartDashboardSettings;
     _intake = intake;
 
-    addRequirements(_driveTrain, _limelight, intake);
+    addRequirements(_driveTrain, _limelight, _intake);
   }
 
   // Called just before this Command runs the first time

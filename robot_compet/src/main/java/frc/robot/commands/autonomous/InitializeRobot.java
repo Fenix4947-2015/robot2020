@@ -28,11 +28,9 @@ public class InitializeRobot extends SequentialCommandGroup {
       final PizzaTurner pizzaTurner, SubCompressor compressor) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super();
 
     addCommands(new ResetState(driveTrain, intake),
         new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
-        new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
-
-  }
+        new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -1.0).withTimeout(0.25));
+    }
 }

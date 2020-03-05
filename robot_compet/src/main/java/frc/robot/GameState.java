@@ -3,7 +3,7 @@ package frc.robot;
 public enum GameState {
   UNKNOWN(false),
   AUTONOMOUS(false),
-  TELEOP(false),
+  TELEOP(true),
   TELEOP_ENDGAME(true),
   TEST(true);
   

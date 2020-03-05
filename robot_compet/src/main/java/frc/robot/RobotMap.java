@@ -3,7 +3,6 @@ package frc.robot;
 public class RobotMap {
 
   public static final boolean COMPET = true;
-
   public static final boolean ALWAYS_WINCH = true;
 
   // Joysticks

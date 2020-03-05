@@ -52,7 +52,7 @@ public class AutoNavigate extends CommandBase {
     _isAtSetPoint = false;
     _intake = intake;
     _withIntake = withIntake;
-    addRequirements(_driveTrain);
+    addRequirements(_driveTrain, _intake);
   }
 
   // Called just before this Command runs the first time
