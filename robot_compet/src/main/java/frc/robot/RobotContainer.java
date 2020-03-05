@@ -175,7 +175,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     System.out.println("Auto command: " + _autonomousCommandChooser.getSelected().getClass().getSimpleName());
-    return _autonomousCommandChooser.getSelected();
+    //return _autonomousCommandChooser.getSelected();
+    return _moveFromLine;
   }
 
   public GameState getGameState() {
