@@ -144,11 +144,12 @@ public class RobotContainer {
 
     autoAimButton.whenHeld(_autoAim);
     shootButton.whenPressed(_routineShoot);
-    intakeButton.whenHeld(_ballPickup);
-    reverseIntakeButton.whileHeld(_reverseIntake);
+    //intakeButton.whenHeld(_ballPickup);
+    intakeButton.whenHeld(_rollIntake);
+    reverseIntakeButton.whenHeld(_reverseIntake);
 
-    winchButton.whileHeld(_winchRobot);
-    extendArmButton.whileHeld(_extendArm); // todo change to good function
+    winchButton.whenHeld(_winchRobot);
+    extendArmButton.whenHeld(_extendArm); // todo change to good function
 
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);
@@ -156,7 +157,7 @@ public class RobotContainer {
     resetAllRobotButton.whenPressed(_stopAllCommands);
     initializeRobotButton.whenPressed(_initializeRobot);
 
-    spinPizzaButton.whileHeld(_spinPizza);
+    spinPizzaButton.whenHeld(_spinPizza);
   }
 
   /**
