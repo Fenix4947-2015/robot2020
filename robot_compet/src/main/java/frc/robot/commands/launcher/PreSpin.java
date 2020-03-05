@@ -13,11 +13,13 @@ import frc.robot.subsystems.SubCompressor;
 
 public class PreSpin extends CommandBase {
   private final Launcher _launcher;
-  private SubCompressor _compressor;
+  private final SubCompressor _compressor;
+  private final boolean _far;
 
-  public PreSpin(Launcher launcher, SubCompressor compressor) {
+  public PreSpin(boolean far, Launcher launcher, SubCompressor compressor) {
     _launcher = launcher;
     _compressor = compressor;
+    _far = far;
     addRequirements(launcher);
     addRequirements(compressor);
   }
@@ -33,14 +35,14 @@ public class PreSpin extends CommandBase {
   @Override
   public void execute() {
     // Robot.m_Launcher.goToRPM(5100, 900);
-    _launcher.openLoopShoot(true);
+    _launcher.openLoopShoot(true, _far);
     //_launcher.shootPIDRPM();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return _launcher.isAtTargetSpeed();
+    return _launcher.isAtTargetSpeed(_far);
   }
 
   // Called once after isFinished returns true

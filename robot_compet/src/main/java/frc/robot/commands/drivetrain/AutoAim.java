@@ -28,12 +28,15 @@ public class AutoAim extends CommandBase {
 
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
-  private static final int AUTOAIM_PIPELINE = 0;
+  public static final int AUTOAIM_FAR_PIPELINE = 0;
+  public static final int AUTOAIM_NEAR_PIPELINE = 2;
 
   private final DriveTrain _driveTrain;
   private final Limelight _limelight;
 
   private final SmartDashboardSettings _smartDashboardSettings;
+
+  private final int _pipeline;
 
   public double _driveCommand = 0.0;
   public double _steerCommand = 0.0;
@@ -43,7 +46,8 @@ public class AutoAim extends CommandBase {
 
   private boolean _isAtSetPoint = false;
 
-  public AutoAim(DriveTrain driveTrain, Limelight limelight, SmartDashboardSettings smartDashboardSettings) {
+  public AutoAim(int pipeline, DriveTrain driveTrain, Limelight limelight, SmartDashboardSettings smartDashboardSettings) {
+    _pipeline = pipeline;
     _driveTrain = driveTrain;
     _limelight = limelight;
     _smartDashboardSettings = smartDashboardSettings;
@@ -60,7 +64,7 @@ public class AutoAim extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    _limelight.changePipeline(AUTOAIM_PIPELINE);
+    _limelight.changePipeline(_pipeline);
     refreshPidValues();
     updateTracking();
 

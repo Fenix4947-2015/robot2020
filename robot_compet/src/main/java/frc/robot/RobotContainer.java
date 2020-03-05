@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.StopAllCommands;
 import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
-import frc.robot.commands.autonomous.FullRumba;
+import frc.robot.commands.autonomous.FullRumbaCenter;
+import frc.robot.commands.autonomous.FullRumbaTrench;
 import frc.robot.commands.autonomous.InitializeRobot;
 import frc.robot.commands.autonomous.MoveFromLine;
 import frc.robot.commands.autonomous.ShootPreloaded;
@@ -63,8 +64,12 @@ public class RobotContainer {
   private final Pigeon _pigeon = new Pigeon(_winch.getArmExtenderTalonSRX());
   private final DriveTrain _driveTrain = new DriveTrain(_pigeon);
 
-  private final AutoAim _autoAim = new AutoAim(_driveTrain, _limelight, _smartDashboardSettings);
-  private final RoutineShoot _routineShoot = new RoutineShoot(_launcher, _compressor, _intake);
+  private final AutoAim _autoAimFar = new AutoAim(AutoAim.AUTOAIM_FAR_PIPELINE, _driveTrain, _limelight,
+      _smartDashboardSettings);
+  private final AutoAim _autoAimNear = new AutoAim(AutoAim.AUTOAIM_NEAR_PIPELINE, _driveTrain, _limelight,
+      _smartDashboardSettings);
+  private final RoutineShoot _routineShootFar = new RoutineShoot(RoutineShoot.FAR, _launcher, _compressor, _intake);
+  private final RoutineShoot _routineShootNear = new RoutineShoot(RoutineShoot.NEAR, _launcher, _compressor, _intake);
   private final RampMove _rampMoveUp = new RampMove(_launcher, true);
   private final RampMove _rampMoveDown = new RampMove(_launcher, false);
 
@@ -80,7 +85,9 @@ public class RobotContainer {
 
   private final SpinPizza _spinPizza = new SpinPizza(_pizzaTurner);
 
-  private final FullRumba _fullRumba = new FullRumba(_driveTrain, _launcher, _pizzaTurner, _limelight,
+  private final FullRumbaTrench _fullRumbaTrench = new FullRumbaTrench(_driveTrain, _launcher, _pizzaTurner, _limelight,
+      _smartDashboardSettings, _compressor, _intake);
+  private final FullRumbaCenter _fullRumbaCenter = new FullRumbaCenter(_driveTrain, _launcher, _pizzaTurner, _limelight,
       _smartDashboardSettings, _compressor, _intake);
   private final ShootPreloaded _shootPreloaded = new ShootPreloaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
       _smartDashboardSettings, _compressor, _intake);
@@ -105,7 +112,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    _autonomousCommandChooser.setDefaultOption("FULL RUMBA", _fullRumba);
+    _autonomousCommandChooser.setDefaultOption("FULL RUMBA TRENCH", _fullRumbaTrench);
+    _autonomousCommandChooser.setDefaultOption("FULL RUMBA CENTRE", _fullRumbaCenter);
     _autonomousCommandChooser.addOption("SHOOT PRELOADED", _shootPreloaded);
     _autonomousCommandChooser.addOption("MOVE FROM LINE", _moveFromLine);
 
@@ -142,14 +150,14 @@ public class RobotContainer {
     // y driver reverse intake
     // back updown right joystick helper pour arm extend.
 
-    autoAimButton.whenHeld(_autoAim);
-    shootButton.whenPressed(_routineShoot);
-    //intakeButton.whenHeld(_ballPickup);
+    autoAimButton.whenHeld(_autoAimFar);
+    shootButton.whenPressed(_routineShootFar);
+    // intakeButton.whenHeld(_ballPickup);
     intakeButton.whenHeld(_rollIntake);
     reverseIntakeButton.whenHeld(_reverseIntake);
 
     winchButton.whenHeld(_winchRobot);
-    extendArmButton.whenHeld(_extendArm); // todo change to good function
+    extendArmButton.whenHeld(_extendArm);
 
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);

@@ -42,9 +42,10 @@ public class Launcher extends SubsystemBase {
 
   private static final boolean IS_OPEN_LOOP = true;
 
-  private static final double DOWN_WHEEL_SPEED = 0.78;
-  private static final double PRE_SPIN_DOWN_WHEEL_SPEED = 1.0; // 0.7;
-  private static final double UP_WHEEL_SPEED = 0.21;
+  private static final double FAR_DOWN_WHEEL_SPEED = 0.78;
+  private static final double FAR_UP_WHEEL_SPEED = 0.21;
+  private static final double NEAR_DOWN_WHEEL_SPEED = 0.78;
+  private static final double NEAR_UP_WHEEL_SPEED = 0.21;
 
   private static final double TARGET_SPEED_DOWN = 4200;
   private static final double TARGET_SPEED_UP = 750;
@@ -69,9 +70,8 @@ public class Launcher extends SubsystemBase {
     pidWheelUp.setD(2.4e-4);
     pidWheelUp.setIZone(0);
     pidWheelUp.setFF(0.0);
-    //pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
+    // pidWheelUp.setFF(0.001/4300.0*TARGET_SPEED_UP);
     pidWheelUp.setOutputRange(-5700, 5700);
-    
 
     motorWheelDown = new CANSparkMax(RobotMap.LAUNCHER_MOTOR_DOWN_CAN_ID, MotorType.kBrushless);
     motorWheelDown.setInverted(true);
@@ -81,7 +81,7 @@ public class Launcher extends SubsystemBase {
     pidWheelDown.setI(7.0e-7);
     pidWheelDown.setD(2.4e-4);
     pidWheelDown.setIZone(0);
-    //pidWheelDown.setFF(0.0001/2300.0*TARGET_SPEED_DOWN);
+    // pidWheelDown.setFF(0.0001/2300.0*TARGET_SPEED_DOWN);
     pidWheelDown.setFF(0.0);
 
     pidWheelDown.setOutputRange(-5700, 5700);
@@ -102,16 +102,16 @@ public class Launcher extends SubsystemBase {
     }
   }
 
-  public void setPidWheelUp(double p, double i, double d, double f){
-    //System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+  public void setPidWheelUp(double p, double i, double d, double f) {
+    // System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     pidWheelUp.setP(p);
     pidWheelUp.setI(i);
     pidWheelUp.setD(d);
     pidWheelUp.setFF(f);
   }
 
-  public void setPidWheelDown(double p, double i, double d, double f){
-    //System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
+  public void setPidWheelDown(double p, double i, double d, double f) {
+    // System.out.println(String.format("pid: %f %f %f %f", p, i, d, f));
     pidWheelDown.setP(p);
     pidWheelDown.setI(i);
     pidWheelDown.setD(d);
@@ -120,31 +120,39 @@ public class Launcher extends SubsystemBase {
 
   public void shootPIDRPM() {
     pidWheelDown.setReference(TARGET_SPEED_DOWN, ControlType.kVelocity);
-    pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity); 
+    pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity);
     logSpeed();
   }
 
-  public boolean isAtTargetSpeed() {
+  private static double getDownWheelSpeed(boolean far) {
+    return far ? FAR_DOWN_WHEEL_SPEED : NEAR_DOWN_WHEEL_SPEED;
+  }
+
+  private static double getUpWheelSpeed(boolean far) {
+    return far ? FAR_UP_WHEEL_SPEED : NEAR_UP_WHEEL_SPEED;
+  }
+
+  public boolean isAtTargetSpeed(boolean far) {
     double currentDownSpeed = motorWheelDown.getEncoder().getVelocity();
     double currentUpSpeed = motorWheelUp.getEncoder().getVelocity();
-    
-    double _targetSpeedDown;
-    double _targetSpeedUp;
-    
-    if(IS_OPEN_LOOP){
-      _targetSpeedDown = MAXIMUM_SPEED * DOWN_WHEEL_SPEED;
-      _targetSpeedUp = MAXIMUM_SPEED * DOWN_WHEEL_SPEED *UP_WHEEL_SPEED;
-    }
-    else{
-      _targetSpeedDown = TARGET_SPEED_DOWN;
-      _targetSpeedUp = TARGET_SPEED_UP;
+
+    double targetSpeedDown;
+    double targetSpeedUp;
+
+    if (IS_OPEN_LOOP) {
+      targetSpeedDown = MAXIMUM_SPEED * getDownWheelSpeed(far);
+      targetSpeedUp = MAXIMUM_SPEED * getDownWheelSpeed(far) * getUpWheelSpeed(far);
+    } else {
+      targetSpeedDown = TARGET_SPEED_DOWN;
+      targetSpeedUp = TARGET_SPEED_UP;
     }
 
-    boolean isAtTargetDown = (currentDownSpeed >= (_targetSpeedDown-TOLERANCE_SPEED));
-    boolean isAtTargetUp = (currentUpSpeed >= (_targetSpeedUp-TOLERANCE_SPEED));
+    boolean isAtTargetDown = currentDownSpeed >= (targetSpeedDown - TOLERANCE_SPEED);
+    boolean isAtTargetUp = currentUpSpeed >= (targetSpeedUp - TOLERANCE_SPEED);
 
-    //double totalError = Math.abs(currentDownSpeed - _targetSpeedDown) + Math.abs(currentUpSpeed - _targetSpeedUp);
-    return (isAtTargetDown && isAtTargetUp);
+    // double totalError = Math.abs(currentDownSpeed - _targetSpeedDown) +
+    // Math.abs(currentUpSpeed - _targetSpeedUp);
+    return isAtTargetDown && isAtTargetUp;
   }
 
   private void logSpeed() {
@@ -157,8 +165,9 @@ public class Launcher extends SubsystemBase {
   private void initLogging() {
     startTime = Instant.now();
     stopLogging();
-    fileLogger = new FileLogger(String.format("launcher_%s_%s.csv",
-        DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(ZonedDateTime.now()), phase), true);
+    fileLogger = new FileLogger(String
+        .format("launcher_%s_%s.csv", DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(ZonedDateTime.now()), phase),
+        true);
   }
 
   public void setCurrentPhase(String phase) {
@@ -166,17 +175,15 @@ public class Launcher extends SubsystemBase {
     initLogging();
   }
 
-  public void openLoopShoot(boolean isPreSpin) {
-    final double downWheelSpeed = DOWN_WHEEL_SPEED;
-    final double upWheelSpeed = downWheelSpeed * UP_WHEEL_SPEED;
+  public void openLoopShoot(boolean isPreSpin, boolean far) {
+    final double downWheelSpeed = getDownWheelSpeed(far);
+    final double upWheelSpeed = downWheelSpeed * getUpWheelSpeed(far);
 
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
     logSpeed();
 
   }
-
-
 
   public void stop() {
     motorWheelUp.set(0.0);

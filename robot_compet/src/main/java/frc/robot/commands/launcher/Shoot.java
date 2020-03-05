@@ -14,10 +14,12 @@ import frc.robot.subsystems.SubCompressor;
 public class Shoot extends CommandBase {
   private final Launcher _launcher;
   private final SubCompressor _compressor;
+  private final boolean _far;
 
-  public Shoot(Launcher launcher, SubCompressor compressor) {
+  public Shoot(boolean far, Launcher launcher, SubCompressor compressor) {
     _launcher = launcher;
     _compressor = compressor;
+    _far = far;
     addRequirements(launcher);
     addRequirements(compressor);
   }
@@ -38,7 +40,7 @@ public class Shoot extends CommandBase {
     // Robot.m_Launcher.goToRPM(5100, 900);
 
     //_launcher.openLoopShoot(false);// .goToRPM(5100,900);
-    _launcher.openLoopShoot(false);
+    _launcher.openLoopShoot(false, _far);
   }
 
   // Make this return true when this Command no longer needs to run execute()
