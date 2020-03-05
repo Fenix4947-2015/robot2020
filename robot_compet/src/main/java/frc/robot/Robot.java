@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    m_robotContainer.refreshGameState();
   }
 
   /**
@@ -103,7 +104,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //Scheduler.getInstance().run();
+    // Scheduler.getInstance().run();
   }
 
   @Override
@@ -126,7 +127,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_robotContainer.refreshGameState();
   }
 
   @Override

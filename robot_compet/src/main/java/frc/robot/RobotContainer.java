@@ -12,14 +12,17 @@ import java.util.Objects;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.StopAllCommands;
 import frc.robot.commands.Winch.ExtendArm;
 import frc.robot.commands.Winch.WinchRobot;
+import frc.robot.commands.autonomous.FullRumba;
 import frc.robot.commands.autonomous.InitializeRobot;
-import frc.robot.commands.autonomous.ShootLoaded;
+import frc.robot.commands.autonomous.MoveFromLine;
+import frc.robot.commands.autonomous.ShootPreloaded;
 import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.AutoAim;
 import frc.robot.commands.drivetrain.DriveArcade;
@@ -49,10 +52,10 @@ import frc.robot.subsystems.Winch;
  */
 public class RobotContainer {
   private final SmartDashboardSettings _smartDashboardSettings = new SmartDashboardSettings();
+  private final Limelight _limelight = new Limelight();
 
   // The robot's subsystems and commands are defined here...
   private final Launcher _launcher = new Launcher(_smartDashboardSettings);
-  private final Limelight _limelight = new Limelight();
   private final SubCompressor _compressor = new SubCompressor();
   private final Intake _intake = new Intake();
   private final Winch _winch = new Winch();
@@ -77,13 +80,19 @@ public class RobotContainer {
 
   private final SpinPizza _spinPizza = new SpinPizza(_pizzaTurner);
 
-  private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _intake, _launcher, _pizzaTurner);
+  private final FullRumba _fullRumba = new FullRumba(_driveTrain, _launcher, _pizzaTurner, _limelight,
+      _smartDashboardSettings, _compressor, _intake);
+  private final ShootPreloaded _shootPreloaded = new ShootPreloaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
+      _smartDashboardSettings, _compressor, _intake);
+  private final MoveFromLine _moveFromLine = new MoveFromLine(_driveTrain, _launcher, _pizzaTurner,
+      _smartDashboardSettings, _compressor, _intake);
+  private final SendableChooser<Command> _autonomousCommandChooser = new SendableChooser<>();
+
+  private final InitializeRobot _initializeRobot = new InitializeRobot(_driveTrain, _intake, _launcher, _pizzaTurner,
+      _compressor);
   private final StopAllCommands _stopAllCommands = new StopAllCommands(_driveTrain, _intake, _compressor, _launcher,
       _winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
-
-//  private final ShootLoaded _shootLoaded = new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
-//      _smartDashboardSettings, _compressor, _intake);
 
   private GameState _gameState = GameState.UNKNOWN;
 
@@ -96,6 +105,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    _autonomousCommandChooser.setDefaultOption("FULL RUMBA", _fullRumba);
+    _autonomousCommandChooser.addOption("SHOOT PRELOADED", _shootPreloaded);
+    _autonomousCommandChooser.addOption("MOVE FROM LINE", _moveFromLine);
+
+    SmartDashboard.putData(_autonomousCommandChooser);
   }
 
   /**
@@ -151,11 +165,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // An ExampleCommand will run in autonomous
-    //return _shootLoaded;
-    return new ShootLoaded(_driveTrain, _launcher, _pizzaTurner, _limelight,
-    _smartDashboardSettings, _compressor, _intake);
+    return _autonomousCommandChooser.getSelected();
   }
 
   public GameState getGameState() {

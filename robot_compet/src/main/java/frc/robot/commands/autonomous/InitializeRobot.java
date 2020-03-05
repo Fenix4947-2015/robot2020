@@ -8,12 +8,15 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ResetState;
+import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.pizzaTurner.RetractPizzaTurner;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.PizzaTurner;
+import frc.robot.subsystems.SubCompressor;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,19 +25,14 @@ public class InitializeRobot extends SequentialCommandGroup {
   /**
    * Creates a new InitializeRobot.
    */
-  public InitializeRobot(DriveTrain driveTrain, Intake intake, Launcher launcher, PizzaTurner pizzaTurner) {
+  public InitializeRobot(final DriveTrain driveTrain, final Intake intake, final Launcher launcher,
+      final PizzaTurner pizzaTurner, SubCompressor compressor) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super();
 
-    addRequirements(driveTrain);
-    addRequirements(launcher);
-    addRequirements(pizzaTurner);
-
-    driveTrain.resetEncoderAndHeading();
-    intake.intakeStop();
-
-    addCommands(new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
+    addCommands(new ResetState(driveTrain, intake), new CompressorDefault(compressor),
+        new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
         new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
 
   }
