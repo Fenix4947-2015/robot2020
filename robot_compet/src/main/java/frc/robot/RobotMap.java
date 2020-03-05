@@ -4,6 +4,8 @@ public class RobotMap {
 
   public static final boolean COMPET = true;
 
+  public static final boolean ALWAYS_WINCH = true;
+
   // Joysticks
   public static final int JOYSTICK_DRIVER_PORT = 0;
   public static final int JOYSTICK_HELPER_PORT = 1;

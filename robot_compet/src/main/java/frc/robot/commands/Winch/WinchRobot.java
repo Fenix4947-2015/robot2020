@@ -10,6 +10,7 @@ package frc.robot.commands.Winch;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.SubCompressor;
 import frc.robot.subsystems.Winch;
@@ -34,13 +35,15 @@ public class WinchRobot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _compressor.disableCompressor();
+    if (RobotMap.ALWAYS_WINCH || _robotContainer.getGameState().winchAllowed) {
+      _compressor.disableCompressor();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (_robotContainer.getGameState().winchAllowed) {
+    if (RobotMap.ALWAYS_WINCH || _robotContainer.getGameState().winchAllowed) {
       double liftingSpeed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft, 0.1);
       _winch.winchLiftRobot(liftingSpeed); // Todo : validate if we need to use copilot
     }

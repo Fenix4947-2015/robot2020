@@ -10,6 +10,7 @@ package frc.robot.commands.Winch;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.PizzaTurner;
 import frc.robot.subsystems.Winch;
@@ -34,7 +35,7 @@ public class ExtendArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (_robotContainer.getGameState().winchAllowed) {
+    if (RobotMap.ALWAYS_WINCH || _robotContainer.getGameState().winchAllowed) {
       _pizzaTurner.ExtendPizzaTurner();
     }
   }
@@ -42,7 +43,7 @@ public class ExtendArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (_robotContainer.getGameState().winchAllowed) {
+    if (RobotMap.ALWAYS_WINCH || _robotContainer.getGameState().winchAllowed) {
       double extensionSpeed = XBoxJoystick.HELPER.getY(Hand.kRight, 0.1);
       _winch.armExtend(extensionSpeed);
     }
