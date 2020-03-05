@@ -10,7 +10,6 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.SmartDashboardSettings;
 import frc.robot.commands.drivetrain.AutoAim;
-import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
@@ -26,11 +25,12 @@ public class FullRumbaCenter extends SequentialCommandGroup {
   public FullRumbaCenter(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner, Limelight limelight,
       SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
     super(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner, compressor),
-        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 9.0, 0.0, false).withTimeout(5.0),
-        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, 190.0, false).withTimeout(5.0),
-        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 3.0, 0.0, false).withTimeout(5.0),
-        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, -45.0, false).withTimeout(5.0),
-        new AutoAim(AutoAim.AUTOAIM_NEAR_PIPELINE, driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
-        new RoutineShoot(RoutineShoot.NEAR, launcher, compressor, intake));
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 9.0, 0.0, false).withTimeout(3.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, -80.0, false).withTimeout(2.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 2.5, 0.0, true).withTimeout(5.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, -2.5, 0.0, true).withTimeout(5.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, -150.0, false).withTimeout(5.0),
+        new AutoAim(AutoAim.AUTOAIM_FAR_PIPELINE, driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
+        new RoutineShoot(RoutineShoot.FAR, launcher, compressor, intake));
   }
 }
