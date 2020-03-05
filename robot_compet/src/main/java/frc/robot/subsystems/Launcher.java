@@ -42,9 +42,9 @@ public class Launcher extends SubsystemBase {
 
   private static final boolean IS_OPEN_LOOP = true;
 
-  private static final double FAR_DOWN_WHEEL_SPEED = 0.78;
+  private static final double FAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double FAR_UP_WHEEL_SPEED = 0.21;
-  private static final double NEAR_DOWN_WHEEL_SPEED = 0.78;
+  private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double NEAR_UP_WHEEL_SPEED = 0.21;
 
   private static final double TARGET_SPEED_DOWN = 4200;
