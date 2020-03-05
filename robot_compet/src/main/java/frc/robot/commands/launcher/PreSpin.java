@@ -27,7 +27,7 @@ public class PreSpin extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    System.out.println("PreSpin");
+    //System.out.println("PreSpin");
     _launcher.setCurrentPhase("prespin");
     _compressor.disableCompressor();
   }

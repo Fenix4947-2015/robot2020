@@ -58,7 +58,7 @@ public class AutoNavigate extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    System.out.println("AutoNavigate " + _distance + " " + _angle);
+    //System.out.println("AutoNavigate " + _distance + " " + _angle);
     _driveTrain.shiftLow();
     _driveTrain.resetEncoders();
     if (_withIntake) {

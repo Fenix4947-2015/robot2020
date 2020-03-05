@@ -24,14 +24,13 @@ public class RetractPizzaTurner extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("RetractPizzaTurner");
+    //System.out.println("RetractPizzaTurner");
     _pizzaTurner.RetractPizzaTurner();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("ResetState execute()");
   }
 
   // Called once the command ends or is interrupted.

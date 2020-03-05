@@ -57,7 +57,7 @@ public class AutoAim extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    System.out.println("AutoAim");
+    //System.out.println("AutoAim");
     _driveTrain.shiftLow();
     _isAtSetPoint = false;
   }

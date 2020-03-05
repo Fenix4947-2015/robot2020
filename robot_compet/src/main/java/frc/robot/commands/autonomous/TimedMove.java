@@ -27,7 +27,7 @@ public class TimedMove extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("TimedMove " + _speed);
+    //System.out.println("TimedMove " + _speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

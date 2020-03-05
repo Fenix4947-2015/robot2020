@@ -27,7 +27,7 @@ public class Shoot extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    _launcher.setCurrentPhase("shoot");
+    //_launcher.setCurrentPhase("shoot");
     _compressor.disableCompressor();
   }
 
