@@ -27,6 +27,7 @@ public class Winch extends SubsystemBase {
     // TODO update with Robotmap
     if (RobotMap.WINCH_MOTOR_CAN_ID != null) {
       winch = new CANSparkMax(RobotMap.WINCH_MOTOR_CAN_ID, MotorType.kBrushed);
+      winch.setInverted(true);
     } else {
       winch = null;
     }
