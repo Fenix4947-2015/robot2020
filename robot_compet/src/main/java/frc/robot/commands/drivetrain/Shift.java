@@ -27,7 +27,7 @@ public class Shift extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Shift");
+    //System.out.println("Shift");
     
     if (_high) {
       _driveTrain.shiftHigh();
@@ -39,12 +39,6 @@ public class Shift extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Shift execute()");
-    if (_high) {
-      _driveTrain.shiftHigh();
-    } else {
-      _driveTrain.shiftLow();
-    }
   }
 
   // Called once the command ends or is interrupted.

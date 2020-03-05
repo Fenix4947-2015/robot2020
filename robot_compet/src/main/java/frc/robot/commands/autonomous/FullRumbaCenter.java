@@ -25,6 +25,7 @@ public class FullRumbaCenter extends SequentialCommandGroup {
   public FullRumbaCenter(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner, Limelight limelight,
       SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
     super(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner, compressor),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, 0.0, false).withTimeout(1.0),
         new AutoNavigate(driveTrain, intake, smartDashboardSettings, 9.0, 0.0, false).withTimeout(3.0),
         new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, -80.0, false).withTimeout(2.0),
         new AutoNavigate(driveTrain, intake, smartDashboardSettings, 2.5, 0.0, true).withTimeout(5.0),
