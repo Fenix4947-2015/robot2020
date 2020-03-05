@@ -155,7 +155,7 @@ public class AutoNavigate extends CommandBase {
     _driveCommand = Math.min(_driveCommand, MAX_DRIVE);
 
     _isAtSetPoint = _pidAngle.atSetpoint() && _pidDistance.atSetpoint();
-    System.out.println(""+_pidAngle.atSetpoint() + "  " + _pidDistance.atSetpoint());
+    //System.out.println(""+_pidAngle.atSetpoint() + "  " + _pidDistance.atSetpoint());
     
   }
 
