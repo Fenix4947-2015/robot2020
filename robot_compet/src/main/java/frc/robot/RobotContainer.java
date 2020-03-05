@@ -113,7 +113,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     _autonomousCommandChooser.setDefaultOption("FULL RUMBA TRENCH", _fullRumbaTrench);
-    _autonomousCommandChooser.setDefaultOption("FULL RUMBA CENTRE", _fullRumbaCenter);
+    _autonomousCommandChooser.addOption("FULL RUMBA CENTRE", _fullRumbaCenter);
     _autonomousCommandChooser.addOption("SHOOT PRELOADED", _shootPreloaded);
     _autonomousCommandChooser.addOption("MOVE FROM LINE", _moveFromLine);
 
