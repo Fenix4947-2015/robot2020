@@ -17,10 +17,15 @@ public class ResetState extends CommandBase {
 
   @Override
   public void initialize() {
+    System.out.println("ResetState");
     _driveTrain.resetEncoderAndHeading();
     _intake.intakeStop();
   }
 
+  @Override
+  public void execute() {
+  }
+  
   @Override
   public boolean isFinished() {
     return true;

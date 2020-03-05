@@ -78,8 +78,12 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Drivetrain encoder avg", getAverageEncoderDistance());
     SmartDashboard.putNumber("Heading", getHeading());
 
+    robotDrive.arcadeDrive(_speed, _rotation);
   }
 
+  private double _speed = 0.0;
+  private double _rotation = 0.0;
+  
   public void driveArcadeMethod(double speed, double rotation) {
 
     double rotationValueGain = 1.0; // for full rotation speed, use 1. Tune to have smoother rotation.
@@ -93,11 +97,15 @@ public class DriveTrain extends SubsystemBase {
           + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(speed);
     }
 
-    robotDrive.arcadeDrive(speed, rotation + goStraightCompensation);
+    _speed = speed;
+    _rotation = rotation + goStraightCompensation;
+    robotDrive.arcadeDrive(_speed, _rotation);
   }
 
   public void stop() {
-    robotDrive.arcadeDrive(0.0, 0.0);
+    _speed = 0.0;
+    _rotation = 0.0;
+    robotDrive.arcadeDrive(_speed, _rotation);
   }
 
   public void shiftHigh() {

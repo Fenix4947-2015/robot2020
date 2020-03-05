@@ -9,7 +9,6 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ResetState;
-import frc.robot.commands.compressor.CompressorDefault;
 import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.pizzaTurner.RetractPizzaTurner;
 import frc.robot.subsystems.DriveTrain;
@@ -31,7 +30,7 @@ public class InitializeRobot extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super();
 
-    addCommands(new ResetState(driveTrain, intake), new CompressorDefault(compressor),
+    addCommands(new ResetState(driveTrain, intake),
         new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
         new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -0.5).withTimeout(0.25));
 
