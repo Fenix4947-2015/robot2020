@@ -24,6 +24,7 @@ public class ResetState extends CommandBase {
 
   @Override
   public void execute() {
+    System.out.println("ResetState execute()");
   }
   
   @Override
