@@ -174,6 +174,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    System.out.println("Auto command: " + _autonomousCommandChooser.getSelected().getClass().getSimpleName());
     return _autonomousCommandChooser.getSelected();
   }
 

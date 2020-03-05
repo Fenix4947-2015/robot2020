@@ -26,10 +26,10 @@ public class FullRumbaTrench extends SequentialCommandGroup {
   public FullRumbaTrench(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner, Limelight limelight,
       SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
     super(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner, compressor),
-        new AutoNavigate(driveTrain, smartDashboardSettings, 4.0, 0.0).withTimeout(5.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 4.0, 0.0, false).withTimeout(5.0),
         new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
         new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
-        new AutoNavigate(driveTrain, smartDashboardSettings, 0.0, 170.0).withTimeout(5.0),
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, 170.0, false).withTimeout(5.0),
         new AutoAim(AutoAim.AUTOAIM_FAR_PIPELINE, driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
         new RoutineShoot(RoutineShoot.FAR, launcher, compressor, intake));
   }

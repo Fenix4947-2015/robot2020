@@ -22,6 +22,6 @@ public class MoveFromLine extends SequentialCommandGroup {
   public MoveFromLine(DriveTrain driveTrain, Launcher launcher, PizzaTurner pizzaTurner,
       SmartDashboardSettings smartDashboardSettings, SubCompressor compressor, Intake intake) {
     super(new InitializeRobot(driveTrain, intake, launcher, pizzaTurner, compressor),
-        new AutoNavigate(driveTrain, smartDashboardSettings, 2.0, 0.0).withTimeout(5.0));
+        new AutoNavigate(driveTrain, intake, smartDashboardSettings, 2.0, 0.0, false).withTimeout(5.0));
   }
 }

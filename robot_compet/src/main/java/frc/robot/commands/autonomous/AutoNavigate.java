@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.SmartDashboardSettings;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 
 public class AutoNavigate extends CommandBase {
   public static final double K_FEED_FORWARD_ANGLE = 0.240;
@@ -30,6 +31,8 @@ public class AutoNavigate extends CommandBase {
   private final DriveTrain _driveTrain;
 
   private final SmartDashboardSettings _smartDashboardSettings;
+  private final Intake _intake;
+  private final boolean _withIntake;
 
   public double _driveCommand = 0.0;
   public double _steerCommand = 0.0;
@@ -41,12 +44,14 @@ public class AutoNavigate extends CommandBase {
   private double _feedForward_angle = K_FEED_FORWARD_ANGLE;
   private double _feedForward_distance = K_FEED_FORWARD_DISTANCE;
 
-  public AutoNavigate(DriveTrain driveTrain, SmartDashboardSettings smartDashboardSettings, double distance, double angle) {
+  public AutoNavigate(DriveTrain driveTrain, Intake intake, SmartDashboardSettings smartDashboardSettings, double distance, double angle, boolean withIntake) {
     _driveTrain = driveTrain;
     _smartDashboardSettings = smartDashboardSettings;
     _distance = distance;
     _angle = angle;
     _isAtSetPoint = false;
+    _intake = intake;
+    _withIntake = withIntake;
     addRequirements(_driveTrain);
   }
 
@@ -55,6 +60,9 @@ public class AutoNavigate extends CommandBase {
   public void initialize() {
     _driveTrain.shiftLow();
     _driveTrain.resetEncoders();
+    if (_withIntake) {
+      _intake.intakeStart(0.7);
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
