@@ -163,6 +163,8 @@ public class Launcher extends SubsystemBase {
     double upVelocity = motorWheelUp.getEncoder().getVelocity();
     double downVelocity = motorWheelDown.getEncoder().getVelocity();
     fileLogger.writeText(String.format("%s,%d,%f,%f%n", phase, msSincePhaseStart, upVelocity, downVelocity));
+    SmartDashboard.putNumber("Motor wheel UP rpm", upVelocity);
+    SmartDashboard.putNumber("Motor wheel DOWN rpm", downVelocity);
   }
 
   private void initLogging() {
