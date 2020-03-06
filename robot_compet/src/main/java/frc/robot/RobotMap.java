@@ -34,7 +34,7 @@ public class RobotMap {
       LAUNCHER_MOTOR_DOWN_CAN_ID = 29;
       RAMP_SOLENOID_CHANNEL_ID = 0;
       INTAKE_MOTOR_CAN_ID = 23;
-      WINCH_MOTOR_CAN_ID = 25;
+      WINCH_MOTOR_CAN_ID = 9; // talon
       ARM_EXTENDER_MOTOR_CAN_ID = 8; // talon
       PIZZA_TURNER_CAN_ID = 24;
       PIZZA_TURNER_EXTENDER_CHANNEL_ID = 2;
