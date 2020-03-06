@@ -45,7 +45,7 @@ public class ExtendArm extends CommandBase {
   public void execute() {
     if (RobotMap.ALWAYS_WINCH || _robotContainer.getGameState().winchAllowed) {
       double extensionSpeed = XBoxJoystick.HELPER.getY(Hand.kRight, 0.1);
-      _winch.armExtend(extensionSpeed);
+      _winch.armExtend(extensionSpeed * 0.7);
     }
   }
 
