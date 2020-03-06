@@ -17,10 +17,10 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
 public class BallPickup extends CommandBase {
-  public static final double K_FEED_FORWARD = 0.175;
-  public static final double K_PID_P = 0.024;
-  public static final double K_PID_I = 0.0052;
-  public static final double K_PID_D = 0.005;
+  public static final double K_FEED_FORWARD = 0.41;
+  public static final double K_PID_P = 0.018;
+  public static final double K_PID_I = 0.000;
+  public static final double K_PID_D = 0.002;
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
   private static final int PICKUP_PIPELINE = 1;

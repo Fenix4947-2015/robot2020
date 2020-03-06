@@ -42,6 +42,7 @@ public class Launcher extends SubsystemBase {
 
   private static final boolean IS_OPEN_LOOP = true;
 
+  // FAR is the only one we use. Near is never used. 
   private static final double FAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double FAR_UP_WHEEL_SPEED = 0.21;
   private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
@@ -51,6 +52,8 @@ public class Launcher extends SubsystemBase {
   private static final double TARGET_SPEED_UP = 750;
   private static final double TOLERANCE_SPEED = 50;
   private static final double MAXIMUM_SPEED = 5400;
+
+  private static final double SLIGHT_BACKSPIN_LOWER_WHEEL = -0.04;
 
   private FileLogger fileLogger;
   private Instant startTime = Instant.now();
@@ -185,9 +188,14 @@ public class Launcher extends SubsystemBase {
 
   }
 
+  public void LowerWheelSlightBackspin()
+  {
+    motorWheelDown.set(SLIGHT_BACKSPIN_LOWER_WHEEL);
+  }
+
   public void stop() {
-    motorWheelUp.set(0.0);
-    motorWheelDown.set(0.0);
+    motorWheelUp.stopMotor();    
+    motorWheelDown.stopMotor();
     stopLogging();
   }
 
