@@ -20,13 +20,17 @@ public class AutoNavigate extends CommandBase {
   public static final double K_PID_P_ANGLE = 0.018;
   public static final double K_PID_I_ANGLE = 0.000;
   public static final double K_PID_D_ANGLE = 0.002;
+  public static final double K_PID_TOLERANCE_ANGLE = 0.2;
 
   public static final double K_FEED_FORWARD_DISTANCE = 0.0;
   public static final double K_PID_P_DISTANCE = 0.5;
   public static final double K_PID_I_DISTANCE = 0.0;
   public static final double K_PID_D_DISTANCE = 0.07;
+  public static final double K_PID_TOLERANCE_DISTANCE = 0.5;
   public static final String PIDTYPE_AUTOAIM = "AUTOAIM";
 
+  // These numbers must be tuned for your Robot! Be careful!
+  final double MAX_DRIVE = 0.5; // Simple speed limit so we don't drive too fast
 
   private final DriveTrain _driveTrain;
 
@@ -117,8 +121,7 @@ public class AutoNavigate extends CommandBase {
     _driveCommand = 0.0;
     _steerCommand = 0.0;
 
-    // These numbers must be tuned for your Robot! Be careful!
-    final double MAX_DRIVE = 0.5; // Simple speed limit so we don't drive too fast
+    
 
     final boolean tv =  true;
     final double tx = _driveTrain.getHeading();
@@ -131,14 +134,14 @@ public class AutoNavigate extends CommandBase {
     }
 
     _pidAngle.setSetpoint(desired_angle);
-    _pidAngle.setTolerance(1.0);
+    _pidAngle.setTolerance(K_PID_TOLERANCE_ANGLE);
     double steer_cmd = _pidAngle.calculate(-tx);
 
     double feedFwd = Math.signum(steer_cmd) * _feedForward_angle;
     _steerCommand = steer_cmd + feedFwd;
 
     _pidDistance.setSetpoint(desired_distance);
-    _pidDistance.setTolerance(0.5);
+    _pidDistance.setTolerance(K_PID_TOLERANCE_DISTANCE);
     double drive_cmd = _pidDistance.calculate(ty);
 
     feedFwd = Math.signum(drive_cmd) * _feedForward_distance;
