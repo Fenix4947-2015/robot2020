@@ -33,6 +33,7 @@ import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.RollIntake;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.RoutineShoot;
+import frc.robot.commands.launcher.SlightBackSpin;
 import frc.robot.commands.pizzaTurner.SpinPizza;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.limelight.Limelight;
@@ -101,6 +102,8 @@ public class RobotContainer {
       _winch);
   private final CompressorDefault _compressorDefault = new CompressorDefault(_compressor);
 
+  private final SlightBackSpin _slightBackSpin = new SlightBackSpin(_launcher);
+
   private GameState _gameState = GameState.UNKNOWN;
 
   /**
@@ -109,6 +112,7 @@ public class RobotContainer {
   public RobotContainer() {
     _driveTrain.setDefaultCommand(_driveArcade);
     _compressor.setDefaultCommand(_compressorDefault);
+    _launcher.setDefaultCommand(_slightBackSpin);
     // Configure the button bindings
     configureButtonBindings();
 
@@ -161,8 +165,8 @@ public class RobotContainer {
     reverseIntakeButton.whenHeld(_reverseIntake);
     
 
-    winchButton.whenHeld(_winchRobot);
-    extendArmButton.whenHeld(_extendArm);
+    winchButton.whileHeld(_winchRobot);
+    extendArmButton.whileHeld(_extendArm);
 
     shiftHighButton.whenPressed(_shiftHigh);
     shiftLowButton.whenPressed(_shiftLow);
@@ -170,8 +174,8 @@ public class RobotContainer {
     resetAllRobotButton.whenPressed(_stopAllCommands);
     helperResetRobotButton.whenPressed(_stopAllCommands);
     initializeRobotButton.whenPressed(_initializeRobot);
-    //rampButton.whenPressed(_rampMoveUp);
-    //rampButton.whenReleased(_rampMoveDown);
+    rampButton.whenPressed(_rampMoveUp);
+    rampButton.whenReleased(_rampMoveDown);
     intakeHelperButton.whenHeld(_rollIntake);
 
     spinPizzaButton.whenHeld(_spinPizza);
