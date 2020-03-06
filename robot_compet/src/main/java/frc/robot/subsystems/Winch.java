@@ -21,6 +21,7 @@ public class Winch extends SubsystemBase {
    */
 
   private final CANSparkMax winch;
+  private final TalonSRX winchTalon;
   private final TalonSRX armExtender;
 
   public Winch() {
@@ -29,6 +30,11 @@ public class Winch extends SubsystemBase {
       winch = new CANSparkMax(RobotMap.WINCH_MOTOR_CAN_ID, MotorType.kBrushed);
     } else {
       winch = null;
+    }
+    if (RobotMap.WINCH_MOTOR_TALON_CAN_ID != null) {
+      winchTalon = new TalonSRX(RobotMap.WINCH_MOTOR_CAN_ID);
+    } else {
+      winchTalon = null;
     }
     if (RobotMap.ARM_EXTENDER_MOTOR_CAN_ID != null) {
       armExtender = new TalonSRX(RobotMap.ARM_EXTENDER_MOTOR_CAN_ID);
@@ -42,6 +48,9 @@ public class Winch extends SubsystemBase {
     if (winch != null) {
       winch.stopMotor();
     }
+    if (winchTalon != null) {
+      winchTalon.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
   public void armExtendStop() {
@@ -54,6 +63,9 @@ public class Winch extends SubsystemBase {
   public void winchLiftRobot(double Speed) {
     if (winch != null) {
       winch.set(Speed);
+    }
+    if (winchTalon != null) {
+      winchTalon.set(ControlMode.PercentOutput, Speed);
     }
   }
 

@@ -18,6 +18,7 @@ public class RobotMap {
   public static final Integer RAMP_SOLENOID_CHANNEL_ID;
   public static final Integer INTAKE_MOTOR_CAN_ID;
   public static final Integer WINCH_MOTOR_CAN_ID;
+  public static final Integer WINCH_MOTOR_TALON_CAN_ID;
   public static final Integer ARM_EXTENDER_MOTOR_CAN_ID;
   public static final Integer PIZZA_TURNER_CAN_ID;
   public static final Integer PIZZA_TURNER_EXTENDER_CHANNEL_ID;
@@ -33,7 +34,8 @@ public class RobotMap {
       LAUNCHER_MOTOR_DOWN_CAN_ID = 29;
       RAMP_SOLENOID_CHANNEL_ID = 0;
       INTAKE_MOTOR_CAN_ID = 23;
-      WINCH_MOTOR_CAN_ID = 25;
+      WINCH_MOTOR_CAN_ID = 25; // Set to null if enabling WINCH_MOTOR_TALON_CAN_ID
+      WINCH_MOTOR_TALON_CAN_ID = null; // talon: set CAN ID to enable
       ARM_EXTENDER_MOTOR_CAN_ID = 8; // talon
       PIZZA_TURNER_CAN_ID = 24;
       PIZZA_TURNER_EXTENDER_CHANNEL_ID = 2;
@@ -48,6 +50,7 @@ public class RobotMap {
       RAMP_SOLENOID_CHANNEL_ID = 0;
       INTAKE_MOTOR_CAN_ID = null;
       WINCH_MOTOR_CAN_ID = null;
+      WINCH_MOTOR_TALON_CAN_ID = null;
       ARM_EXTENDER_MOTOR_CAN_ID = null;
       PIZZA_TURNER_CAN_ID = null;
       PIZZA_TURNER_EXTENDER_CHANNEL_ID = null;
