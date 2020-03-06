@@ -147,6 +147,9 @@ public class RobotContainer {
     JoystickButton extendArmButton = new JoystickButton(helperController, XboxController.Button.kBack.value);
     JoystickButton spinPizzaButton = new JoystickButton(helperController, XboxController.Button.kA.value);
     JoystickButton helperResetRobotButton = new JoystickButton(helperController, XboxController.Button.kStart.value);
+    JoystickButton rampButton = new JoystickButton(helperController, XboxController.Button.kY.value);
+    JoystickButton intakeHelperButton = new JoystickButton(helperController, XboxController.Button.kX.value);
+
 
     // y driver reverse intake
     // back updown right joystick helper pour arm extend.
@@ -156,6 +159,7 @@ public class RobotContainer {
     // intakeButton.whenHeld(_ballPickup);
     intakeButton.whenHeld(_rollIntake);
     reverseIntakeButton.whenHeld(_reverseIntake);
+    
 
     winchButton.whenHeld(_winchRobot);
     extendArmButton.whenHeld(_extendArm);
@@ -166,6 +170,9 @@ public class RobotContainer {
     resetAllRobotButton.whenPressed(_stopAllCommands);
     helperResetRobotButton.whenPressed(_stopAllCommands);
     initializeRobotButton.whenPressed(_initializeRobot);
+    //rampButton.whenPressed(_rampMoveUp);
+    //rampButton.whenReleased(_rampMoveDown);
+    intakeHelperButton.whenHeld(_rollIntake);
 
     spinPizzaButton.whenHeld(_spinPizza);
   }

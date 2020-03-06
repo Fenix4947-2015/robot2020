@@ -16,10 +16,10 @@ import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 public class AutoAim extends CommandBase {
-  public static final double K_FEED_FORWARD_ANGLE = 0.240;
-  public static final double K_PID_P_ANGLE = 0.020;
+  public static final double K_FEED_FORWARD_ANGLE = 0.41;
+  public static final double K_PID_P_ANGLE = 0.018;
   public static final double K_PID_I_ANGLE = 0.000;
-  public static final double K_PID_D_ANGLE = 0.004;
+  public static final double K_PID_D_ANGLE = 0.002;
 
   public static final double K_FEED_FORWARD_DISTANCE = 0.0;
   public static final double K_PID_P_DISTANCE = 0.35;

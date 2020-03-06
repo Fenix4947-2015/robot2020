@@ -31,6 +31,7 @@ public class InitializeRobot extends SequentialCommandGroup {
 
     addCommands(new ResetState(driveTrain, intake),
         new RetractPizzaTurner(pizzaTurner), new Shift(driveTrain, false),
-        new TimedMove(driveTrain, 1.0).withTimeout(0.25), new TimedMove(driveTrain, -1.0).withTimeout(0.25));
+        new TimedMove(driveTrain, 1.0).withTimeout(0.5), new TimedMove(driveTrain, -1.0).withTimeout(0.5)
+        );
     }
 }
