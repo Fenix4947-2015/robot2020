@@ -23,13 +23,13 @@ public class ReverseLauncher extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double speed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kRight, 0.1);
-    _launcher.reverseLauncherFull(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed = XBoxJoystick.HELPER.getTriggerAxis(Hand.kRight, 0.1);
+    _launcher.reverseLauncherFull(speed);
   }
 
   // Called once the command ends or is interrupted.
