@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,8 +41,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     System.out.println("robotInit()");
     m_robotContainer = new RobotContainer();
-    CameraServer.getInstance().startAutomaticCapture(0);
 
+    CameraServer camServer = CameraServer.getInstance();
+    UsbCamera usbCam = camServer.startAutomaticCapture(0);
+    //usbCam.setResolution(320, 240);
+   
     //SmartDashboard.putString("-------AUTONOMOUS--------", "");
     //m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
     //m_chooser.addOption("DO NOTHING", "DoNothing");
