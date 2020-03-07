@@ -7,6 +7,7 @@
 
 package frc.robot.commands.launcher;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Launcher;
 
@@ -26,8 +27,9 @@ public class AdjustLauncherGain extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double inc = _increment ? 1.0 : -1.0;
+    double inc = _increment ? 0.01 : -0.01;
     _launcher.setDownWheelSpeed(_launcher.getDownWheelSpeed() + inc);
+    SmartDashboard.putNumber("Launcher gain", _launcher.getDownWheelSpeed());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
