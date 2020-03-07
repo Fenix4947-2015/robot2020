@@ -44,7 +44,7 @@ public class Launcher extends SubsystemBase {
 
     // FAR is the only one we use. Near is never used. 
   public static final double FAR_DOWN_WHEEL_SPEED = 0.78;
-  private static final double FAR_UP_WHEEL_SPEED = FAR_DOWN_WHEEL_SPEED * 0.21;
+  private static final double FAR_UP_WHEEL_SPEED = 0.16;
   private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double NEAR_UP_WHEEL_SPEED = 0.21;
 
