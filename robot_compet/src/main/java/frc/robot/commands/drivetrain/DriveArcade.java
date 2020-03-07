@@ -38,7 +38,7 @@ public class DriveArcade extends CommandBase {
     // System.out.println("Move value: " + moveValue);
     // System.out.println("Rotate value: " + rotateValue);
 
-    _driveTrain.driveArcadeMethod(-moveValue, 0.8*rotateValue);
+    _driveTrain.driveArcadeMethod(-moveValue * 0.8, 0.8*rotateValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
