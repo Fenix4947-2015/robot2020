@@ -63,6 +63,7 @@ public class Launcher extends SubsystemBase {
   private String phase = "unknown";
 
   private double _down_wheel_speed = FAR_DOWN_WHEEL_SPEED;
+  private double _upRelativeWheelSpeed = FAR_UP_WHEEL_SPEED;
 
   public Launcher(SmartDashboardSettings smartDashboardSettings) {
     _smartDashboardSettings = smartDashboardSettings;
@@ -96,7 +97,6 @@ public class Launcher extends SubsystemBase {
 
     ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
 
-    _down_wheel_speed = FAR_DOWN_WHEEL_SPEED;
   }
 
   public double getDownWheelSpeed() {
@@ -104,7 +104,15 @@ public class Launcher extends SubsystemBase {
   }
 
   public void setDownWheelSpeed(double speed) {
-    _down_wheel_speed = speed;
+    _upRelativeWheelSpeed = Math.min(Math.max(speed, 0.0), 1.0);
+  }
+
+  public double getUpRelativeWheelSpeed() {
+    return _upRelativeWheelSpeed;
+  }
+
+  public void setUpRelativeWheelSpeed(double speed) {
+    _upRelativeWheelSpeed = Math.min(Math.max(speed, 0.0), 1.0);
   }
 
   @Override
@@ -147,8 +155,8 @@ public class Launcher extends SubsystemBase {
     return far ? _down_wheel_speed : NEAR_DOWN_WHEEL_SPEED;
   }
 
-  private static double getUpWheelSpeed(boolean far) {
-    return far ?  FAR_UP_WHEEL_SPEED : NEAR_UP_WHEEL_SPEED;
+  private double getUpWheelSpeed(boolean far) {
+    return far ?  _upRelativeWheelSpeed : NEAR_UP_WHEEL_SPEED;
   }
 
   public boolean isAtTargetSpeed(boolean far) {

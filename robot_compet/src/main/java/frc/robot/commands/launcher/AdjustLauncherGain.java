@@ -16,20 +16,29 @@ public class AdjustLauncherGain extends CommandBase {
    * Creates a new SlightBackSpin.
    */
   Launcher _launcher;
+  final boolean _upRelative;
   final boolean _increment;
-  public AdjustLauncherGain(Launcher launcher, boolean increment) {
+  public AdjustLauncherGain(Launcher launcher, boolean upRelative, boolean increment) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(launcher);
     _launcher  = launcher;
     _increment = increment;
+    _upRelative = upRelative;
+    SmartDashboard.putNumber("Launcher down gain", _launcher.getDownWheelSpeed());
+    SmartDashboard.putNumber("Launcher up gain", _launcher.getUpRelativeWheelSpeed());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double inc = _increment ? 0.01 : -0.01;
-    _launcher.setDownWheelSpeed(_launcher.getDownWheelSpeed() + inc);
-    SmartDashboard.putNumber("Launcher gain", _launcher.getDownWheelSpeed());
+    double inc = _increment ? 0.02 : -0.02;
+    if (_upRelative) {
+      _launcher.setUpRelativeWheelSpeed(_launcher.getUpRelativeWheelSpeed() + inc);
+    } else {
+      _launcher.setDownWheelSpeed(_launcher.getDownWheelSpeed() + inc);
+    }
+    SmartDashboard.putNumber("Launcher down gain", _launcher.getDownWheelSpeed());
+    SmartDashboard.putNumber("Launcher up gain", _launcher.getUpRelativeWheelSpeed());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.StopAllCommands;
 import frc.robot.commands.Winch.ExtendArm;
@@ -37,6 +38,8 @@ import frc.robot.commands.launcher.ReverseLauncher;
 import frc.robot.commands.launcher.RoutineShoot;
 import frc.robot.commands.launcher.SlightBackSpin;
 import frc.robot.commands.pizzaTurner.SpinPizza;
+import frc.robot.joysticks.DPadButton;
+import frc.robot.joysticks.DPadButton.Direction;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
@@ -157,11 +160,22 @@ public class RobotContainer {
     JoystickButton rampButton = new JoystickButton(helperController, XboxController.Button.kY.value);
     JoystickButton intakeHelperButton = new JoystickButton(helperController, XboxController.Button.kX.value);
     JoystickButton reverseLauncherButton = new JoystickButton(helperController, XboxController.Button.kBumperRight.value);
-    JoystickButton launcherGainDownButton = new JoystickButton(helperController, XboxController.Button.kStickLeft.value);
-    JoystickButton launcherGainUpButton = new JoystickButton(helperController, XboxController.Button.kStickRight.value);
+//    JoystickButton launcherGainDownButton = new JoystickButton(helperController, XboxController.Button.kStickLeft.value);
+//    JoystickButton launcherGainUpButton = new JoystickButton(helperController, XboxController.Button.kStickRight.value);
 
-    launcherGainDownButton.whenPressed(new AdjustLauncherGain(_launcher, false));
-    launcherGainUpButton.whenPressed(new AdjustLauncherGain(_launcher, true));
+//    launcherGainDownButton.whenPressed(new AdjustLauncherGain(_launcher, false));
+//    launcherGainUpButton.whenPressed(new AdjustLauncherGain(_launcher, true));
+
+    Button helperDpadUp = new DPadButton(helperController, Direction.UP);
+    Button helperDpadDown = new DPadButton(helperController, Direction.DOWN);
+    Button helperDpadLeft = new DPadButton(helperController, Direction.LEFT);
+    Button helperDpadRight = new DPadButton(helperController, Direction.RIGHT);
+
+    
+    helperDpadUp.whenPressed(new AdjustLauncherGain(_launcher, false, true));
+    helperDpadDown.whenPressed(new AdjustLauncherGain(_launcher, false, false));
+    helperDpadLeft.whenPressed(new AdjustLauncherGain(_launcher, true, true));
+    helperDpadRight.whenPressed(new AdjustLauncherGain(_launcher, true, false));
     
     // y driver reverse intake
     // back updown right joystick helper pour arm extend.
