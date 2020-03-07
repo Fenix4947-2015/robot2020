@@ -174,8 +174,8 @@ public class RobotContainer {
     
     helperDpadUp.whenPressed(new AdjustLauncherGain(_launcher, false, true));
     helperDpadDown.whenPressed(new AdjustLauncherGain(_launcher, false, false));
-    helperDpadLeft.whenPressed(new AdjustLauncherGain(_launcher, true, true));
-    helperDpadRight.whenPressed(new AdjustLauncherGain(_launcher, true, false));
+    helperDpadRight.whenPressed(new AdjustLauncherGain(_launcher, true, true));
+    helperDpadLeft.whenPressed(new AdjustLauncherGain(_launcher, true, false));
     
     // y driver reverse intake
     // back updown right joystick helper pour arm extend.

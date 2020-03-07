@@ -44,7 +44,7 @@ public class Launcher extends SubsystemBase {
 
     // FAR is the only one we use. Near is never used. 
   public static final double FAR_DOWN_WHEEL_SPEED = 0.78;
-  private static final double FAR_UP_WHEEL_SPEED = 0.21;
+  private static final double FAR_UP_WHEEL_SPEED = FAR_DOWN_WHEEL_SPEED * 0.21;
   private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double NEAR_UP_WHEEL_SPEED = 0.21;
 
@@ -104,7 +104,7 @@ public class Launcher extends SubsystemBase {
   }
 
   public void setDownWheelSpeed(double speed) {
-    _upRelativeWheelSpeed = Math.min(Math.max(speed, 0.0), 1.0);
+    _down_wheel_speed = Math.min(Math.max(speed, 0.0), 1.0);
   }
 
   public double getUpRelativeWheelSpeed() {
@@ -168,7 +168,7 @@ public class Launcher extends SubsystemBase {
 
     if (IS_OPEN_LOOP) {
       targetSpeedDown = MAXIMUM_SPEED * getDownWheelSpeed(far);
-      targetSpeedUp = MAXIMUM_SPEED * getDownWheelSpeed(far) * getUpWheelSpeed(far);
+      targetSpeedUp = MAXIMUM_SPEED * getUpWheelSpeed(far);
     } else {
       targetSpeedDown = TARGET_SPEED_DOWN;
       targetSpeedUp = TARGET_SPEED_UP;
@@ -206,7 +206,7 @@ public class Launcher extends SubsystemBase {
 
   public void openLoopShoot(boolean isPreSpin, boolean far) {
     final double downWheelSpeed = getDownWheelSpeed(far);
-    final double upWheelSpeed = downWheelSpeed * getUpWheelSpeed(far);
+    final double upWheelSpeed = getUpWheelSpeed(far);
 
     motorWheelUp.set(upWheelSpeed);
     motorWheelDown.set(downWheelSpeed);
