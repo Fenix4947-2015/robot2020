@@ -43,7 +43,7 @@ public class Launcher extends SubsystemBase {
   private static final boolean IS_OPEN_LOOP = true;
 
     // FAR is the only one we use. Near is never used. 
-  private static final double FAR_DOWN_WHEEL_SPEED = 0.78;
+  public static final double FAR_DOWN_WHEEL_SPEED = 0.78;
   private static final double FAR_UP_WHEEL_SPEED = 0.21;
   private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
   private static final double NEAR_UP_WHEEL_SPEED = 0.21;
@@ -97,6 +97,10 @@ public class Launcher extends SubsystemBase {
     ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
 
     _down_wheel_speed = FAR_DOWN_WHEEL_SPEED;
+  }
+
+  public double getDownWheelSpeed() {
+    return _down_wheel_speed;
   }
 
   @Override
