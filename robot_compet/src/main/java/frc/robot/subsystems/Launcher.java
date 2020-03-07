@@ -42,7 +42,7 @@ public class Launcher extends SubsystemBase {
 
   private static final boolean IS_OPEN_LOOP = true;
 
-  // FAR is the only one we use. Near is never used. 
+    // FAR is the only one we use. Near is never used. 
   private static final double FAR_DOWN_WHEEL_SPEED = 0.78;
   private static final double FAR_UP_WHEEL_SPEED = 0.21;
   private static final double NEAR_DOWN_WHEEL_SPEED = 0.76;
@@ -61,6 +61,8 @@ public class Launcher extends SubsystemBase {
   private FileLogger fileLogger;
   private Instant startTime = Instant.now();
   private String phase = "unknown";
+
+  private double _down_wheel_speed = FAR_DOWN_WHEEL_SPEED;
 
   public Launcher(SmartDashboardSettings smartDashboardSettings) {
     _smartDashboardSettings = smartDashboardSettings;
@@ -93,6 +95,8 @@ public class Launcher extends SubsystemBase {
     pidWheelDown.setOutputRange(-5700, 5700);
 
     ramp = new Solenoid(RobotMap.RAMP_SOLENOID_CHANNEL_ID);
+
+    _down_wheel_speed = FAR_DOWN_WHEEL_SPEED;
   }
 
   @Override
@@ -106,6 +110,7 @@ public class Launcher extends SubsystemBase {
       setPidWheelDown(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
           _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
     }
+    setDownWheelSpeed(_smartDashboardSettings.getkMotor());
   }
 
   public void setPidWheelUp(double p, double i, double d, double f) {
@@ -124,18 +129,23 @@ public class Launcher extends SubsystemBase {
     pidWheelDown.setFF(f);
   }
 
+  public void setDownWheelSpeed(double kMotor) {
+    _down_wheel_speed = kMotor;
+    ;
+  }
+
   public void shootPIDRPM() {
     pidWheelDown.setReference(TARGET_SPEED_DOWN, ControlType.kVelocity);
     pidWheelUp.setReference(TARGET_SPEED_UP, ControlType.kVelocity);
     logSpeed();
   }
 
-  private static double getDownWheelSpeed(boolean far) {
-    return far ? FAR_DOWN_WHEEL_SPEED : NEAR_DOWN_WHEEL_SPEED;
+  private double getDownWheelSpeed(boolean far) {
+    return far ? _down_wheel_speed : NEAR_DOWN_WHEEL_SPEED;
   }
 
   private static double getUpWheelSpeed(boolean far) {
-    return far ? FAR_UP_WHEEL_SPEED : NEAR_UP_WHEEL_SPEED;
+    return far ?  FAR_UP_WHEEL_SPEED : NEAR_UP_WHEEL_SPEED;
   }
 
   public boolean isAtTargetSpeed(boolean far) {
