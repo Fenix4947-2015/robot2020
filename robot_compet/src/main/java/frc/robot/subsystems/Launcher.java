@@ -103,6 +103,10 @@ public class Launcher extends SubsystemBase {
     return _down_wheel_speed;
   }
 
+  public void setDownWheelSpeed(double speed) {
+    _down_wheel_speed = speed;
+  }
+
   @Override
   public void periodic() {
     _smartDashboardSettings.refreshPidValues();
@@ -114,7 +118,7 @@ public class Launcher extends SubsystemBase {
       setPidWheelDown(_smartDashboardSettings.getPidP(), _smartDashboardSettings.getPidI(),
           _smartDashboardSettings.getPidD(), _smartDashboardSettings.getPidF());
     }
-    setDownWheelSpeed(_smartDashboardSettings.getkMotor());
+    //setDownWheelSpeed(_smartDashboardSettings.getkMotor());
   }
 
   public void setPidWheelUp(double p, double i, double d, double f) {
@@ -131,11 +135,6 @@ public class Launcher extends SubsystemBase {
     pidWheelDown.setI(i);
     pidWheelDown.setD(d);
     pidWheelDown.setFF(f);
-  }
-
-  public void setDownWheelSpeed(double kMotor) {
-    _down_wheel_speed = kMotor;
-    ;
   }
 
   public void shootPIDRPM() {

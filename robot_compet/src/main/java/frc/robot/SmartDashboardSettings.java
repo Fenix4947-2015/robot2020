@@ -9,7 +9,7 @@ public class SmartDashboardSettings {
   private double _pidI = 7.0e-4;
   private double _pidD = 2.4e-1;
   private double _pidF = 0.0;
-  private double _kMotor = Launcher.FAR_DOWN_WHEEL_SPEED / 100.0;
+  //private double _kMotor = (int) Launcher.FAR_DOWN_WHEEL_SPEED * 100;
   private String _pidType = "LAUNCHERDOWN";
 
   public SmartDashboardSettings() {
@@ -30,7 +30,7 @@ public class SmartDashboardSettings {
     _pidI = SmartDashboard.getNumber("pidI", _pidI)/1000;
     _pidD = SmartDashboard.getNumber("pidD", _pidD)/1000;
     _pidF = SmartDashboard.getNumber("pidF", _pidF)/1000;
-    _kMotor = SmartDashboard.getNumber("kMotor", Launcher.FAR_DOWN_WHEEL_SPEED) / 100;
+    //_kMotor = SmartDashboard.getNumber("kMotor", (double) Launcher.FAR_DOWN_WHEEL_SPEED * 100.0);
     _pidType = SmartDashboard.getString("pidType", _pidType);
   }
 
