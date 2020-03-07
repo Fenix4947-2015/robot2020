@@ -31,6 +31,7 @@ import frc.robot.commands.drivetrain.Shift;
 import frc.robot.commands.intake.BallPickup;
 import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.RollIntake;
+import frc.robot.commands.launcher.AdjustLauncherGain;
 import frc.robot.commands.launcher.RampMove;
 import frc.robot.commands.launcher.ReverseLauncher;
 import frc.robot.commands.launcher.RoutineShoot;
@@ -156,7 +157,12 @@ public class RobotContainer {
     JoystickButton rampButton = new JoystickButton(helperController, XboxController.Button.kY.value);
     JoystickButton intakeHelperButton = new JoystickButton(helperController, XboxController.Button.kX.value);
     JoystickButton reverseLauncherButton = new JoystickButton(helperController, XboxController.Button.kBumperRight.value);
+    JoystickButton launcherGainDownButton = new JoystickButton(helperController, XboxController.Button.kStickLeft.value);
+    JoystickButton launcherGainUpButton = new JoystickButton(helperController, XboxController.Button.kStickRight.value);
 
+    launcherGainDownButton.whenPressed(new AdjustLauncherGain(_launcher, false));
+    launcherGainUpButton.whenPressed(new AdjustLauncherGain(_launcher, true));
+    
     // y driver reverse intake
     // back updown right joystick helper pour arm extend.
 

@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Launcher;
 
 public class SmartDashboardSettings {
 
@@ -21,7 +20,7 @@ public class SmartDashboardSettings {
     SmartDashboard.putNumber("pidI", _pidI);
     SmartDashboard.putNumber("pidD", _pidD);
     SmartDashboard.putNumber("pidF", _pidF);
-    SmartDashboard.putNumber("kMotor", _kMotor);
+    //SmartDashboard.putNumber("kMotor", _kMotor);
     SmartDashboard.putString("pidType", _pidType);
   }
 
@@ -54,8 +53,8 @@ public class SmartDashboardSettings {
     return _pidF;
   }
 
-  public double getkMotor() {
-    return _kMotor;
-  }
+//  public double getkMotor() {
+//    return _kMotor;
+//  }
 
 }
