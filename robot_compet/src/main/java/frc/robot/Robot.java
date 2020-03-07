@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 
     CameraServer camServer = CameraServer.getInstance();
     UsbCamera usbCam = camServer.startAutomaticCapture(0);
-    //usbCam.setResolution(320, 240);
+    usbCam.setResolution(320, 240);
    
     //SmartDashboard.putString("-------AUTONOMOUS--------", "");
     //m_chooser.setDefaultOption("Shoot Loaded Only", "ShootLoaded");
