@@ -33,6 +33,7 @@ public class FullRumbaTrench extends SequentialCommandGroup {
         new BallPickup(driveTrain, limelight, intake, smartDashboardSettings).withTimeout(3.0),
         new AutoNavigate(driveTrain, intake, smartDashboardSettings, 0.0, 170.0, false).withTimeout(5.0),
         new AutoAim(AutoAim.AUTOAIM_FAR_PIPELINE, driveTrain, limelight, smartDashboardSettings).withTimeout(3.0),
+        new AutoAim(AutoAim.AUTOAIM_FAR_PIPELINE, driveTrain, limelight, smartDashboardSettings).withTimeout(0.6),
         new RoutineShoot(RoutineShoot.FAR, launcher, compressor, intake));
    }
 }
